@@ -5,6 +5,7 @@ const api = axios.create({
   baseURL: BaseAPI
 });
 export const getCard = async () => {
+  console.log("text: ");
  
   try {
     const response = await axios.get(`https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards/my-cards`, {
