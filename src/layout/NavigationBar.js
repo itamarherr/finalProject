@@ -46,8 +46,11 @@ function NavigationBar (){
             <Link to="/RegisterForm" className={`btn btn-light navbar-light ${textColor}`}>
                   signup
             </Link>
-            <Link to="/HomePage" className={`nav-link ${textColor}`} onClick={handleLogout}>
+            <Link to="/Login" className={`nav-link ${textColor}`} onClick={handleLogout}>
                     logOut
+            </Link>
+            <Link to="/Login" className={`nav-link ${textColor}`}>
+                    login 
             </Link>
               <div className="form-check form-switch d-flex align-items-center">
                   <input

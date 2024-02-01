@@ -85,7 +85,7 @@ function Login() {
           <button
             type="button"
             className="btn btn-danger m-2"
-            onClick={() => navigate("/HomePage")}
+            onClick={() => navigate("/Login")}
           >
             CANCEL
           </button>

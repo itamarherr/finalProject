@@ -19,7 +19,7 @@ function MyRouter() {
       <BrowserRouter>
         <NavigationBar />
         <Routes>
-          <Route path="/HomePage" element={<Login />} />
+          <Route path="/Login" element={<Login />} />
           <Route
             path="/"
             element={
