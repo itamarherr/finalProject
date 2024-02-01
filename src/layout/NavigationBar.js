@@ -29,7 +29,7 @@ function NavigationBar (){
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Link to="/HomePage" className={`nav-link ${textColor}`}>
+            <Link to="/" className={`nav-link ${textColor}`}>
               Home
             </Link>
             <Link to="/CardListPage" className={`nav-link ${textColor}`}>
@@ -46,7 +46,7 @@ function NavigationBar (){
             <Link to="/RegisterForm" className={`btn btn-light navbar-light ${textColor}`}>
                   signup
             </Link>
-            <Link to="/" className={`nav-link ${textColor}`} onClick={handleLogout}>
+            <Link to="/HomePage" className={`nav-link ${textColor}`} onClick={handleLogout}>
                     logOut
             </Link>
               <div className="form-check form-switch d-flex align-items-center">

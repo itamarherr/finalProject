@@ -19,9 +19,9 @@ function MyRouter() {
       <BrowserRouter>
         <NavigationBar />
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/HomePage" element={<Login />} />
           <Route
-            path="/HomePage"
+            path="/"
             element={
               <div>
                 <HomePage />

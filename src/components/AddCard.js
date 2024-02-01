@@ -217,7 +217,7 @@ function AddCard() {
         </button>
         <button
           className="btn btn-danger px-2"
-          onClick={() => navigate("/dataListPage")}
+          onClick={() => navigate("/CardListPage")}
         >
           cancel
         </button>

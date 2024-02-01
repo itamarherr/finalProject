@@ -85,14 +85,14 @@ function Login() {
           <button
             type="button"
             className="btn btn-danger m-2"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/HomePage")}
           >
             CANCEL
           </button>
           <button
             type="button"
             className="btn btn-info m-2"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/HomePage")}
           >
             <i className="bi bi-arrow-clockwise"></i>
           </button>
