@@ -31,6 +31,10 @@ function CardListPage() {
 
   return (
     <div className="container">
+      <div className="text-center">
+        <h1 > Cards Page</h1>
+        </div>
+      
       <button
         className="btn btn-primary mb-3 mt-3 m-5"
         onClick={() => navigate("/AddCard", { createNewCard })}
