@@ -27,11 +27,21 @@ function AddCard() {
     houseNumber: 3,
     zip: 0,
   });
+  const [validationErrors, setValidationErrors] = useState({
+    title: false,
+    description: false,
+
+  });
 
   const handleInputChange = (e) => {
     setCard({
       ...card,
       [e.target.name]: e.target.value,
+    });
+
+    setValidationErrors({
+      ...validationErrors,
+      [e.target.name]: false,
     });
   };
   useEffect(() => {
@@ -41,6 +51,24 @@ function AddCard() {
 
   const handleSave = async (e) => {
     e.preventDefault();
+    // Validation checks
+    const errors = {};
+
+    if (!card.title.trim()) {
+      errors.title = true;
+    }
+
+    if (!card.description.trim()) {
+      errors.description = true;
+    }
+
+    setValidationErrors(errors);
+
+    // If there are validation errors, return early
+    if (Object.values(errors).some((error) => error)) {
+      return;
+    }
+
     try {
       console.log("Card object:", card);
       if (!card.title || !card.description) {
@@ -63,21 +91,27 @@ function AddCard() {
           <label className="form-label">title:</label>
           <input
             type="text"
-            className="form-control"
+            className={`form-control ${validationErrors.title ? 'is-invalid' : ''}`}
             value={card.title}
             onChange={handleInputChange}
             name="title"
           />
+           {validationErrors.title && (
+            <div className="invalid-feedback">Title is required.</div>
+          )}
         </div>
         <div className="col">
           <label className="form-label">subtitle:</label>
           <input
             type="text"
-            className="form-control"
+            className={`form-control ${validationErrors.subtitle ? 'is-invalid' : ''}`}
             value={card.subtitle}
             onChange={handleInputChange}
             name="subtitle"
           />
+           {validationErrors.title && (
+            <div className="invalid-feedback">Title is required.</div>
+          )}
         </div>
         <div className="col">
           <label className="form-label">description:</label>
