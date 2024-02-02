@@ -2,17 +2,10 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "./service/apiUser";
-import { Form, Button, Card, Alert } from "react-bootstrap";
 import useLogin from "../hooks/useLogin";
 import { LoginContext } from "../Context/AuthProvider";
+import { Form, Button, Card, Alert } from "react-bootstrap";
 
-const setTokenInLocalStorage = (token) => {
-  localStorage.setItem("token", token);
-};
-
-const getTokenFromLocalStorage = () => {
-  return localStorage.getItem("token");
-};
 
 function Login() {
   const { login } = useContext(LoginContext);
@@ -27,16 +20,24 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await loginUser(email, password);
-      console.log(response);
-
-      setToken(response);
-
-      setTokenInLocalStorage(response);
+      await login(email, password);
       navigate("/CardListPage");
-      console.log(token);
     } catch (error) {
       console.error("Error logging in:", error);
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error("Response data:", error.response.data);
+        console.error("Response status:", error.response.status);
+        console.error("Response headers:", error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error("No response received:", error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error setting up request:", error.message);
+      }
+      
 
       setError("Login failed. Please check your credentials.");
     }
@@ -56,7 +57,7 @@ function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
-                pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+                // pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
               />
             </div>
           </div>
@@ -71,7 +72,7 @@ function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
-                pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+                // pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
               />
               {/* <button type="submit">Login</button> */}
             </div>
@@ -98,16 +99,11 @@ function Login() {
           </button>
         </div>
 
-        <button className="btn btn-primary w-100 mt-2" onClick={handleSubmit}>
+        <button className="btn btn-primary w-100 mt-2" type="submit">
           SUBMIT
         </button>
       </form>
-      {token && (
-        <div>
-          <label>Token:</label>
-          <textarea readOnly value={token} />
-        </div>
-      )}
+      {error && <Alert variant="danger">{error}</Alert>}
     </div>
   );
 }

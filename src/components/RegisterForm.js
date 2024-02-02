@@ -1,7 +1,7 @@
 // import NavigationBar from "./NavigationBar";
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+// import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import { registerUser } from "./service/apiUser";
 import { loginUser } from "./service/apiUser";
 
@@ -11,8 +11,8 @@ import { loginUser } from "./service/apiUser";
 
 function RegisterForm() {
   const navigate = useNavigate();
-  const { id } = useParams();
-  const [token, setToken] = useState("");
+  // const { id } = useParams();
+  // const [token, setToken] = useState("");
   const [user, setUser] = useState({
     first: "",
     middle: "",
@@ -31,33 +31,34 @@ function RegisterForm() {
     isBusiness: true,
   });
 
-  const handleSave = (e) => {
-    const register = async () => {
+  const handleSave = async (e) => {
+    e.preventDefault();
       try {
         const response = await registerUser(user);
         console.log("User registered successfully", response);
-      } catch (error) {
-        console.error("Error registering user", error);
-        return;
-      }
 
-      try {
-        const response2 = await loginUser(user.email, user.password);
-        localStorage.setItem("token", response2);
+        const loginResponse = await loginUser(user.email, user.password);
+        console.log("User logged in successfully", loginResponse);
 
         navigate("/CardListPage");
       } catch (error) {
-        console.error("Error logging in:", error);
+        console.error("Error registering user", error);
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.error("Response data:", error.response.data);
+          console.error("Response status:", error.response.status);
+          console.error("Response headers:", error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.error("No response received:", error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.error("Error setting up request:", error.message);
+        }
+        throw error;
       }
     };
-
-    e.preventDefault();
-    register();
-  };
-  useEffect(() => {
-    // This code will run after the state has been updated
-    localStorage.setItem("token", token);
-  }, [token]);
 
   const handleInputChange = (e) => {
     setUser({
@@ -68,7 +69,7 @@ function RegisterForm() {
   const handleCheckboxChange = (e) => {
     setUser((prevUser) => ({
       ...prevUser,
-      isBusiness: e.target.checked, // Update isBusiness based on checkbox status
+      isBusiness: e.target.checked,
     }));
   };
 
@@ -76,7 +77,7 @@ function RegisterForm() {
     <>
       {/* <NavigationBar /> */}
       <div className="container min-vh-100 d-flex justify-content-center align-items-center">
-        <form className="center w-75">
+        <form className="center w-75" onSubmit={handleSave}>
           <h1 className="text-center">REGISTER</h1>
           <div className="row">
             <div className="col">
@@ -270,7 +271,7 @@ function RegisterForm() {
             </button>
           </div>
 
-          <button className="btn btn-primary w-100 mt-2" onClick={handleSave}>
+          <button className="btn btn-primary w-100 mt-2" type="submit">
             SUBMIT
           </button>
         </form>

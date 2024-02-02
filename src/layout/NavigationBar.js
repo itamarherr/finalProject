@@ -15,7 +15,7 @@ function NavigationBar (){
     const handleLogout =()=>{
         localStorage.removeItem("isLoggedIn");
         localStorage.removeItem("userName");
-        nav("/");
+        nav("/Login");
     };
     return(
         <Navbar expand="lg" className={`navbar navbar-${theme} bg-${theme}`}>
@@ -43,15 +43,26 @@ function NavigationBar (){
             </Button>
           </Form>
           <Nav className="ms-auto">
-            <Link to="/RegisterForm" className={`btn btn-light navbar-light ${textColor}`}>
-                  signup
-            </Link>
-            <Link to="/Login" className={`nav-link ${textColor}`} onClick={handleLogout}>
-                    logOut
-            </Link>
-            <Link to="/Login" className={`nav-link ${textColor}`}>
-                    login 
-            </Link>
+            
+          {isLoggedIn ? (
+              <>
+                <Link to="/CardListPage" className={`btn btn-light navbar-light ${textColor}`}>
+                  Welcome, {userName}
+                </Link>
+                <Link to="/Login" className={`nav-link ${textColor}`} onClick={handleLogout}>
+                  Logout
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/RegisterForm" className={`btn btn-light navbar-light ${textColor}`}>
+                  Signup
+                </Link>
+                <Link to="/Login" className={`nav-link ${textColor}`}>
+                  Login
+                </Link>
+              </>
+            )}
               <div className="form-check form-switch d-flex align-items-center">
                   <input
                          type="checkbox"
