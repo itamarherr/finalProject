@@ -3,15 +3,21 @@ import { loginUser } from "../components/service/apiUser";
 
 export const LoginContext = createContext();
 
-const LoginProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+export const LoginProvider = ({ children }) => {
+  const [user, setUser] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
-      setIsLoggedIn(true);
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+        setIsLoggedIn(true);
+      } catch (error) {
+        console.error("Error parsing user from localStorage:", error);
+        // Handle parsing error if needed
+      }
     }
   }, []);
 
@@ -19,7 +25,7 @@ const LoginProvider = ({ children }) => {
     try {
       const response = await loginUser(email, password);
     console.log(response);
-    localStorage.setItem("user", JSON.stringify(response.user));
+    localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("isLoggedIn", "true");
 
       setIsLoggedIn(true);

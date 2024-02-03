@@ -1,15 +1,20 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Card, Button, Row, Col} from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 import { createNewCard, updateCard, deleteCard } from "./service/apiCard";
 import { getCard } from "./service/apiCard";
 import axios from "axios";
+import { ThemeContext } from "../Context/ThemeContext";
 
 function CardListPage() {
   const [users, setUsers] = useState([]);
   const [cards, setCards] = useState([]);
   const navigate = useNavigate();
+  const { theme } = useContext(ThemeContext);
+  const  textColor = theme === "dark" ? "text-light"  : "text-dark";
+  const  titleTextColor = theme === "dark" ?  "text-dark" : "text-light";
+
   
 
   useEffect(() => {
@@ -30,13 +35,13 @@ function CardListPage() {
  
 
   return (
-    <div className="container">
+    <div className={`container ${theme === 'dark' ? 'btn-light' : 'btn-dark'}`} style={{ backgroundColor: theme === 'dark' ? '#fff' : '#343a40' }}>
       <div className="text-center">
-        <h1 > Cards Page</h1>
+        <h1  className={`${titleTextColor}`}  > Cards Page</h1>
         </div>
       
       <button
-        className="btn btn-primary mb-3 mt-3 m-5"
+         className={`btn ${theme === 'dark' ? 'btn-light' : 'btn-primary'} mb-3 mt-3 m-5`}
         onClick={() => navigate("/AddCard", { createNewCard })}
       >
         Add Card
@@ -45,11 +50,11 @@ function CardListPage() {
       <Row xs={1} md={2} lg={3} xl={4} className="row">
         {cards.map((card, index) => (
           <Col key={index} className="mb-4">
-            <Card border="primary">
-            <Card.Header>Business card</Card.Header>
-              <Card.Body>
-                <Card.Title>{card.title}</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
+            <Card border="primary" style={{ backgroundColor: theme === 'dark' ? '#343a40' : '#fff' }}>
+             <Card.Header >Business card</Card.Header>
+              <Card.Body className={`${textColor}`}>
+                <Card.Title className={`${textColor}`} >{card.title }</Card.Title>
+                <Card.Subtitle className= {`${textColor}`}>
                   {card.subtitle}
                 </Card.Subtitle>
           
@@ -85,6 +90,7 @@ function CardListPage() {
             </Col>
             ))}
           </Row>
+          
       </div>
   );
 }

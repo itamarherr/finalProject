@@ -1,53 +1,41 @@
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./Login";
-import UserList from "../NotRelevent/UserList";
-import AbouteUs from "./HomePage";
-
 import HomePage from "./HomePage";
-import HiringForm from "../NotRelevent/HiringForm";
 import CardListPage from "./CardListPage";
 import AddCard from "./AddCard";
 import UpdateCard from "./UpdateCard";
 import NavigationBar from "../layout/NavigationBar";
 import RegisterForm from "./RegisterForm";
-import { ThemeContext, ThemeProvaider } from "../Context/ThemeContext";
-import BusinessCards from "../NotRelevent/BusinessCards";
+import { ThemeProvider } from "../Context/ThemeContext";
 import UpdateUser from "./UpdateUser";
 import React from "react";
+import LoginProvider from "../Context/AuthProvider";
+// import ProtectedRoute from "./ProtectedRoute";  this import is currntly not used
+import Protected from "../NotRelevent/Protected";
+
 function MyRouter() {
   return (
-    <ThemeProvaider>
+    <ThemeProvider>
+      <LoginProvider>
       <BrowserRouter>
         <NavigationBar />
         <Routes>
           <Route path="/Login" element={<Login />} />
-          <Route
-            path="/"
-            element={
-              <div>
-                <HomePage />
-              </div>
-            }
-          />
-
+          <Route path="/"element={<HomePage />}/>
           <Route path="/RegisterForm" element={<RegisterForm />} />
-          <Route
-            path="/CardListPage"
-            element={
-              <div>
-                
-                <CardListPage />
-              </div>
-            }
-          />
+          <Route path="/CardListPage" element={
+          <div>
+            <Protected>
+            <CardListPage />
+            </Protected>
+          </div>} />
           <Route path="/UpdateUser" element={<UpdateUser />} />
           <Route path="/UpdateCard/:id" element={<UpdateCard />} />
           <Route path="/AddCard" element={<AddCard />} />
-          <Route path="/HiringForm" element={<HiringForm />} />
-          <Route path="/BusinessCards" element={<BusinessCards />} />
         </Routes>
       </BrowserRouter>
-    </ThemeProvaider>
+      </LoginProvider>
+    </ThemeProvider>
   );
 }
 export default MyRouter;

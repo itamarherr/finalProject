@@ -1,4 +1,5 @@
 import { Navigate } from "react-router-dom";
+import React, { useContext } from 'react';
 
 function Protected ({children}){
     const isAuthenticted = localStorage.getItem("isLoggedIn");

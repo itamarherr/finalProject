@@ -2,8 +2,10 @@
 import { ThemeContext } from "../Context/ThemeContext";
 import { useContext } from "react";
 
+
+
 function MyFooterBar(){
-      const  {theme}  = useContext(ThemeContext);
+      const  { theme }  = useContext(ThemeContext);
       let themeContrast = theme;
   switch (theme) {
     case "light":
