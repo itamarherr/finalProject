@@ -6,11 +6,13 @@ const api = axios.create({
 });
 
 export const loginUser = async (email, password) => {
+  console.log("Making login request...");
   try {
     const response = await api.post(`users/login/`, {
       email: email,
       password: password,
     });
+    console.log("Login response:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error logging in:", error);
@@ -48,7 +50,6 @@ export const registerUser = async (user) => {
     return response;
   } catch (error) {
     console.error("Error registering user:", error);
-    throw error;
   }
 };
 

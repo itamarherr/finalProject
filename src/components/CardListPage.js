@@ -22,7 +22,6 @@ function CardListPage() {
   }, []);
 
   const fetchCards = async () => {
-    console.log("Before getCard call");
     try {
       const response = await getCard();
       

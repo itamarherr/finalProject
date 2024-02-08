@@ -10,8 +10,9 @@ import { ThemeProvider } from "../Context/ThemeContext";
 import UpdateUser from "./UpdateUser";
 import React from "react";
 import LoginProvider from "../Context/AuthProvider";
-// import ProtectedRoute from "./ProtectedRoute";  this import is currntly not used
+ import ProtectedRoute from "./ProtectedRoute"; 
 import Protected from "../NotRelevent/Protected";
+import { useNavigate } from 'react-router-dom';
 
 function MyRouter() {
   return (
@@ -24,11 +25,10 @@ function MyRouter() {
           <Route path="/"element={<HomePage />}/>
           <Route path="/RegisterForm" element={<RegisterForm />} />
           <Route path="/CardListPage" element={
-          <div>
-            <Protected>
+            <ProtectedRoute>
             <CardListPage />
-            </Protected>
-          </div>} />
+            </ProtectedRoute>
+          }/>
           <Route path="/UpdateUser" element={<UpdateUser />} />
           <Route path="/UpdateCard/:id" element={<UpdateCard />} />
           <Route path="/AddCard" element={<AddCard />} />
