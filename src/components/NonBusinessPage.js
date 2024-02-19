@@ -1,13 +1,75 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from "react";
+import { Card, Row, Col, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { getCard } from "./service/apiCard";
+import { ThemeContext } from "../Context/ThemeContext";
 
-const NonBusinessPage = () => {
+function NonBusinessPage() {
+  const [cards, setCards] = useState([]);
+  const navigate = useNavigate();
+  const { theme } = useContext(ThemeContext);
+  const textColor = theme === "dark" ? "text-light" : "text-dark";
+  const titleTextColor = theme === "dark" ? "text-dark" : "text-light";
+
+  useEffect(() => {
+    fetchCards();
+  }, []);
+
+  const fetchCards = async () => {
+    try {
+      const response = await getCard();
+      setCards(response);
+    } catch (error) {
+      console.error("Error fetching cards:", error);
+    }
+  };
+  
+  const toggleFavorite = (cardId) => {
+    const updatedCards = cards.map((card) =>
+      card._id === cardId ? { ...card, isFavorite: !card.isFavorite } : card
+    );
+    setCards(updatedCards);
+    // Update local storage with favorite card IDs
+    const favoriteCardIds = updatedCards.filter((card) => card.isFavorite).map((card) => card._id);
+    localStorage.setItem("favoriteCardIds", JSON.stringify(favoriteCardIds));
+  };
+
   return (
-    <div>
-      <h1>Welcome to the Non-Business Page!</h1>
-      <p>This page is for non-business users.</p>
-      {/* Add any additional content or components specific to non-business users */}
+    <div className={`container ${theme === 'dark' ? 'btn-light' : 'btn-dark'}`} style={{ backgroundColor: theme === 'dark' ? '#fff' : '#343a40' }}>
+      <div className="text-center">
+        <h1 className={`${titleTextColor}`}> Cards Page</h1>
+      </div>
+
+      <Row xs={1} md={2} lg={3} xl={4} className="row">
+        {cards.map((card, index) => (
+          <Col key={index} className="mb-4">
+            <Card border="primary" style={{ backgroundColor: theme === 'dark' ? '#343a40' : '#fff' }}>
+              <Card.Header>Business card</Card.Header>
+              <Card.Body className={`${textColor}`}>
+                <Card.Title className={`${textColor}`}>{card.title}</Card.Title>
+                <Card.Subtitle className={`${textColor}`}>{card.subtitle}</Card.Subtitle>
+                <Card.Text>{card.description}</Card.Text>
+                <Card.Text>{card.phone}</Card.Text>
+                <Card.Text>{card.email}</Card.Text>
+                <Card.Img
+                  variant="top"
+                  src={card.image.url}
+                  style={{ marginBottom: "10px", marginLeft: "10px" }}
+                />
+                 <Button
+                  variant={card.isFavorite ? "warning" : "outline-warning"}
+                  size="sm"
+                  onClick={() => toggleFavorite(card._id)}
+                >
+                  {card.isFavorite ? "Remove from favorites" : "Add to favorites"}
+                </Button>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
     </div>
   );
-};
+}
 
 export default NonBusinessPage;
