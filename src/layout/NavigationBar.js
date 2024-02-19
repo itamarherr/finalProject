@@ -34,6 +34,12 @@ function NavigationBar (){
             </Link>
             <Link to="/CardListPage" className={`nav-link ${textColor}`}>
               My Cards
+            </Link> 
+            <Link to="/Favorite" className={`nav-link ${textColor}`}>
+              Favorite
+            </Link> 
+            <Link to="/nonBusinessPage" className={`nav-link ${textColor}`}>
+              unbusiness cards
             </Link>
             </Nav> 
             <Form className="d-flex">
