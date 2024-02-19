@@ -14,6 +14,7 @@ import  { LoginProvider, LoginContext } from "../Context/AuthProvider";
 import Protected from "../NotRelevent/Protected";
 import { useNavigate } from 'react-router-dom';
 import NonBusinessPage from './NonBusinessPage';
+import FavoriteCardsPage from "./favoriteCardsPage";
 
 function MyRouter() {
   const { user } = useContext(LoginContext);
@@ -24,6 +25,7 @@ function MyRouter() {
         <NavigationBar />
         <Routes>
           <Route path="/Login" element={<Login />} />
+          <Route path="/favorite" element={<FavoriteCardsPage />} />
           <Route path="/nonBusinessPage" element={<NonBusinessPage />} />
           <Route path="/"element={<HomePage />}/>
           <Route path="/RegisterForm" element={<RegisterForm />} />
