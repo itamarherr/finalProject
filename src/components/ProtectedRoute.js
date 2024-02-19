@@ -1,25 +1,30 @@
 import React, { useContext } from 'react';
 import { LoginContext} from '../Context/AuthProvider';
-import Login from './Login';
 import { Navigate } from 'react-router-dom';
 
 const ProtectedRoute = ({ children }) => {
-  const { isLoggedIn, user } = React.useContext(LoginContext);
-  if(isLoggedIn && user && user.isBusiness) {
-    return children;
-  } else if (isLoggedIn && user && !user.isBusiness){
-    return <Navigate to="HomePage"/>
-  } else{
+  const { isLoggedIn, isBusiness} = useContext(LoginContext);
+  console.log('isBusiness in route:', isBusiness);
+  //const isBusinessUser = isLoggedIn && isBusiness;
 
+  //const isAuthenticated = isLoggedIn && user;
 
-  return  isLoggedIn ? (
-   children
-  ) : (
-<Login></Login>
-  );
-};
-}
+  if (!isLoggedIn) {
+    return <Navigate to="/login" />;
+    }
+   else if (!isBusiness){
+     return <Navigate to="/NonBusinessPage" />;
+   }
+
+    return <>{children}</>;
+  
+
+  
+  
+ 
+  
+    
+  }
+
 
 export default ProtectedRoute;
-
-// this componenet is currntly not used
