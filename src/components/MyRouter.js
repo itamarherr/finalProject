@@ -15,6 +15,7 @@ import Protected from "../NotRelevent/Protected";
 import { useNavigate } from 'react-router-dom';
 import NonBusinessPage from './NonBusinessPage';
 import FavoriteCardsPage from "./favoriteCardsPage";
+import BusinessDetailPage from "./BusinessDetailPage";
 
 function MyRouter() {
   const { user } = useContext(LoginContext);
@@ -27,6 +28,7 @@ function MyRouter() {
           <Route path="/Login" element={<Login />} />
           <Route path="/favorite" element={<FavoriteCardsPage />} />
           <Route path="/nonBusinessPage" element={<NonBusinessPage />} />
+           <Route path="/business/:id" element={<BusinessDetailPage />} />
           <Route path="/"element={<HomePage />}/>
           <Route path="/RegisterForm" element={<RegisterForm />} />
           
