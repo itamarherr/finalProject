@@ -77,7 +77,7 @@ function NonBusinessPage() {
                     toggleFavorite(card._id);
                   }}
                 >
-                  {card.isFavorite ? "Remove from favorites" : "Add to favorites"}
+                  {card.isFavorite ? <i class="bi bi-star-fill"></i> : <i class="bi bi-star"></i>}
                 </Button>
               </Card.Body>
             </Card>
