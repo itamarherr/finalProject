@@ -20,6 +20,17 @@ function FavoriteCardsPage() {
     fetchFavoriteCards();
   }, []);
 
+  const removeCardFromFavorites = (cardId) => {
+    const updatedFavoriteCards = favoriteCards.filter((card) => card._id !== cardId);
+    setFavoriteCards(updatedFavoriteCards);
+
+    const favoriteCardIds = updatedFavoriteCards.map((card) => card._id);
+    localStorage.setItem("favoriteCardIds", JSON.stringify(favoriteCardIds));
+  };
+
+
+
+
   return (
     <div className="container">
       <h1 className="text-center">Favorite Cards</h1>
@@ -35,6 +46,16 @@ function FavoriteCardsPage() {
                 <Card.Text>{card.phone}</Card.Text>
                 <Card.Text>{card.email}</Card.Text>
                 <Card.Img variant="top" src={card.image.url} />
+                <Row>
+                  <Col>
+                    <Button
+                      variant="outline-danger"
+                      size="sm"
+                      onClick={() => removeCardFromFavorites(card._id)}>
+                      Remove from Favorites
+                    </Button>
+                  </Col>
+                </Row>
               </Card.Body>
             </Card>
           </Col>

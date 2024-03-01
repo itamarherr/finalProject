@@ -18,6 +18,7 @@ import FavoriteCardsPage from "./favoriteCardsPage";
 import BusinessDetailPage from "./BusinessDetailPage";
 import MyFooterBar from "../layout/MyFooterBar";
 import SearchResultsPage from "./SearchResultPage";
+import MyCardsPage from "./MyCardspage";
 
 function MyRouter() {
   const { user } = useContext(LoginContext);
@@ -29,6 +30,7 @@ function MyRouter() {
       <Route path="/business/:id" element={<BusinessDetailPage />} />
       <Route path="/" element={<HomePage />} />
       <Route path="/RegisterForm" element={<RegisterForm />} />
+      <Route path="/MyCardsPage" element={<MyCardsPage />} />
 
       <Route path="/CardListPage" element={
         <ProtectedRoute>

@@ -4,11 +4,6 @@ import { Navigate } from 'react-router-dom';
 
 const ProtectedRoute = ({ children }) => {
   const { isLoggedIn, isBusiness } = useContext(LoginContext);
-  console.log('isBusiness in route:', isBusiness);
-  //const isBusinessUser = isLoggedIn && isBusiness;
-
-  //const isAuthenticated = isLoggedIn && user;
-
   if (!isLoggedIn) {
     return <Navigate to="/login" />;
   }

@@ -69,13 +69,12 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-
 project ID:
 
 bcea2fd5-2ff5-4188-973f-16e3f02027da
 
 ziv user:
-7b1f9f25-aec1-4853-97b1-61e33e80917f	name: ziv,  email:	ziv@gmail.com,	role: cute, password : ziv
+7b1f9f25-aec1-4853-97b1-61e33e80917f name: ziv, email: ziv@gmail.com, role: cute, password : ziv
 
 git repozotory:
 https://github.com/Simonsbs/CrudConnect_Demo
@@ -86,13 +85,14 @@ https://gnte7mjwg9.execute-api.us-east-1.amazonaws.com/newdev/
 my temporery token:
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6IjdiMWY5ZjI1LWFlYzEtNDg1My05N2IxLTYxZTMzZTgwOTE3ZiIsIlByb2plY3RJRCI6ImJjZWEyZmQ1LTJmZjUtNDE4OC05NzNmLTE2ZTNmMDIwMjdkYSIsIlJvbGUiOiJjdXRlIiwiaWF0IjoxNjkzMjUyMDI1fQ.Wnfz5kN8GOaBLwIeVU0l-qMrL8DItt04vCyjo_N_B0c
 
-
 link to simon project:
 https://github.com/Simonsbs/company-cards
-
 
 hakeru site:
 https://crudconnect.com/
 
-
 documenter cards: https://documenter.getpostman.com/view/25008645/2s9YXcd5BE#089123c3-dbb0-4f79-8d91-300308fed223
+
+Admin
+"email": "admin@gmail.com",
+"password": "Abc!123Abc",

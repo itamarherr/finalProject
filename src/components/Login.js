@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "./service/apiUser";
-import useLogin from "../hooks/useLogin";
 import { LoginContext } from "../Context/AuthProvider";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import ProtectedRoute from "./ProtectedRoute";
@@ -10,7 +9,6 @@ import ProtectedRoute from "./ProtectedRoute";
 
 function Login() {
   const { login } = useContext(LoginContext);
-  // const {login}=useLogin()
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,7 +31,7 @@ function Login() {
       } else {
         console.error("Error setting up request:", error.message);
       }
-      
+
 
       setError("Login failed. Please check your credentials.");
     }
@@ -53,7 +51,6 @@ function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
-                // pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
               />
             </div>
           </div>
@@ -68,9 +65,7 @@ function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
-                // pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
               />
-              {/* <button type="submit">Login</button> */}
             </div>
           </div>
         </div>

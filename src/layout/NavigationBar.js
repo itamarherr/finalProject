@@ -21,7 +21,6 @@ function NavigationBar() {
   };
 
   const handleSearch = () => {
-    console.log("Searching for:", searchQuery);
     navigate(`/search?query=${encodeURIComponent(searchQuery)}`);
   }
 
@@ -60,8 +59,8 @@ function NavigationBar() {
             <FormControl type="text"
               placeholder="Search"
               className="mr-2"
-              value={searchQuery} // Bind input value to searchQuery state
-              onChange={handleSearchChange} // Handle input change
+              value={searchQuery}
+              onChange={handleSearchChange}
             />
             <Button variant="outline-secondary" onClick={handleSearch}>
               <i className="bi bi-search"></i>
@@ -71,9 +70,6 @@ function NavigationBar() {
 
             {isLoggedIn ? (
               <>
-                {/* <Link to="/CardListPage" className={` navbar-light ${textColor}`}>
-                  Welcome, {userName}
-                </Link> */}
                 <Link to="/Login" className={`nav-link ${textColor}`} onClick={handleLogout}>
                   Logout
                 </Link>

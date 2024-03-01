@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-undef */
 import { ThemeContext } from "../Context/ThemeContext";
 import { useContext } from "react";
 import NavigationBar from "./NavigationBar";
@@ -23,7 +22,7 @@ function MyFooterBar() {
       <div className="container text-center py-2">
         <br />
       </div>
-      <NavigationBar /> {NavigationBar}
+      <NavigationBar />
     </footer>
   );
 

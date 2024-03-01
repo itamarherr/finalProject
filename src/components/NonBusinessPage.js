@@ -30,16 +30,24 @@ function NonBusinessPage() {
     );
     setCards(updatedCards);
     try {
-      // Update favorite status in the backend
       await updateCard(localStorage.getItem("token"), updatedCards.find(card => card._id === cardId), cardId);
     } catch (error) {
       console.error("Error updating favorite status:", error);
     }
   };
   const handleCardClick = (cardId) => {
-    // Navigate to the detailed information page passing cardId as a parameter
     navigate(`/business/${cardId}`);
   };
+
+  const moveToFavorites = (cardId) => {
+    toggleFavorite(cardId); // Toggle the favorite status
+    const favoriteCardIds = JSON.parse(localStorage.getItem("favoriteCardIds")) || [];
+    if (!favoriteCardIds.includes(cardId)) {
+      favoriteCardIds.push(cardId);
+      localStorage.setItem("favoriteCardIds", JSON.stringify(favoriteCardIds));
+    }
+  };
+
 
   return (
     <div className={`container ${theme === 'dark' ? 'btn-light' : 'btn-dark'}`} style={{ backgroundColor: theme === 'dark' ? '#fff' : '#343a40' }}>
@@ -51,22 +59,23 @@ function NonBusinessPage() {
         {cards.map((card, index) => (
           <Col key={index} className="mb-4">
             <Card border="primary" style={{
-              backgroundColor: theme === 'dark' ? '#343a40' : '#fff',
+              backgroundColor: theme === 'dark' ? '#343a40' : '#fff', borderWidth: '3px', color: textColor, height: "100%",
               cursor: "pointer",
             }} onClick={() => handleCardClick(card._id)}
 
             >
-              <Card.Header>Business card</Card.Header>
-              <Card.Body className={`${textColor}`}>
+              <Card.Header className={`${textColor}`}>Business card</Card.Header>
+              <Card.Body className={`${textColor}`} style={{ overflow: "auto" }}>
+                <div style={{ maxHeight: "150px", overflow: "hidden" }}></div>
                 <Card.Title className={`${textColor}`}>{card.title}</Card.Title>
                 <Card.Subtitle className={`${textColor}`}>{card.subtitle}</Card.Subtitle>
-                <Card.Text>{card.description}</Card.Text>
+                {/* <Card.Text>{card.description}</Card.Text> */}
                 <Card.Text>{card.phone}</Card.Text>
                 <Card.Text>{card.email}</Card.Text>
                 <Card.Img
                   variant="top"
                   src={card.image.url}
-                  style={{ marginBottom: "10px", marginLeft: "10px" }}
+                  style={{ maxWidth: "100%", marginBottom: "10px", marginLeft: "10px" }}
 
                 />
                 <Button
@@ -74,7 +83,7 @@ function NonBusinessPage() {
                   size="sm"
                   onClick={(e) => {
                     e.stopPropagation();
-                    toggleFavorite(card._id);
+                    moveToFavorites(card._id); // Call moveToFavorites
                   }}
                 >
                   {card.isFavorite ? <i class="bi bi-star-fill"></i> : <i class="bi bi-star"></i>}

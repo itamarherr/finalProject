@@ -48,7 +48,7 @@ function BusinessDetailPage() {
       const longitude = parseFloat(data[0].lon);
       return { latitude, longitude };
     } catch (error) {
-      // Handle errors
+
       console.error('Error fetching coordinates:', error);
       throw new Error('Error fetching coordinates from OpenStreetMap API');
     }
@@ -59,13 +59,27 @@ function BusinessDetailPage() {
   }
 
   return (
-    <div>
-      <h1>{business.title}</h1>
-      <p>{business.description}</p>
-      <p>{business.phone}</p>
-      <p>{business.email}</p>
-      <div style={{ height: '400px', width: '100%' }}>
-        {latitude && longitude && (
+    <div className="jumbotron jumbotron-fluid">
+      <div className="container">
+        <h1 className="display-4">{business.title}</h1>
+        <p className="lead">
+          {business.subtitle}
+        </p>
+        <div className="row">
+          <div className="col-sm-4 col-md-8">
+            <img
+              src={business.image.url}
+              alt="Books"
+              className="img-fluid rounded-2"
+            />
+          </div>
+          <div className="col-sm-8 col-md-4">
+            <h1></h1>
+            <p>{business.description}</p>
+            <p>{business.phone}</p>
+            <p>{business.email}</p>
+            <div style={{ height: '400px', width: '100%' }}>
+              {/* {latitude && longitude && (
           <MapContainer center={[latitude, longitude]} zoom={10} scrollWheelZoom={true}>
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -75,7 +89,13 @@ function BusinessDetailPage() {
               <Popup>{business.title}</Popup>
             </Marker>
           </MapContainer>
-        )}
+        )} */}
+            </div>
+            <div className="progress-stacked">
+            </div>
+
+          </div>
+        </div>
       </div>
     </div>
   );

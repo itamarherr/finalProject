@@ -6,14 +6,11 @@ import { getCard } from "./service/apiCard";
 import { ThemeContext } from "../Context/ThemeContext";
 
 function CardListPage() {
-  // const [users, setUsers] = useState([]);
   const [cards, setCards] = useState([]);
   const navigate = useNavigate();
   const { theme } = useContext(ThemeContext);
   const textColor = theme === "dark" ? "text-light" : "text-dark";
   const titleTextColor = theme === "dark" ? "text-dark" : "text-light";
-
-
 
   useEffect(() => {
     fetchCards();
@@ -22,8 +19,7 @@ function CardListPage() {
   const fetchCards = async () => {
     try {
       const response = await getCard();
-
-      console.log("Full response:", response);
+      console.log("Response from API:", response); // Log the response
       setCards(response);
     } catch (error) {
       console.error("Error fetching cards:", error);
@@ -36,7 +32,6 @@ function CardListPage() {
       card._id === cardId ? { ...card, isFavorite: !card.isFavorite } : card
     );
     setCards(updatedCards);
-    // Update local storage with favorite card IDs
     const favoriteCardIds = updatedCards.filter((card) => card.isFavorite).map((card) => card._id);
     localStorage.setItem("favoriteCardIds", JSON.stringify(favoriteCardIds));
   };
@@ -45,8 +40,6 @@ function CardListPage() {
 
   return (
     <div className="container" style={{ backgroundColor: '#fff' }}>
-
-
       <div className="text-center">
         <h1>Cards Page</h1>
       </div>
@@ -61,18 +54,19 @@ function CardListPage() {
       <Row xs={1} md={2} lg={3} xl={4} className="row">
         {cards.map((card, index) => (
           <Col key={index} className="mb-4">
-            <Card border="primary" style={{ backgroundColor: theme === 'dark' ? '#121212' : '#fff', borderWidth: '3px', color: textColor }}>
+            <Card border="primary" style={{ backgroundColor: theme === 'dark' ? '#121212' : '#fff', borderWidth: '3px', color: textColor, height: "100%" }}>
               <Card.Header className={`${textColor}`}>Business card</Card.Header>
-              <Card.Body className={`${textColor}`}>
+              <Card.Body className={`${textColor}`} style={{ overflow: "auto" }}>
+                <div style={{ maxHeight: "150px", overflow: "hidden" }}></div>
                 <Card.Title className={`${textColor}`} >{card.title}</Card.Title>
                 <Card.Subtitle className={`${textColor}`}>{card.subtitle}</Card.Subtitle>
-                <Card.Text>{card.description}</Card.Text>
+                {/* <Card.Text>{card.description}</Card.Text> */}
                 <Card.Text>{card.phone}</Card.Text>
                 <Card.Text>{card.email}</Card.Text>
                 <Card.Img
                   variant="top"
                   src={card.image.url}
-                  style={{ marginBottom: "10px", marginLeft: "10px" }}
+                  style={{ maxWidth: "100%", marginBottom: "10px", marginLeft: "10px" }}
                 />
                 <Row>
                   <Col>

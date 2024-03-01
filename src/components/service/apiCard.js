@@ -4,12 +4,14 @@ import { BaseAPI } from "../constants";
 const api = axios.create({
   baseURL: BaseAPI
 });
+
+
 export const getCard = async () => {
- 
+
   try {
-    const response = await axios.get(`https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards/my-cards`, {
+    const response = await axios.get(`https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards/`, {
       headers: {
-        "x-auth-token":localStorage.getItem("token")
+        "x-auth-token": localStorage.getItem("token")
       },
     });
     return response.data;
@@ -18,10 +20,26 @@ export const getCard = async () => {
     throw error;
   }
 };
+
+export const getAllMyCards = async () => {
+
+  try {
+    const response = await axios.get(`https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards/my-cards`, {
+      headers: {
+        "x-auth-token": localStorage.getItem("token")
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error posting item:", error);
+    throw error;
+  }
+};
+
+
 export const updateCard = async (token, card, id) => {
   console.log(card, id);
-  try { 
-    // const text = await axios.get( `https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards/${id}`)
+  try {
 
     const response = await axios.put(
       `https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards/${id}`,
@@ -57,6 +75,8 @@ export const updateCard = async (token, card, id) => {
     throw error;
   }
 };
+
+
 
 export const deleteCard = async (cardId) => {
   try {

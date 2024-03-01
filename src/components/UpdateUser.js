@@ -29,7 +29,6 @@ function UpdateUser() {
     const register = async () => {
       try {
         const response = await updateUser(user);
-        console.log("User registered successfully", response);
       } catch (error) {
         console.error("Error registering user", error);
         return;
