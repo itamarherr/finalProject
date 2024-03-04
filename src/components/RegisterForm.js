@@ -1,7 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from "react";
-import { registerUser } from "./service/apiUser";
-import { loginUser } from "./service/apiUser";
+import React, { useState } from "react";
 
 
 
@@ -30,30 +28,15 @@ function RegisterForm() {
   const handleSave = async (e) => {
     e.preventDefault();
     try {
-      // Regular expression for password validation
       const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*\d.*\d.*\d)(?=.*[*&^%$#@!]).{8,}$/;
 
-      // Check if the password matches the regex pattern
       if (!passwordRegex.test(user.password)) {
         throw new Error("Password must contain one uppercase, one lowercase, four numbers, and one special character (*-&^%$#@!)");
       }
-      const response = await registerUser(user);
-
-      const loginResponse = await loginUser(user.email, user.password);
 
       navigate("/CardListPage");
     } catch (error) {
-      console.error("Error registering user", error);
-      if (error.response) {
-        console.error("Response data:", error.response.data);
-        console.error("Response status:", error.response.status);
-        console.error("Response headers:", error.response.headers);
-      } else if (error.request) {
-        console.error("No response received:", error.request);
-      } else {
 
-        console.error("Error setting up request:", error.message);
-      }
       throw error;
     }
   };
@@ -65,10 +48,7 @@ function RegisterForm() {
       [name]: value,
     });
 
-    // Regular expression for password validation
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*\d.*\d.*\d)(?=.*[*&^%$#@!]).{8,}$/;
-
-    // Check if the password matches the regex pattern
     if (name === "password" && !passwordRegex.test(value)) {
       setPasswordError("Password must contain one uppercase, one lowercase, four numbers, and one special character (*-&^%$#@!), and be at least 8 characters long");
     } else {

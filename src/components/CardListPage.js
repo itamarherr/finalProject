@@ -19,7 +19,6 @@ function CardListPage() {
   const fetchCards = async () => {
     try {
       const response = await getCard();
-      console.log("Response from API:", response); // Log the response
       setCards(response);
     } catch (error) {
       console.error("Error fetching cards:", error);
@@ -27,7 +26,8 @@ function CardListPage() {
   };
 
 
-  const toggleFavorite = (cardId) => {
+  const toggleFavorite = (cardId, e) => {
+    e.stopPropagation();
     const updatedCards = cards.map((card) =>
       card._id === cardId ? { ...card, isFavorite: !card.isFavorite } : card
     );
@@ -35,6 +35,11 @@ function CardListPage() {
     const favoriteCardIds = updatedCards.filter((card) => card.isFavorite).map((card) => card._id);
     localStorage.setItem("favoriteCardIds", JSON.stringify(favoriteCardIds));
   };
+
+  const handleCardClick = (cardId) => {
+    navigate(`/business/${cardId}`);
+  };
+
 
 
 
@@ -54,13 +59,12 @@ function CardListPage() {
       <Row xs={1} md={2} lg={3} xl={4} className="row">
         {cards.map((card, index) => (
           <Col key={index} className="mb-4">
-            <Card border="primary" style={{ backgroundColor: theme === 'dark' ? '#121212' : '#fff', borderWidth: '3px', color: textColor, height: "100%" }}>
+            <Card border="primary" style={{ backgroundColor: theme === 'dark' ? '#121212' : '#fff', borderWidth: '3px', color: textColor, height: "100%", cursor: "pointer" }} onClick={() => handleCardClick(card._id)}>
               <Card.Header className={`${textColor}`}>Business card</Card.Header>
               <Card.Body className={`${textColor}`} style={{ overflow: "auto" }}>
                 <div style={{ maxHeight: "150px", overflow: "hidden" }}></div>
                 <Card.Title className={`${textColor}`} >{card.title}</Card.Title>
                 <Card.Subtitle className={`${textColor}`}>{card.subtitle}</Card.Subtitle>
-                {/* <Card.Text>{card.description}</Card.Text> */}
                 <Card.Text>{card.phone}</Card.Text>
                 <Card.Text>{card.email}</Card.Text>
                 <Card.Img
@@ -73,7 +77,7 @@ function CardListPage() {
                     <Button
                       variant={card.isFavorite ? "warning" : "outline-warning"}
                       size="sm"
-                      onClick={() => toggleFavorite(card._id)}>
+                      onClick={(e) => toggleFavorite(card._id, e)}>
                       {card.isFavorite ? <i class="bi bi-star-fill"></i> : <i class="bi bi-star"></i>}
                     </Button>
                   </Col>

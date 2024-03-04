@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import NavigationBar from "../layout/NavigationBar";
 import { createNewCard } from "./service/apiCard";
-import Branch from "../NotRelevent/Branch";
 import { Card } from "react-bootstrap";
 
 function AddCard() {
@@ -33,23 +32,6 @@ function AddCard() {
   const [phoneError, setPhoneError] = useState("");
   const [webError, setWebError] = useState("");
   const [imageUrlError, setImageUrlError] = useState("");
-  // const [validationErrors, setValidationErrors] = useState({
-  //   title: false,
-  //   description: false,
-
-  // });
-
-  // const handleInputChange = (e) => {
-  //   setCard({
-  //     ...card,
-  //     [e.target.name]: e.target.value,
-  //   });
-
-  //   setValidationErrors({
-  //     ...validationErrors,
-  //     [e.target.name]: false,
-  //   });
-  // };
   useEffect(() => {
     const token = localStorage.getItem("token");
     setToken(token);
@@ -57,12 +39,10 @@ function AddCard() {
 
   const handleInputEnter = (e) => {
     const { name, value } = e.target;
-    console.log("Input enter:", name, value);
     setCard({
       ...card,
       [name]: value,
     });
-    // Regular expression for email validation
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     const israeliPhoneRegex = /^(?:0(?:5[^7]|[2-4689]|7[0-9])[ -]?(?:(?:(?:[2-9]|[2-9][0-9])[ -]?\d{3}[ -]?\d{4})|(?:7(?:(?:[0-9]{2}[ -]?\d{3}[ -]?\d{2})|(?:[0-9][ -]?\d{3}[ -]?\d{3}))))|(?:(?:\+972|972)[ -]?(?:(?:(?:[2-9]|[2-9][0-9])[ -]?\d{3}[ -]?\d{4})|(?:7(?:(?:[0-9]{2}[ -]?\d{3}[ -]?\d{2})|(?:[0-9][ -]?\d{3}[ -]?\d{3}))))))$/;
@@ -73,10 +53,8 @@ function AddCard() {
 
 
 
-    // Check if the input is for the email field and validate against the regex pattern
     if (name === "email" && !emailRegex.test(value)) {
       setEmailError("Please enter a valid email address");
-      console.log("Email error:", emailError);
     } else {
       setEmailError("");
     }
@@ -99,14 +77,12 @@ function AddCard() {
       setWebError("");
     }
 
-    // Validate the input and update errors
     if (!value.trim()) {
       setErrors(prevErrors => ({
         ...prevErrors,
         [name]: `${name} is required`,
       }));
     } else {
-      // If the field is not empty, remove the error message
       setErrors(prevErrors => ({
         ...prevErrors,
         [name]: null,
@@ -120,7 +96,6 @@ function AddCard() {
       const response = await createNewCard(token, card);
       navigate("/CardListPage");
     } catch (error) {
-      console.error("Error while saving card:", error);
       alert("An error occurred while saving the card. Please try again.");
       throw error;
     }

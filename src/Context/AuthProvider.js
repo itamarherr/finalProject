@@ -12,8 +12,6 @@ export const LoginProvider = ({ children }) => {
     try {
       const Response = await loginUser(email, password);
 
-      console.log()
-
       let isBusiness = jwtDecode(Response).isBusiness;
       setIsBusiness(isBusiness);
 

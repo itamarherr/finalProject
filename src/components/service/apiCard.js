@@ -93,7 +93,6 @@ export const deleteCard = async (cardId) => {
 };
 
 export const createNewCard = async (token, card) => {
-  console.log("text", card);
   try {
     const response = await api.post(
       `https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards`,

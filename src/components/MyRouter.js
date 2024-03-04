@@ -1,27 +1,21 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Login from "./Login";
 import HomePage from "./HomePage";
 import CardListPage from "./CardListPage";
 import AddCard from "./AddCard";
 import UpdateCard from "./UpdateCard";
-import NavigationBar from "../layout/NavigationBar";
 import RegisterForm from "./RegisterForm";
-import { ThemeProvider } from "../Context/ThemeContext";
-import UpdateUser from "./UpdateUser";
-import React, { useContext } from "react";
-import { LoginProvider, LoginContext } from "../Context/AuthProvider";
+import React from "react";
 import ProtectedRoute from "./ProtectedRoute";
-import Protected from "../NotRelevent/Protected";
-import { useNavigate } from 'react-router-dom';
 import NonBusinessPage from './NonBusinessPage';
 import FavoriteCardsPage from "./favoriteCardsPage";
 import BusinessDetailPage from "./BusinessDetailPage";
-import MyFooterBar from "../layout/MyFooterBar";
 import SearchResultsPage from "./SearchResultPage";
-import MyCardsPage from "./MyCardspage";
+import MyCardsPage from "./MyCardsPage";
+import AboutPage from "./AboutPage";
+
 
 function MyRouter() {
-  const { user } = useContext(LoginContext);
   return (
     <Routes>
       <Route path="/Login" element={<Login />} />
@@ -31,13 +25,14 @@ function MyRouter() {
       <Route path="/" element={<HomePage />} />
       <Route path="/RegisterForm" element={<RegisterForm />} />
       <Route path="/MyCardsPage" element={<MyCardsPage />} />
+      <Route path="/AboutPage" element={<AboutPage />} />
+
 
       <Route path="/CardListPage" element={
         <ProtectedRoute>
           <CardListPage />
         </ProtectedRoute>} />
 
-      <Route path="/UpdateUser" element={<UpdateUser />} />
       <Route path="/search" element={<SearchResultsPage />} />
       <Route path="/UpdateCard/:id" element={<UpdateCard />} />
       <Route path="/AddCard" element={<AddCard />} />

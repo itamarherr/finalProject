@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getBusinessDetails } from './service/apiBusiness';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-
 
 function BusinessDetailPage() {
   const { id } = useParams();
@@ -24,7 +22,6 @@ function BusinessDetailPage() {
       setLatitude(coordinates.latitude);
       setLongitude(coordinates.longitude);
     } catch (error) {
-      console.error('Error fetching business details:', error);
     }
   };
   const getCoordinatesFromAddress = async (address) => {
@@ -49,7 +46,6 @@ function BusinessDetailPage() {
       return { latitude, longitude };
     } catch (error) {
 
-      console.error('Error fetching coordinates:', error);
       throw new Error('Error fetching coordinates from OpenStreetMap API');
     }
   };
@@ -79,17 +75,6 @@ function BusinessDetailPage() {
             <p>{business.phone}</p>
             <p>{business.email}</p>
             <div style={{ height: '400px', width: '100%' }}>
-              {/* {latitude && longitude && (
-          <MapContainer center={[latitude, longitude]} zoom={10} scrollWheelZoom={true}>
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            />
-            <Marker position={[latitude, longitude]}>
-              <Popup>{business.title}</Popup>
-            </Marker>
-          </MapContainer>
-        )} */}
             </div>
             <div className="progress-stacked">
             </div>

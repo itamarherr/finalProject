@@ -2,8 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Card, Button, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../Context/ThemeContext";
-import { getCard, deleteCard, getAllMyCards } from "./service/apiCard";
-import { getUser } from "./service/apiUser";
+import { deleteCard, getAllMyCards } from "./service/apiCard";
 
 
 function MyCardsPage() {
@@ -11,7 +10,6 @@ function MyCardsPage() {
     const navigate = useNavigate();
     const { theme } = useContext(ThemeContext);
     const textColor = theme === "dark" ? "text-light" : "text-dark";
-    const titleTextColor = theme === "dark" ? "text-dark" : "text-light";
 
     useEffect(() => {
         fetchUserCards();
@@ -19,22 +17,32 @@ function MyCardsPage() {
 
     const fetchUserCards = async () => {
         try {
-            const response = await getAllMyCards(); // Fetch current user
-            setCards(response); // Assuming the user object has a 'cards' field containing their cards
+            const response = await getAllMyCards();
+            setCards(response);
         } catch (error) {
             console.error("Error fetching user cards:", error);
         }
     };
-    const handleDeleteCard = (cardId) => {
-        // Implement delete card functionality here
+    const handleDeleteCard = async (cardId) => {
+        try {
+            await deleteCard(cardId);
+            fetchUserCards();
+        } catch (error) {
+            console.error("Error deleting card:", error);
+        }
     };
-    const toggleFavorite = (cardId) => {
+    const toggleFavorite = (cardId, e) => {
+        console.log("Toggle favorite function invoked for card ID:", cardId);
+        e.stopPropagation();
         const updatedCards = cards.map((card) =>
             card._id === cardId ? { ...card, isFavorite: !card.isFavorite } : card
         );
         setCards(updatedCards);
         const favoriteCardIds = updatedCards.filter((card) => card.isFavorite).map((card) => card._id);
         localStorage.setItem("favoriteCardIds", JSON.stringify(favoriteCardIds));
+    };
+    const handleCardClick = (cardId) => {
+        navigate(`/business/${cardId}`);
     };
 
 
@@ -47,7 +55,10 @@ function MyCardsPage() {
             <Row xs={1} md={2} lg={3} xl={4} className="row">
                 {cards.map((card, index) => (
                     <Col key={index} className="mb-4">
-                        <Card border="primary" style={{ backgroundColor: theme === 'dark' ? '#121212' : '#fff', borderWidth: '3px', color: textColor, height: "100%" }}>
+                        <Card border="primary" style={{
+                            backgroundColor: theme === 'dark' ? '#121212' : '#fff', borderWidth: '3px', color: textColor, height: "100%",
+                            cursor: "pointer"
+                        }} onClick={() => handleCardClick(card._id)}>
                             <Card.Header className={`${textColor}`}>Business card</Card.Header>
                             <Card.Body className={`${textColor}`} style={{ overflow: "auto" }}>
                                 <div style={{ maxHeight: "150px", overflow: "hidden" }}></div>
@@ -65,7 +76,7 @@ function MyCardsPage() {
                                         <Button
                                             variant={card.isFavorite ? "warning" : "outline-warning"}
                                             size="sm"
-                                            onClick={() => toggleFavorite(card._id)}>
+                                            onClick={(e) => toggleFavorite(card._id, e)}>
                                             {card.isFavorite ? <i class="bi bi-star-fill"></i> : <i class="bi bi-star"></i>}
                                         </Button>
                                     </Col>

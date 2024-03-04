@@ -9,7 +9,6 @@ function NonBusinessPage() {
   const navigate = useNavigate();
   const { theme } = useContext(ThemeContext);
   const textColor = theme === "dark" ? "text-light" : "text-dark";
-  const titleTextColor = theme === "dark" ? "text-dark" : "text-light";
 
   useEffect(() => {
     fetchCards();
@@ -24,7 +23,8 @@ function NonBusinessPage() {
     }
   };
 
-  const toggleFavorite = async (cardId) => {
+  const toggleFavorite = async (cardId, e) => {
+    e.stopPropagation();
     const updatedCards = cards.map((card) =>
       card._id === cardId ? { ...card, isFavorite: !card.isFavorite } : card
     );
@@ -39,8 +39,9 @@ function NonBusinessPage() {
     navigate(`/business/${cardId}`);
   };
 
-  const moveToFavorites = (cardId) => {
-    toggleFavorite(cardId); // Toggle the favorite status
+  const moveToFavorites = (cardId, e) => {
+    toggleFavorite(cardId, e);
+    e.stopPropagation();
     const favoriteCardIds = JSON.parse(localStorage.getItem("favoriteCardIds")) || [];
     if (!favoriteCardIds.includes(cardId)) {
       favoriteCardIds.push(cardId);
@@ -50,9 +51,9 @@ function NonBusinessPage() {
 
 
   return (
-    <div className={`container ${theme === 'dark' ? 'btn-light' : 'btn-dark'}`} style={{ backgroundColor: theme === 'dark' ? '#fff' : '#343a40' }}>
+    <div className="container" style={{ backgroundColor: '#fff' }}>
       <div className="text-center">
-        <h1 className={`${titleTextColor}`}> Cards Page</h1>
+        <h1> Cards Page</h1>
       </div>
 
       <Row xs={1} md={2} lg={3} xl={4} className="row">
@@ -69,7 +70,6 @@ function NonBusinessPage() {
                 <div style={{ maxHeight: "150px", overflow: "hidden" }}></div>
                 <Card.Title className={`${textColor}`}>{card.title}</Card.Title>
                 <Card.Subtitle className={`${textColor}`}>{card.subtitle}</Card.Subtitle>
-                {/* <Card.Text>{card.description}</Card.Text> */}
                 <Card.Text>{card.phone}</Card.Text>
                 <Card.Text>{card.email}</Card.Text>
                 <Card.Img
@@ -83,7 +83,7 @@ function NonBusinessPage() {
                   size="sm"
                   onClick={(e) => {
                     e.stopPropagation();
-                    moveToFavorites(card._id); // Call moveToFavorites
+                    moveToFavorites(card._id, e);
                   }}
                 >
                   {card.isFavorite ? <i class="bi bi-star-fill"></i> : <i class="bi bi-star"></i>}
