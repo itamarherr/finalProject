@@ -27,7 +27,8 @@ function FavoriteCardsPage() {
     fetchFavoriteCards();
   }, []);
 
-  const removeCardFromFavorites = (cardId) => {
+  const removeCardFromFavorites = (cardId, e) => {
+    e.stopPropagation();
     const updatedFavoriteCards = favoriteCards.filter((card) => card._id !== cardId);
     setFavoriteCards(updatedFavoriteCards);
 
@@ -63,7 +64,11 @@ function FavoriteCardsPage() {
                     <Button
                       variant="outline-danger"
                       size="sm"
-                      onClick={() => removeCardFromFavorites(card._id)}>
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeCardFromFavorites(card._id, e)
+                      }}
+                    >
                       Remove from Favorites
                     </Button>
                   </Col>

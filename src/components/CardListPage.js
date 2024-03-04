@@ -17,6 +17,7 @@ function CardListPage() {
   }, []);
 
   const fetchCards = async () => {
+
     try {
       const response = await getCard();
       setCards(response);
@@ -39,6 +40,16 @@ function CardListPage() {
   const handleCardClick = (cardId) => {
     navigate(`/business/${cardId}`);
   };
+  const handleDeleteButtonClick = (cardId, e) => {
+    e.stopPropagation();
+    deleteCard(cardId).then(fetchCards);
+  };
+
+  const handleUpdateButtonClick = (cardId, e) => {
+    e.stopPropagation();
+    navigate(`/UpdateCard/${cardId}`);
+  };
+
 
 
 
@@ -82,7 +93,7 @@ function CardListPage() {
                     </Button>
                   </Col>
                   <Col>
-                    <Button variant="danger" size="sm" onClick={() => deleteCard(card._id).then(fetchCards)}>
+                    <Button variant="danger" size="sm" onClick={(e) => deleteCard(card._id, e).then(fetchCards)}>
                       <i class="bi bi-trash-fill"></i>
                     </Button>
                   </Col>
@@ -90,7 +101,7 @@ function CardListPage() {
                     <Button
                       variant="primary"
                       size="sm"
-                      onClick={() => navigate(`/UpdateCard/${card._id}`)}
+                      onClick={(e) => handleUpdateButtonClick(card._id, e)}
                     >
                       <i class="bi bi-pencil-fill"></i>
                     </Button>

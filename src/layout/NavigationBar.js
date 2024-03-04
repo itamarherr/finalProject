@@ -1,18 +1,20 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useRef } from "react";
 import { ThemeContext } from "../Context/ThemeContext";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar, Container, Nav, Form, FormControl, Button, Offcanvas } from "react-bootstrap";
-import { LoginContext } from "../Context/AuthProvider";
+
 
 function NavigationBar() {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
+  const userName = isLoggedIn ? localStorage.getItem("userName") : "N/A";
   const nav = useNavigate();
   const { theme, toggleTheme } = useContext(ThemeContext);
   const textColor = theme === "dark" ? "text-light" : "text-dark";
   const sideWindowBgColor = theme === "dark" ? "bg-dark" : "bg-light"; // Dynamically set background color based on theme
   const [showMenu, setShowMenu] = useState(false);
-  const { isLoggedIn } = useContext(LoginContext);
+
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
@@ -55,11 +57,11 @@ function NavigationBar() {
               <Link to="/nonBusinessPage" className={`nav-link ${textColor}`}>
                 Unbusiness Cards
               </Link>
-              <Link to="/MyCardsPage" className={`nav-link ${textColor}`}>
+              <Link to="/MyCardListPage" className={`nav-link ${textColor}`}>
                 My Cards
               </Link>
               <Link to="/AboutPage" className={`nav-link ${textColor}`}>
-                About Us
+                About
               </Link>
             </Nav>
             <Form className="d-flex">
@@ -182,6 +184,7 @@ function NavigationBar() {
                 {theme}
                 <i className={`bi bi-${theme === "dark" ? "moon-fill" : "brightness-high-fill"} ms-2`}></i>
               </label>
+              {/* Add more links here if needed */}
             </div>
           </Nav>
         </Offcanvas.Body>
