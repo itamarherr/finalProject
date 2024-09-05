@@ -5,6 +5,7 @@ import { createNewCard, updateCard, deleteCard } from "./service/apiCard";
 import { getCard } from "./service/apiCard";
 import { ThemeContext } from "../Context/ThemeContext";
 
+
 function CardListPage() {
   const [cards, setCards] = useState([]);
   const navigate = useNavigate();

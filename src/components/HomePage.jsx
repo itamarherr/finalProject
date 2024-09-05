@@ -5,7 +5,6 @@ import { Card, Row, Col } from "react-bootstrap";
 import { getCard } from "./service/apiCard";
 import { ThemeContext } from "../Context/ThemeContext";
 
-
 function HomePage() {
   const [cards, setCards] = useState([]);
   const { theme } = useContext(ThemeContext);

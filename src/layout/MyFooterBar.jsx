@@ -1,6 +1,7 @@
 import { ThemeContext } from "../Context/ThemeContext";
 import { useContext, useEffect, useState } from "react";
 import NavigationBar from "./NavigationBar";
+import React from 'react';
 
 
 function MyFooterBar() {

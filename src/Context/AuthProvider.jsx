@@ -35,7 +35,7 @@ export const LoginProvider = ({ children }) => {
 
   return (
     <LoginContext.Provider value={{ user, login, logOut, isLoggedIn, isBusiness }}>
-      <Fragment>{children}</Fragment>
+      <>{children}</>
     </LoginContext.Provider>
   );
 };

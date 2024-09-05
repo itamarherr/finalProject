@@ -1,13 +1,11 @@
-import { useRef, useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { updateUser } from "./service/apiUser";
 import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 
-function UpdateUser() {
-  const { id } = useParams();
+
+
+
+function RegisterForm() {
   const navigate = useNavigate();
-  const inputRef = useRef();
-  const [token, setToken] = useState("");
   const [user, setUser] = useState({
     first: "",
     middle: "",
@@ -25,34 +23,51 @@ function UpdateUser() {
     zip: "",
     isBusiness: true,
   });
-  const handleSave = (e) => {
-    const register = async () => {
-      try {
-        const response = await updateUser(user);
-      } catch (error) {
-        console.error("Error registering user", error);
-        return;
-      }
-    };
+  const [passwordError, setPasswordError] = useState("");
+
+
+  const handleSave = async (e) => {
     e.preventDefault();
-    register();
+    try {
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*\d.*\d.*\d)(?=.*[*&^%$#@!]).{8,}$/;
+
+      if (!passwordRegex.test(user.password)) {
+        throw new Error("Password must contain one uppercase, one lowercase, four numbers, and one special character (*-&^%$#@!)");
+      }
+
+      navigate("/CardListPage");
+    } catch (error) {
+
+      throw error;
+    }
   };
-  useEffect(() => {
-    localStorage.setItem("token", token);
-  }, []);
 
   const handleInputChange = (e) => {
+    const { name, value } = e.target;
     setUser({
       ...user,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*\d.*\d.*\d)(?=.*[*&^%$#@!]).{8,}$/;
+    if (name === "password" && !passwordRegex.test(value)) {
+      setPasswordError("Password must contain one uppercase, one lowercase, four numbers, and one special character (*-&^%$#@!), and be at least 8 characters long");
+    } else {
+      setPasswordError("");
+    }
+  };
+  const handleCheckboxChange = (e) => {
+    setUser((prevUser) => ({
+      ...prevUser,
+      isBusiness: e.target.checked,
+    }));
   };
 
   return (
     <>
       <div className="container min-vh-100 d-flex justify-content-center align-items-center">
-        <form className="center w-75">
-          <h1 className="text-center">update user</h1>
+        <form className="center w-75" onSubmit={handleSave}>
+          <h1 className="text-center">REGISTER</h1>
           <div className="row">
             <div className="col">
               <label className="form-label">first name:</label>
@@ -113,7 +128,7 @@ function UpdateUser() {
             <div className="col">
               <label className="form-label">Password:</label>
               <input
-                type="text"
+                type="password"
                 className="form-control"
                 value={user.password}
                 onChange={handleInputChange}
@@ -187,7 +202,7 @@ function UpdateUser() {
             <div className="col">
               <label className="form-label">houseNumber:</label>
               <input
-                type="text"
+                type="number"
                 className="form-control"
                 value={user.houseNumber}
                 onChange={handleInputChange}
@@ -197,7 +212,7 @@ function UpdateUser() {
             <div className="col">
               <label className="form-label">zip:</label>
               <input
-                type="text"
+                type="number"
                 className="form-control"
                 value={user.zip}
                 onChange={handleInputChange}
@@ -206,19 +221,52 @@ function UpdateUser() {
             </div>
           </div>
 
-          <button
-            type="button"
-            className="btn btn-danger m-2"
-            onClick={() => navigate("/CardListPage")}
+          <br />
+          <div className="row">
+            <div className="col">
+              <div className="mb-5 form-check form-switch">
+                <input
+                  type="checkbox"
+                  id="onOff2"
+                  className="form-check-input"
+                  checked={user.isBusiness}
+                  onChange={handleCheckboxChange}
+                  name="isBusiness"
+                />
+                <label htmlFor="onOff2" className="form-check-label">
+                  Singnup as business
+                </label>
+              </div>
+            </div>
+          </div>
+          <div
+            className="btn-group w-100"
+            role="group"
+            aria-label="Basic example"
           >
-            CANCEL
-          </button>
-          <button className="btn btn-primary w-100 mt-2" onClick={handleSave}>
-            Save
+            <button
+              type="button"
+              className="btn btn-danger m-2"
+              onClick={() => navigate("/RegisterForm")}
+            >
+              CANCEL
+            </button>
+            <button
+              type="button"
+              className="btn btn-info m-2"
+              onClick={() => navigate("/RegisterForm")}
+            >
+              <i className="bi bi-arrow-clockwise"></i>
+            </button>
+          </div>
+          {passwordError && <div className="alert alert-danger">{passwordError}</div>}
+
+          <button className="btn btn-primary w-100 mt-2" type="submit">
+            SUBMIT
           </button>
         </form>
       </div>
     </>
   );
 }
-export default UpdateUser;
+export default RegisterForm;

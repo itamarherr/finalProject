@@ -3,6 +3,7 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import NavigationBar from "../layout/NavigationBar";
 import { createNewCard } from "./service/apiCard";
 import { Card } from "react-bootstrap";
+import React from 'react';
 
 function AddCard() {
   const navigate = useNavigate();
