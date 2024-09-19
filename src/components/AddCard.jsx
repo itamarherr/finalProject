@@ -60,13 +60,13 @@ function AddCard() {
       setEmailError("");
     }
 
-    if (name === "phone" && !webAddressRegex.test(value)) {
+    if (name === "phone" && !israeliPhoneRegex.test(value)) {
       setPhoneError("Please enter a valid isreali phone number")
     } else {
       setPhoneError("");
     }
-
-    if (name === "web" && !israeliPhoneRegex.test(value)) {
+    israeliPhoneRegex
+    if (name === "web" && !webAddressRegex.test(value)) {
       setWebError("Please enter a valid web address")
     } else {
       setWebError("");

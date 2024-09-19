@@ -7,17 +7,25 @@ const api = axios.create({
 
 export const loginUser = async (email, password) => {
   try {
-    const response = await api.post(`users/login/`, {
+    console.log('Attempting login with:', email);
+    const response = await api.post(`users/login`, {
       email: email,
       password: password,
     });
+    console.log('Login response:', response.data);
     return response.data;
   } catch (error) {
+    if (error.response) {
+      console.error('Error Response:', error.response.data); 
+    } else {
+      console.error('Error:', error.message); 
+    }
     throw error;
   }
 };
 
 export const registerUser = async (user) => {
+  console.log('RegisterUser called with:', user); 
   const postUser = {
     name: {
       first: user.first,
@@ -43,9 +51,11 @@ export const registerUser = async (user) => {
   };
   try {
     const response = await api.post("users/", postUser);
-
+    console.log('Register response:', response);
     return response;
   } catch (error) {
+    console.error('Register API call failed:', error.response ? error.response.data : error.message);
+    throw error;
   }
 };
 

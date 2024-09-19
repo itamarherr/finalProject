@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
+import { registerUser } from "./service/apiUser";
 
 
 
@@ -24,6 +25,7 @@ function RegisterForm() {
     isBusiness: true,
   });
   const [passwordError, setPasswordError] = useState("");
+  const [registrationError, setRegistrationError] = useState("");
 
 
   const handleSave = async (e) => {
@@ -35,11 +37,24 @@ function RegisterForm() {
         throw new Error("Password must contain one uppercase, one lowercase, four numbers, and one special character (*-&^%$#@!)");
       }
 
-      navigate("/CardListPage");
-    } catch (error) {
-
-      throw error;
+  
+    const response = await registerUser(user); 
+    console.log('Registration response:', response);
+    if (response && (response.status === 200 || response.status === 201) ) {
+      
+      console.log('Registration successful');
+      navigate("/CardListPage"); 
+    } else {
+      
+      console.error('Registration failed:', response);
+      setRegistrationError("Registration failed. Please try again.");
+    
     }
+  } catch (error) {
+    console.error("Registration failed:", error.response ? error.response.data : error.message);
+    setRegistrationError(error.message || "Registration failed. Please try again.");
+    
+  }
   };
 
   const handleInputChange = (e) => {
