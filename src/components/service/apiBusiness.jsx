@@ -1,3 +1,9 @@
+
+
+const getAuthHeader = () => {
+    const token = localStorage.getItem('token');
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  };
 export const getBusinessDetails = async (id) => {
     try {
         const response = await fetch(`https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards/${id}`);

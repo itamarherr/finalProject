@@ -45,7 +45,15 @@ function MyCardsPage() {
         navigate(`/business/${cardId}`);
     };
 
-
+    const handleDeleteButtonClick = (cardId, e) => {
+        e.stopPropagation();
+        deleteCard(cardId).then(fetchCards);
+      };
+    
+      const handleUpdateButtonClick = (cardId, e) => {
+        e.stopPropagation();
+        navigate(`/UpdateCard/${cardId}`);
+      };
     return (
         <div className="container" style={{ backgroundColor: '#fff' }}>
             <div className="text-center">
@@ -81,19 +89,19 @@ function MyCardsPage() {
                                         </Button>
                                     </Col>
                                     <Col>
-                                        <Button variant="danger" size="sm" onClick={() => handleDeleteCard(card._id)}>
-                                            <i className="bi bi-trash-fill"></i>
-                                        </Button>
-                                    </Col>
-                                    <Col>
-                                        <Button
-                                            variant="primary"
-                                            size="sm"
-                                            onClick={() => navigate(`/UpdateCard/${card._id}`)}
-                                        >
-                                            <i className="bi bi-pencil-fill"></i>
-                                        </Button>
-                                    </Col>
+                    <Button variant="danger" size="sm" onClick={(e) => deleteCard(card._id, e).then(fetchCards)}>
+                      <i class="bi bi-trash-fill"></i>
+                    </Button>
+                  </Col>
+                  <Col>
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      onClick={(e) => handleUpdateButtonClick(card._id, e)}
+                    >
+                      <i class="bi bi-pencil-fill"></i>
+                    </Button>
+                  </Col>
                                 </Row>
                             </Card.Body>
                         </Card>

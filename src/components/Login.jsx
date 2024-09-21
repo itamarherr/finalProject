@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../Context/AuthProvider";
-import { Alert } from "react-bootstrap";
-
+// import { Alert } from "react-bootstrap";
+import { loginUser } from "../components/service/apiUser";
 
 
 function Login() {
@@ -17,17 +17,14 @@ function Login() {
     try {
       await login(email, password);
       navigate("/CardListPage");
-    } catch (error) {
-      if (error.response) {
-      } else if (error.request) {
-      } else {
-        console.error("Error setting up request:", error.message);
-      }
-
-
-      setError("Login failed. Please check your credentials.");
+    }catch (error) {
+      console.error("Login error:", error);
+      setError(error.message);
     }
   };
+
+
+
   const handleClearFields = () => {
     setEmail("");
     setPassword("");
@@ -94,7 +91,7 @@ function Login() {
             SUBMIT
           </button>
         </form>
-        {error && <Alert variant="danger">{error}</Alert>}
+        {/* {error && <Alert variant="danger">{error}</Alert>} */}
       </div>
     </div>
   );

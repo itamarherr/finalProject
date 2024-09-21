@@ -7,7 +7,7 @@ import axios from "axios";
 export const getCardById = async (id) => {
   try {
     const response = await axios.get(`https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards/${id}`);
-    console.log("itamar:", response.data);
+    console.log("itamar:", response.data, id);
     return response.data;
   } catch (error) {
     throw error;
@@ -73,10 +73,25 @@ function UpdateCard() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setCard({
-      ...card,
-      [name]: value,
-    });
+  
+    setCard((prevCard) => {
+      let updatedCard = { ...prevCard };
+
+      if (name.includes('.')) {
+        const [outerKey, innerKey] = name.split('.');
+        updatedCard[outerKey] = {
+          ...updatedCard[outerKey],
+          [innerKey]: value
+        };
+      } else {
+        updatedCard[name] = value;
+      }
+      
+  
+    
+
+
+
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     const israeliPhoneRegex = /^(?:0(?:5[^7]|[2-4689]|7[0-9])[ -]?(?:(?:(?:[2-9]|[2-9][0-9])[ -]?\d{3}[ -]?\d{4})|(?:7(?:(?:[0-9]{2}[ -]?\d{3}[ -]?\d{2})|(?:[0-9][ -]?\d{3}[ -]?\d{3}))))|(?:(?:\+972|972)[ -]?(?:(?:(?:[2-9]|[2-9][0-9])[ -]?\d{3}[ -]?\d{4})|(?:7(?:(?:[0-9]{2}[ -]?\d{3}[ -]?\d{2})|(?:[0-9][ -]?\d{3}[ -]?\d{3}))))))$/;
@@ -84,10 +99,6 @@ function UpdateCard() {
     const webAddressRegex = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]+\.){1,}[a-zA-Z]{2,}(\/\S*)?$/;
 
     const imageUrlRegex = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i;
-
-
-
-
 
 
     if (name === "email" && !emailRegex.test(value)) {
@@ -112,10 +123,6 @@ function UpdateCard() {
       setWebError("");
     }
 
-
-
-
-
     if (!value.trim()) {
       setErrors(prevErrors => ({
         ...prevErrors,
@@ -127,8 +134,9 @@ function UpdateCard() {
         [name]: null,
       }));
     }
-  };
-
+    return updatedCard;
+  });
+};
 
   return (
     <>
@@ -206,90 +214,90 @@ function UpdateCard() {
           </div>
         </div>
         <div className="row">
-          <div className="col">
-            <label className="form-label">url:</label>
-            <input
-              type="text"
-              className="form-control"
-              value={card.address.url}
-              onChange={handleInputChange}
-              name="url"
-            />
-            {imageUrlError && <div style={{ color: 'red' }}>{imageUrlError}</div>}
-          </div>
-          <div className="col">
-            <label className="form-label">alt:</label>
-            <input
-              type="text"
-              className="form-control"
-              value={card.address.alt}
-              onChange={handleInputChange}
-              name="alt"
-            />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col">
-            <label className="form-label">state:</label>
-            <input
-              type="text"
-              className="form-control"
-              value={card.address.state}
-              onChange={handleInputChange}
-              name="state"
-            />
-          </div>
-          <div className="col">
-            <label className="form-label">country:</label>
-            <input
-              type="text"
-              className="form-control"
-              value={card.address.country}
-              onChange={handleInputChange}
-              name="country"
-            />
-          </div>
-          <div className="col">
-            <label className="form-label">city:</label>
-            <input
-              type="text"
-              className="form-control"
-              value={card.address.city}
-              onChange={handleInputChange}
-              name="city"
-            />
-          </div>
-          <div className="col">
-            <label className="form-label">street:</label>
-            <input
-              type="text"
-              className="form-control"
-              value={card.address.street}
-              onChange={handleInputChange}
-              name="street"
-            />
-          </div>
-          <div className="col">
-            <label className="form-label">houseNumber:</label>
-            <input
-              type="number"
-              className="form-control"
-              value={card.houseNumber}
-              onChange={handleInputChange}
-              name="houseNumber"
-            />
-          </div>
-          <div className="col">
-            <label className="form-label">zip:</label>
-            <input
-              type="number"
-              className="form-control"
-              value={card.zip}
-              onChange={handleInputChange}
-              name="zip"
-            />
-          </div>
-        </div>
+  <div className="col">
+    <label className="form-label">url:</label>
+    <input
+      type="text"
+      className="form-control"
+      value={card.image.url}
+      onChange={handleInputChange}
+      name="image.url"
+    />
+    {imageUrlError && <div style={{ color: 'red' }}>{imageUrlError}</div>}
+  </div>
+  <div className="col">
+    <label className="form-label">alt:</label>
+    <input
+      type="text"
+      className="form-control"
+      value={card.image.alt}
+      onChange={handleInputChange}
+      name="image.alt"
+    />
+  </div>
+</div>
+<div className="row">
+  <div className="col">
+    <label className="form-label">state:</label>
+    <input
+      type="text"
+      className="form-control"
+      value={card.address.state}
+      onChange={handleInputChange}
+      name="address.state"
+    />
+  </div>
+  <div className="col">
+    <label className="form-label">country:</label>
+    <input
+      type="text"
+      className="form-control"
+      value={card.address.country}
+      onChange={handleInputChange}
+      name="address.country"
+    />
+  </div>
+  <div className="col">
+    <label className="form-label">city:</label>
+    <input
+      type="text"
+      className="form-control"
+      value={card.address.city}
+      onChange={handleInputChange}
+      name="address.city"
+    />
+  </div>
+  <div className="col">
+    <label className="form-label">street:</label>
+    <input
+      type="text"
+      className="form-control"
+      value={card.address.street}
+      onChange={handleInputChange}
+      name="address.street"
+    />
+  </div>
+  <div className="col">
+    <label className="form-label">houseNumber:</label>
+    <input
+      type="number"
+      className="form-control"
+      value={card.address.houseNumber}
+      onChange={handleInputChange}
+      name="address.houseNumber"
+    />
+  </div>
+  <div className="col">
+    <label className="form-label">zip:</label>
+    <input
+      type="number"
+      className="form-control"
+      value={card.address.zip}
+      onChange={handleInputChange}
+      name="address.zip"
+    />
+  </div>
+</div>
       </Card>
       <div>
         {Object.keys(errors).map((key, index) => (

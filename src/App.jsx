@@ -6,9 +6,11 @@ import NavigationBar from './layout/NavigationBar';
 import { ThemeProvider, ThemeContext } from './Context/ThemeContext';
 import { BrowserRouter as Router } from 'react-router-dom';
 import React from 'react';
+import LoginProvider from './Context/AuthProvider';
 
 function App() {
   return (
+ 
     <ThemeProvider>
       <Router>
         <NavigationBar />
@@ -16,6 +18,7 @@ function App() {
         <MyFooterBar />
       </Router>
     </ThemeProvider>
+
   );
 }
 

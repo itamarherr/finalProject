@@ -58,7 +58,7 @@ function NavigationBar() {
               <Link to="/nonBusinessPage" className={`nav-link ${textColor}`}>
                 Unbusiness Cards
               </Link>
-              <Link to="/MyCardListPage" className={`nav-link ${textColor}`}>
+              <Link to="/MyCardsPage" className={`nav-link ${textColor}`}>
                 My Cards
               </Link>
               <Link to="/AboutPage" className={`nav-link ${textColor}`}>

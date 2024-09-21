@@ -93,7 +93,7 @@ function CardListPage() {
                       {card.isFavorite ? <i class="bi bi-star-fill"></i> : <i class="bi bi-star"></i>}
                     </Button>
                   </Col>
-                  <Col>
+                  {/* <Col>
                     <Button variant="danger" size="sm" onClick={(e) => deleteCard(card._id, e).then(fetchCards)}>
                       <i class="bi bi-trash-fill"></i>
                     </Button>
@@ -106,7 +106,7 @@ function CardListPage() {
                     >
                       <i class="bi bi-pencil-fill"></i>
                     </Button>
-                  </Col>
+                  </Col> */}
                 </Row>
               </Card.Body>
             </Card>

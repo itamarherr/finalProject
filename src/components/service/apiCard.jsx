@@ -5,7 +5,10 @@ const api = axios.create({
   baseURL: BaseAPI
 });
 
-
+const getAuthHeader = () => {
+  const token = localStorage.getItem('token');
+  return token ? { Authorization: `Bearer ${token}` } : {};
+};
 export const getCard = async () => {
 
   try {
@@ -38,11 +41,13 @@ export const getAllMyCards = async () => {
 
 
 export const updateCard = async (token, card, id) => {
-  console.log(card, id);
+  console.log("Card Data:", card); // Log the entire card object
+  console.log("Address Data:", card.address); // Log the address part of the card
   try {
 
     const response = await axios.put(
       `https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards/${id}`,
+     
       {
         title: card.title,
         subtitle: card.subtitle,
@@ -51,16 +56,16 @@ export const updateCard = async (token, card, id) => {
         email: card.email,
         web: card.web,
         image: {
-          url: card.url,
-          alt: card.alt,
+          url: card.image.url,
+          alt: card.image.alt,
         },
         address: {
-          state: card.state,
-          country: card.country,
-          city: card.city,
-          street: card.street,
-          houseNumber: +card.houseNumber,
-          zip: +card.zip,
+          state: card.address.state,
+          country: card.address.country,
+          city: card.address.city,
+          street: card.address.street,
+          houseNumber: +card.address.houseNumber,
+          zip: +card.address.zip,
         },
       },
       {
@@ -94,8 +99,8 @@ export const deleteCard = async (cardId) => {
 
 export const createNewCard = async (token, card) => {
   try {
-    const response = await api.post(
-      `https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards`,
+    console.log("Token:", token);
+    const response = await api.post(`https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards/`,
       {
         title: card.title,
         subtitle: card.subtitle,

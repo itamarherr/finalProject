@@ -34,8 +34,12 @@ function AddCard() {
   const [webError, setWebError] = useState("");
   const [imageUrlError, setImageUrlError] = useState("");
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    setToken(token);
+    const savedToken = localStorage.getItem("token");
+    if (savedToken) {
+      setToken(savedToken);
+    } else {
+      console.log("No token found in localStorage");
+    }
   }, []);
 
   const handleInputEnter = (e) => {
@@ -93,6 +97,9 @@ function AddCard() {
 
   const handleSave = async (e) => {
     e.preventDefault();
+    console.log("handleSave called");  // Log this
+    console.log("Card Data:", card);   // Log card data
+    console.log("Token:", token);      // Log token
     try {
       const response = await createNewCard(token, card);
       navigate("/CardListPage");

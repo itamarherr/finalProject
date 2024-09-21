@@ -5,56 +5,35 @@ const api = axios.create({
   baseURL: BaseAPI,
 });
 
+const getAuthHeader = () => {
+  const token = localStorage.getItem('token');
+  return token ? { Authorization: `Bearer ${token}` } : {};
+};
+
 export const loginUser = async (email, password) => {
   try {
-    console.log('Attempting login with:', email);
-    const response = await api.post(`users/login`, {
-      email: email,
-      password: password,
-    });
-    console.log('Login response:', response.data);
-    return response.data;
-  } catch (error) {
-    if (error.response) {
-      console.error('Error Response:', error.response.data); 
+    const response = await api.post(`users/login`, {email, password});
+    console.log('API Response:', response.data);
+    if (response.data && typeof response.data === 'string') {
+      // If the response is the token itself
+      return { token: response.data };
+    } else if (response.data && response.data.token) {
+      // If the response is an object containing the token
+      return response.data;
     } else {
-      console.error('Error:', error.message); 
+      throw new Error("No token received from server");
     }
+  } catch (error) {
+    console.error('Login API error:', error);
     throw error;
   }
 };
-
-export const registerUser = async (user) => {
-  console.log('RegisterUser called with:', user); 
-  const postUser = {
-    name: {
-      first: user.first,
-      middle: user.middle,
-      last: user.last,
-    },
-    email: user.email,
-    phone: user.phone,
-    password: user.password,
-    image: {
-      url: user.url,
-      alt: user.alt,
-    },
-    address: {
-      state: user.state,
-      country: user.country,
-      city: user.city,
-      street: user.street,
-      houseNumber: user.houseNumber,
-      zip: user.zip,
-    },
-    isBusiness: user.isBusiness,
-  };
+export const registerUser = async (userData) => {
   try {
-    const response = await api.post("users/", postUser);
-    console.log('Register response:', response);
-    return response;
+    const response = await api.post('users/register', userData);
+    return response.data;
   } catch (error) {
-    console.error('Register API call failed:', error.response ? error.response.data : error.message);
+    console.error('Register API error:', error);
     throw error;
   }
 };
