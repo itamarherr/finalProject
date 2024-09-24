@@ -49,7 +49,9 @@ function NavigationBar() {
               <Link to="/" className={`nav-link ${textColor}`}>
                 Home
               </Link>
-              <Link to="/CardListPage" className={`nav-link ${textColor}`}>
+              {isLoggedIn && (
+                <>
+                <Link to="/CardListPage" className={`nav-link ${textColor}`}>
                 Cards
               </Link>
               <Link to="/Favorite" className={`nav-link ${textColor}`}>
@@ -61,6 +63,9 @@ function NavigationBar() {
               <Link to="/MyCardsPage" className={`nav-link ${textColor}`}>
                 My Cards
               </Link>
+                </>
+              )}
+              
               <Link to="/AboutPage" className={`nav-link ${textColor}`}>
                 About
               </Link>
@@ -128,7 +133,9 @@ function NavigationBar() {
             <Link to="/" className={`nav-link ${textColor}`} onClick={() => setShowMenu(false)}>
               Home
             </Link>
-            <Link to="/CardListPage" className={`nav-link ${textColor}`} onClick={() => setShowMenu(false)}>
+            {isLoggedIn && (
+              <>
+                <Link to="/CardListPage" className={`nav-link ${textColor}`} onClick={() => setShowMenu(false)}>
               Cards
             </Link>
             <Link to="/Favorite" className={`nav-link ${textColor}`} onClick={() => setShowMenu(false)}>
@@ -140,6 +147,9 @@ function NavigationBar() {
             <Link to="/MyCardListPage" className={`nav-link ${textColor}`} onClick={() => setShowMenu(false)}>
               My Cards
             </Link>
+              </>
+            )}
+          
             <Form className="d-flex">
               <FormControl
                 type="text"

@@ -21,5 +21,12 @@ function App() {
 
   );
 }
+function Footer() {
+  const location = useLocation();
+  if (location.pathname === '/login') {
+    return null;
+  }
+  return <MyFooterBar />;
+}
 
 export default App;

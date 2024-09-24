@@ -80,10 +80,16 @@ function CardListPage() {
                 <Card.Text>{card.phone}</Card.Text>
                 <Card.Text>{card.email}</Card.Text>
                 <Card.Img
-                  variant="top"
-                  src={card.image.url}
-                  style={{ maxWidth: "100%", marginBottom: "10px", marginLeft: "10px" }}
-                />
+                 variant="top"
+                 src={card.image.url}
+                 style={{ 
+                 width: "100%", 
+                 height: "150px", 
+                 objectFit: "cover", // ensures the image covers the area without distortion
+                 marginBottom: "10px", 
+                 marginLeft: "10px" 
+                 }}
+                 />
                 <Row>
                   <Col>
                     <Button

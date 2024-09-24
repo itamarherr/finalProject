@@ -32,6 +32,7 @@ function Login() {
 
 
   return (
+    
     <div className="container">
       <div className="row justify-content-center">
         <div className="col-md-6"></div>
@@ -92,6 +93,11 @@ function Login() {
           </button>
         </form>
         {/* {error && <Alert variant="danger">{error}</Alert>} */}
+        <div style={{ height: '50vh', marginTop: '2rem' }}>
+          <p className="text-center text-muted">
+            Welcome to our application. Please log in to access your account.
+          </p>
+        </div>
       </div>
     </div>
   );

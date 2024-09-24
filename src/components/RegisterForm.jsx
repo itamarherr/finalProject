@@ -24,52 +24,48 @@ function RegisterForm() {
     zip: "",
     isBusiness: true,
   });
+  const [errors, setErrors] = useState({});
   const [passwordError, setPasswordError] = useState("");
   const [registrationError, setRegistrationError] = useState("");
 
 
+  const validateInput = () => {
+    const newErrors = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]{10,15}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*\d.*\d.*\d)(?=.*[*&^%$#@!]).{8,}$/;
+
+    if (!user.first) newErrors.first = "First name is required.";
+    if (!user.last) newErrors.last = "Last name is required.";
+    if (!emailRegex.test(user.email)) newErrors.email = "Invalid email address.";
+    if (!phoneRegex.test(user.phone)) newErrors.phone = "Phone must be 10-15 digits.";
+    if (!passwordRegex.test(user.password))
+      newErrors.password = "Password must contain one uppercase, one lowercase, four numbers, and one special character (*-&^%$#@!).";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
   const handleSave = async (e) => {
     e.preventDefault();
+    if (!validateInput()) return; 
+
     try {
-      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*\d.*\d.*\d)(?=.*[*&^%$#@!]).{8,}$/;
-
-      if (!passwordRegex.test(user.password)) {
-        throw new Error("Password must contain one uppercase, one lowercase, four numbers, and one special character (*-&^%$#@!)");
+      const response = await registerUser(user);
+      if (response && (response.status === 200 || response.status === 201)) {
+        navigate("/CardListPage");
+      } else {
+        setRegistrationError("Registration failed. Please try again.");
       }
-
-  
-    const response = await registerUser(user); 
-    console.log('Registration response:', response);
-    if (response && (response.status === 200 || response.status === 201) ) {
-      
-      console.log('Registration successful');
-      navigate("/CardListPage"); 
-    } else {
-      
-      console.error('Registration failed:', response);
-      setRegistrationError("Registration failed. Please try again.");
-    
+    } catch (error) {
+      setRegistrationError(
+        error.response ? error.response.data : "Registration failed. Please try again."
+      );
     }
-  } catch (error) {
-    console.error("Registration failed:", error.response ? error.response.data : error.message);
-    setRegistrationError(error.message || "Registration failed. Please try again.");
-    
-  }
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setUser({
-      ...user,
-      [name]: value,
-    });
-
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*\d.*\d.*\d)(?=.*[*&^%$#@!]).{8,}$/;
-    if (name === "password" && !passwordRegex.test(value)) {
-      setPasswordError("Password must contain one uppercase, one lowercase, four numbers, and one special character (*-&^%$#@!), and be at least 8 characters long");
-    } else {
-      setPasswordError("");
-    }
+    setUser({ ...user, [name]: value });
   };
   const handleCheckboxChange = (e) => {
     setUser((prevUser) => ({
@@ -83,72 +79,95 @@ function RegisterForm() {
       <div className="container min-vh-100 d-flex justify-content-center align-items-center">
         <form className="center w-75" onSubmit={handleSave}>
           <h1 className="text-center">REGISTER</h1>
+         
+          {registrationError && (
+            <div className="alert alert-danger">{registrationError}</div>
+          )}
+         
           <div className="row">
             <div className="col">
-              <label className="form-label">first name:</label>
+              <label className="form-label">First Name: *</label>
               <input
                 type="text"
-                className="form-control"
+                className={`form-control ${errors.first ? "is-invalid" : ""}`}
                 value={user.first}
                 onChange={handleInputChange}
                 name="first"
+               
               />
+               {errors.first && <div className="invalid-feedback">{errors.first}</div>}
             </div>
             <div className="col">
-              <label className="form-label">middle name:</label>
+              <label className="form-label">Middle Name:</label>
               <input
                 type="text"
                 className="form-control"
                 value={user.middle}
                 onChange={handleInputChange}
                 name="middle"
+               
               />
             </div>
             <div className="col">
-              <label className="form-label">last name:</label>
+              <label className="form-label">Last Name: *</label>
               <input
                 type="text"
-                className="form-control"
+                className={`form-control ${errors.last ? "is-invalid" : ""}`}
                 value={user.last}
                 onChange={handleInputChange}
                 name="last"
+             
               />
+                {errors.last && <div className="invalid-feedback">{errors.last}</div>}
             </div>
           </div>
           <div className="row">
             <div className="col">
-              <label className="form-label">phone:</label>
+              <label className="form-label">phone: *</label>
               <input
                 type="text"
-                className="form-control"
+                className={`form-control ${errors.phone ? "is-invalid" : ""}`}
                 value={user.phone}
                 onChange={handleInputChange}
                 name="phone"
+                
               />
+               {errors.phone && <div className="invalid-feedback">{errors.phone}</div>}
+               <small className="form-text text-muted">Enter 10-15 digits.</small>
             </div>
           </div>
           <div className="row">
             <div className="col">
-              <label className="form-label">Email:</label>
+              <label className="form-label">Email: *</label>
               <input
                 type="text"
-                className="form-control"
+                className={`form-control ${errors.email ? "is-invalid" : ""}`}
                 value={user.email}
                 onChange={handleInputChange}
                 name="email"
+                autoComplete="off" 
+               
               />
+               {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+               <small className="form-text text-muted">A valid email is required.</small>
             </div>
           </div>
           <div className="row">
             <div className="col">
-              <label className="form-label">Password:</label>
+              <label className="form-label">Password: *</label>
               <input
                 type="password"
-                className="form-control"
+                className={`form-control ${errors.password ? "is-invalid" : ""}`}
                 value={user.password}
                 onChange={handleInputChange}
                 name="password"
+                autoComplete="new-password" 
+                
               />
+                {errors.password && <div className="invalid-feedback">{errors.password}</div>}
+                <small className="form-text text-muted">
+                Must be at least 8 characters, with uppercase, lowercase, four numbers, and a special character (*-&^%$#@!).
+              </small>
             </div>
           </div>
           <div className="row">
@@ -160,6 +179,7 @@ function RegisterForm() {
                 value={user.url}
                 onChange={handleInputChange}
                 name="url"
+                 placeholder="Enter an image URL (optional)"
               />
             </div>
             <div className="col">
@@ -170,6 +190,7 @@ function RegisterForm() {
                 value={user.alt}
                 onChange={handleInputChange}
                 name="alt"
+                placeholder="Enter ALT text for the image (optional)"
               />
             </div>
           </div>
@@ -182,16 +203,18 @@ function RegisterForm() {
                 value={user.state}
                 onChange={handleInputChange}
                 name="state"
+               
               />
             </div>
             <div className="col">
-              <label className="form-label">country:</label>
+              <label className="form-label">country: *</label>
               <input
                 type="text"
                 className="form-control"
                 value={user.country}
                 onChange={handleInputChange}
                 name="country"
+               
               />
             </div>
             <div className="col">
@@ -202,6 +225,7 @@ function RegisterForm() {
                 value={user.city}
                 onChange={handleInputChange}
                 name="city"
+              
               />
             </div>
             <div className="col">
@@ -212,6 +236,7 @@ function RegisterForm() {
                 value={user.street}
                 onChange={handleInputChange}
                 name="street"
+             
               />
             </div>
             <div className="col">
@@ -222,6 +247,7 @@ function RegisterForm() {
                 value={user.houseNumber}
                 onChange={handleInputChange}
                 name="houseNumber"
+              
               />
             </div>
             <div className="col">
@@ -232,6 +258,7 @@ function RegisterForm() {
                 value={user.zip}
                 onChange={handleInputChange}
                 name="zip"
+                
               />
             </div>
           </div>
@@ -251,6 +278,7 @@ function RegisterForm() {
                 <label htmlFor="onOff2" className="form-check-label">
                   Singnup as business
                 </label>
+                <small className="form-text text-muted">Check this if you're registering as a business.</small>
               </div>
             </div>
           </div>
@@ -274,9 +302,12 @@ function RegisterForm() {
               <i className="bi bi-arrow-clockwise"></i>
             </button>
           </div>
-          {passwordError && <div className="alert alert-danger">{passwordError}</div>}
 
-          <button className="btn btn-primary w-100 mt-2" type="submit">
+          <button 
+          className="btn btn-primary w-100 mt-2" 
+          type="submit"
+          disabled={Object.keys(errors).length > 0}
+          >
             SUBMIT
           </button>
         </form>

@@ -1,26 +1,13 @@
 import { ThemeContext } from "../Context/ThemeContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import NavigationBar from "./NavigationBar";
 import React from 'react';
 
-
 function MyFooterBar() {
   const { theme } = useContext(ThemeContext);
-  const [isVisible, setIsVisible] = useState(false);
-
-
-  useEffect(() => {
-    function handleScroll() {
-      const scrolledToBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight;
-      setIsVisible(scrolledToBottom);
-    }
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   return (
-    <footer className={`footer ${isVisible ? 'visible' : ''}`}>
+    <footer className="footer">
       <div className="container text-center py-2">
         <br />
       </div>
