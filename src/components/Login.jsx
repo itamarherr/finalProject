@@ -12,14 +12,28 @@ function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
+  const validateEmailFormat = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
+    if (!email || !password) {
+      setError("Email and Password are required");
+      return;
+    }
+    if (!validateEmailFormat(email)) {
+      setError("Invalid email format");
+      return;
+    }
     try {
       await login(email, password);
       navigate("/CardListPage");
     }catch (error) {
       console.error("Login error:", error);
-      setError(error.message);
+      setError("Invalid email or password"); 
     }
   };
 
@@ -28,6 +42,7 @@ function Login() {
   const handleClearFields = () => {
     setEmail("");
     setPassword("");
+    setError(null);
   };
 
 
@@ -37,7 +52,8 @@ function Login() {
       <div className="row justify-content-center">
         <div className="col-md-6"></div>
         <h2 className="text-center mb-5 mt-3">LOGIN</h2>
-        <form className="center w-50" onSubmit={handleSubmit}>
+        <form className="center w-50" onSubmit={handleSubmit} noValidate>
+        
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
               Email address
@@ -47,8 +63,12 @@ function Login() {
               className="form-control"
               id="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setError(null);
+              }}
               placeholder="Enter your email"
+              autoComplete="off" 
             />
           </div>
           <div className="mb-3">
@@ -60,10 +80,15 @@ function Login() {
               className="form-control"
               id="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setError(null);
+              }}
               placeholder="Enter your password"
+              autoComplete="new-password" 
             />
           </div>
+          {error && <div className="alert alert-danger">{error}</div>}
           <div
             className="btn-group w-100"
             role="group"

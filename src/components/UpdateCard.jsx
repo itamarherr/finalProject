@@ -35,7 +35,7 @@ function UpdateCard() {
       country: "",
       city: "",
       street: "",
-      houseNumber: 5,
+      houseNumber: 0,
       zip: 0,
       url: "",
       alt: "",
@@ -53,7 +53,7 @@ function UpdateCard() {
     e.preventDefault();
     try {
       const response = await updateCard(token, card, id);
-      navigate("/CardListPage");
+      navigate("/MyCardsPage");
     } catch (error) {
       throw error;
     }
@@ -98,7 +98,7 @@ function UpdateCard() {
 
     const webAddressRegex = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]+\.){1,}[a-zA-Z]{2,}(\/\S*)?$/;
 
-    const imageUrlRegex = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i;
+    const imageUrlRegex =  /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;;
 
 
     if (name === "email" && !emailRegex.test(value)) {
@@ -140,10 +140,14 @@ function UpdateCard() {
 
   return (
     <>
-      <Card className="card flex justify-content-center">
-        <div className="row">
-          <div className="col">
-            <label className="form-label">title:</label>
+      <div className="container mt-4">
+        <div className="row justify-content-center">
+          <div className="col-md-8">
+            <div className="card p-4">
+              <h3 className="text-center mb-4">Update Card</h3>
+              <div className="row">
+                <div className="col-md-6 mb-3">
+            <label className="form-label">Title: *</label>
             <input
               type="text"
               className="form-control"
@@ -153,7 +157,7 @@ function UpdateCard() {
             />
           </div>
           <div className="col">
-            <label className="form-label">subtitle:</label>
+            <label className="form-label">Subtitle: *</label>
             <input
               type="text"
               className="form-control"
@@ -164,7 +168,7 @@ function UpdateCard() {
             />
           </div>
           <div className="col">
-            <label className="form-label">description:</label>
+            <label className="form-label">Description: *</label>
             <input
               type="text"
               className="form-control"
@@ -176,7 +180,7 @@ function UpdateCard() {
         </div>
         <div className="row">
           <div className="col">
-            <label className="form-label">phone:</label>
+            <label className="form-label">Phone: *</label>
             <input
               type="text"
               className="form-control"
@@ -189,7 +193,7 @@ function UpdateCard() {
         </div>
         <div className="row">
           <div className="col">
-            <label className="form-label">Email:</label>
+            <label className="form-label">Email: *</label>
             <input
               type="text"
               className="form-control"
@@ -202,7 +206,7 @@ function UpdateCard() {
         </div>
         <div className="row">
           <div className="col">
-            <label className="form-label">web:</label>
+            <label className="form-label">Web: *</label>
             <input
               type="text"
               className="form-control"
@@ -215,7 +219,7 @@ function UpdateCard() {
         </div>
         <div className="row">
   <div className="col">
-    <label className="form-label">url:</label>
+    <label className="form-label">Image URL: *</label>
     <input
       type="text"
       className="form-control"
@@ -226,7 +230,7 @@ function UpdateCard() {
     {imageUrlError && <div style={{ color: 'red' }}>{imageUrlError}</div>}
   </div>
   <div className="col">
-    <label className="form-label">alt:</label>
+    <label className="form-label">Image Alt:</label>
     <input
       type="text"
       className="form-control"
@@ -238,7 +242,7 @@ function UpdateCard() {
 </div>
 <div className="row">
   <div className="col">
-    <label className="form-label">state:</label>
+    <label className="form-label">State:</label>
     <input
       type="text"
       className="form-control"
@@ -248,7 +252,7 @@ function UpdateCard() {
     />
   </div>
   <div className="col">
-    <label className="form-label">country:</label>
+    <label className="form-label">Country: *</label>
     <input
       type="text"
       className="form-control"
@@ -258,7 +262,7 @@ function UpdateCard() {
     />
   </div>
   <div className="col">
-    <label className="form-label">city:</label>
+    <label className="form-label">City: *</label>
     <input
       type="text"
       className="form-control"
@@ -268,7 +272,7 @@ function UpdateCard() {
     />
   </div>
   <div className="col">
-    <label className="form-label">street:</label>
+    <label className="form-label">Street: *</label>
     <input
       type="text"
       className="form-control"
@@ -278,7 +282,7 @@ function UpdateCard() {
     />
   </div>
   <div className="col">
-    <label className="form-label">houseNumber:</label>
+    <label className="form-label">HouseNumber: *</label>
     <input
       type="number"
       className="form-control"
@@ -288,7 +292,7 @@ function UpdateCard() {
     />
   </div>
   <div className="col">
-    <label className="form-label">zip:</label>
+    <label className="form-label">Zip: *</label>
     <input
       type="number"
       className="form-control"
@@ -298,7 +302,7 @@ function UpdateCard() {
     />
   </div>
 </div>
-      </Card>
+     
       <div>
         {Object.keys(errors).map((key, index) => (
           <div key={index} style={{ color: 'red' }}>
@@ -315,8 +319,12 @@ function UpdateCard() {
           cancel
         </button>
       </div>
+      </div>
+      </div>
+      </div>
+      </div>
     </>
-  );
+  )
 }
 
 export default UpdateCard;

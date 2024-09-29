@@ -8,26 +8,62 @@ import { registerUser } from "./service/apiUser";
 function RegisterForm() {
   const navigate = useNavigate();
   const [user, setUser] = useState({
+  name: {
     first: "",
     middle: "",
-    last: "",
-    email: "",
-    phone: "",
-    password: "",
+    last: ""
+  },
+  phone: "",
+  email: "",
+  password: "",
+  image: {
     url: "",
-    alt: "",
+    alt: ""
+  },
+  address: {
     state: "",
     country: "",
     city: "",
     street: "",
-    houseNumber: "",
-    zip: "",
-    isBusiness: true,
+    houseNumber: 0,
+    zip: 0
+  },
+  "isBusiness": true
   });
   const [errors, setErrors] = useState({});
   const [passwordError, setPasswordError] = useState("");
   const [registrationError, setRegistrationError] = useState("");
+  const resetForm = () => {
 
+    setUser({
+      name: {
+        first: "",
+        middle: "",
+        last: ""
+      },
+      phone: "",
+      email: "",
+      password: "",
+      image: {
+        url: "",
+        alt: ""
+      },
+      address: {
+        state: "",
+        country: "",
+        city: "",
+        street: "",
+        houseNumber: 0,
+        zip: 0
+      },
+      isBusiness: true
+    });
+  
+    setErrors({});
+    setPasswordError("");
+    setRegistrationError("");
+  };
+  
 
   const validateInput = () => {
     const newErrors = {};
@@ -35,8 +71,8 @@ function RegisterForm() {
     const phoneRegex = /^[0-9]{10,15}$/;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*\d.*\d.*\d)(?=.*[*&^%$#@!]).{8,}$/;
 
-    if (!user.first) newErrors.first = "First name is required.";
-    if (!user.last) newErrors.last = "Last name is required.";
+    if (!user.name.first) newErrors.first = "First name is required.";
+    if (!user.name.last) newErrors.last = "Last name is required.";
     if (!emailRegex.test(user.email)) newErrors.email = "Invalid email address.";
     if (!phoneRegex.test(user.phone)) newErrors.phone = "Phone must be 10-15 digits.";
     if (!passwordRegex.test(user.password))
@@ -51,7 +87,8 @@ function RegisterForm() {
 
     try {
       const response = await registerUser(user);
-      if (response && (response.status === 200 || response.status === 201)) {
+
+      if (response) {
         navigate("/CardListPage");
       } else {
         setRegistrationError("Registration failed. Please try again.");
@@ -65,7 +102,30 @@ function RegisterForm() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setUser({ ...user, [name]: value });
+
+    setErrors((prevErrors) => {
+      const updatedErrors = prevErrors ? { ...prevErrors } : {};
+      if (name.includes('.')) {
+        const [objectKey, nestedKey] = name.split('.');
+        delete updatedErrors[`${objectKey}.${nestedKey}`];
+      } else {
+        delete updatedErrors[name];
+      }
+      return updatedErrors;
+    });
+    setUser((prevUser) => {
+      if (name.includes('.')) {
+        const [objectKey, nestedKey] = name.split('.');
+        return {
+          ...prevUser,
+          [objectKey]: {
+            ...prevUser[objectKey],
+            [nestedKey]: value
+          }
+        };
+      }
+      return { ...prevUser, [name]: value };
+    });
   };
   const handleCheckboxChange = (e) => {
     setUser((prevUser) => ({
@@ -90,9 +150,9 @@ function RegisterForm() {
               <input
                 type="text"
                 className={`form-control ${errors.first ? "is-invalid" : ""}`}
-                value={user.first}
+                value={user.name.first}
                 onChange={handleInputChange}
-                name="first"
+                name="name.first"
                
               />
                {errors.first && <div className="invalid-feedback">{errors.first}</div>}
@@ -102,9 +162,9 @@ function RegisterForm() {
               <input
                 type="text"
                 className="form-control"
-                value={user.middle}
+                value={user.name.middle}
                 onChange={handleInputChange}
-                name="middle"
+                name="name.middle"
                
               />
             </div>
@@ -113,9 +173,9 @@ function RegisterForm() {
               <input
                 type="text"
                 className={`form-control ${errors.last ? "is-invalid" : ""}`}
-                value={user.last}
+                value={user.name.last}
                 onChange={handleInputChange}
-                name="last"
+                name="name.last"
              
               />
                 {errors.last && <div className="invalid-feedback">{errors.last}</div>}
@@ -176,9 +236,9 @@ function RegisterForm() {
               <input
                 type="text"
                 className="form-control"
-                value={user.url}
+                value={user.image.url}
                 onChange={handleInputChange}
-                name="url"
+                name="image.url"
                  placeholder="Enter an image URL (optional)"
               />
             </div>
@@ -187,55 +247,55 @@ function RegisterForm() {
               <input
                 type="text"
                 className="form-control"
-                value={user.alt}
+                value={user.image.alt}
                 onChange={handleInputChange}
-                name="alt"
+                name="image.alt"
                 placeholder="Enter ALT text for the image (optional)"
               />
             </div>
           </div>
           <div className="row">
             <div className="col">
-              <label className="form-label">state:</label>
+              <label className="form-label">State:</label>
               <input
                 type="text"
                 className="form-control"
-                value={user.state}
+                value={user.address.state}
                 onChange={handleInputChange}
-                name="state"
+                name="address.state"
                
               />
             </div>
             <div className="col">
-              <label className="form-label">country: *</label>
+              <label className="form-label">Country: *</label>
               <input
                 type="text"
                 className="form-control"
-                value={user.country}
+                value={user.address.country}
                 onChange={handleInputChange}
-                name="country"
+                name="address.country"
                
               />
             </div>
             <div className="col">
-              <label className="form-label">city:</label>
+              <label className="form-label">city: *</label>
               <input
                 type="text"
                 className="form-control"
-                value={user.city}
+                value={user.address.city}
                 onChange={handleInputChange}
-                name="city"
+                name="address.city"
               
               />
             </div>
             <div className="col">
-              <label className="form-label">street:</label>
+              <label className="form-label">street: *</label>
               <input
                 type="text"
                 className="form-control"
-                value={user.street}
+                value={user.address.street}
                 onChange={handleInputChange}
-                name="street"
+                name="address.street"
              
               />
             </div>
@@ -244,9 +304,9 @@ function RegisterForm() {
               <input
                 type="number"
                 className="form-control"
-                value={user.houseNumber}
+                value={user.address.houseNumber}
                 onChange={handleInputChange}
-                name="houseNumber"
+                name="address.houseNumber"
               
               />
             </div>
@@ -255,9 +315,9 @@ function RegisterForm() {
               <input
                 type="number"
                 className="form-control"
-                value={user.zip}
+                value={user.address.zip}
                 onChange={handleInputChange}
-                name="zip"
+                name="address.zip"
                 
               />
             </div>
@@ -295,12 +355,12 @@ function RegisterForm() {
               CANCEL
             </button>
             <button
-              type="button"
-              className="btn btn-info m-2"
-              onClick={() => navigate("/RegisterForm")}
-            >
-              <i className="bi bi-arrow-clockwise"></i>
-            </button>
+  type="button"
+  className="btn btn-info m-2"
+  onClick={resetForm} 
+>
+  <i className="bi bi-arrow-clockwise"></i>
+</button>
           </div>
 
           <button 

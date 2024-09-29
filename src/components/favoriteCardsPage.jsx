@@ -55,29 +55,48 @@ function FavoriteCardsPage() {
                 <div style={{ maxHeight: "150px", overflow: "hidden" }}></div>
                 <Card.Title className={`${textColor}`}>{card.title}</Card.Title>
                 <Card.Subtitle className={`${textColor}`}>{card.subtitle}</Card.Subtitle>
-                <Card.Text>{card.description}</Card.Text>
-                <Card.Text>{card.phone}</Card.Text>
-                <Card.Text>{card.email}</Card.Text>
-                <Card.Img variant="top" src={card.image.url} />
+                {/* <Card.Text>{card.description}</Card.Text> */}
+                {/* <Card.Text>{card.phone}</Card.Text>
+                <Card.Text>{card.email}</Card.Text> */}
+                <Card.Img 
+                  variant="top"
+                  src={card.image.url}
+                  style={{ 
+                      width: "100%", 
+                      height: "150px", 
+                      objectFit: "cover", // ensures the image covers the area without distortion
+                      marginBottom: "10px", 
+                      marginTop: "20px", 
+                      marginRight: "10px", 
+                      marginLeft: "10px" 
+                  }}
+                />
                 <Row>
-                  <Col>
-                    <Button
-                      variant="outline-danger"
-                      size="sm"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        removeCardFromFavorites(card._id, e)
-                      }}
-                    >
-                      Remove from Favorites
-                    </Button>
-                  </Col>
-                </Row>
+  <Col className="flex flex-col justify-end items-center">
+    <Button
+      variant="outline-danger"
+      size="lg"
+      className="mt-3 mb-2 mr-2 px-3 py-1 rounded-md hover:bg-red-500 hover:text-white transition-colors duration-300"
+      onClick={(e) => {
+        e.stopPropagation();
+        removeCardFromFavorites(card._id, e);
+      }}
+    >
+      Remove from Favorites
+    </Button>
+  </Col>
+</Row>
+
               </Card.Body>
             </Card>
           </Col>
         ))}
       </Row>
+      <div style={{ height: '50vh', marginTop: '2rem' }}>
+          <p className="text-center text-muted">
+         
+          </p>
+        </div>
     </div>
   );
 }

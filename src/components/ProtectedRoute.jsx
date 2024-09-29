@@ -9,7 +9,7 @@ const ProtectedRoute = ({ children }) => {
     return <Navigate to="/login" />;
   }
   else if (!isBusiness) {
-    return <Navigate to="/NonBusinessPage" />;
+    return <Navigate to="/CardListPage" />;
   }
 
   return <>{children}</>;

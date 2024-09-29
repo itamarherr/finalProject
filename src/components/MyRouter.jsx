@@ -25,14 +25,22 @@ function MyRouter() {
       <Route path="/business/:id" element={<BusinessDetailPage />} />
       <Route path="/" element={<HomePage />} />
       <Route path="/RegisterForm" element={<RegisterForm />} />
-      <Route path="/MyCardsPage" element={<MyCardsPage />} />
+      
       <Route path="/AboutPage" element={<AboutPage />} />
 
 
-      <Route path="/CardListPage" element={
+
+      <Route path="/MyCardsPage" element={
         <ProtectedRoute>
-          <CardListPage />
+        <MyCardsPage />
         </ProtectedRoute>} />
+
+      <Route path="/CardListPage" element={
+          <CardListPage />
+      }/>
+
+
+
 
       <Route path="/search" element={<SearchResultsPage />} />
       <Route path="/UpdateCard/:id" element={<UpdateCard />} />

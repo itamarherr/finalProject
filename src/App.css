@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+.navbar-logo {
+  height: 40px;
+  width: auto;
+  max-height: 100%;
+}
+input, textarea {
+  text-transform: none !important;
+}

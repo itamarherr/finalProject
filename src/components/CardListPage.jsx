@@ -71,14 +71,16 @@ function CardListPage() {
       <Row xs={1} md={2} lg={3} xl={4} className="row">
         {cards.map((card, index) => (
           <Col key={index} className="mb-4">
-            <Card border="primary" style={{ backgroundColor: theme === 'dark' ? '#121212' : '#fff', borderWidth: '3px', color: textColor, height: "100%", cursor: "pointer" }} onClick={() => handleCardClick(card._id)}>
+            <Card border="primary" style={{ backgroundColor: theme === 'dark' ? '#121212' : '#fff', borderWidth: '3px', color: textColor, height: "100%", 
+              cursor: "pointer" 
+              }} onClick={() => handleCardClick(card._id)}>
               <Card.Header className={`${textColor}`}>Business card</Card.Header>
               <Card.Body className={`${textColor}`} style={{ overflow: "auto" }}>
                 <div style={{ maxHeight: "150px", overflow: "hidden" }}></div>
                 <Card.Title className={`${textColor}`} >{card.title}</Card.Title>
                 <Card.Subtitle className={`${textColor}`}>{card.subtitle}</Card.Subtitle>
-                <Card.Text>{card.phone}</Card.Text>
-                <Card.Text>{card.email}</Card.Text>
+                {/* <Card.Text>{card.phone}</Card.Text>
+                <Card.Text>{card.email}</Card.Text> */}
                 <Card.Img
                  variant="top"
                  src={card.image.url}
@@ -87,7 +89,9 @@ function CardListPage() {
                  height: "150px", 
                  objectFit: "cover", // ensures the image covers the area without distortion
                  marginBottom: "10px", 
-                 marginLeft: "10px" 
+                 marginTop: "20px", 
+                 marginLeft: "10px", 
+                 marginRight: "10px" 
                  }}
                  />
                 <Row>

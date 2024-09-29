@@ -12,17 +12,19 @@ export const LoginProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
+    const storedIsBusiness = localStorage.getItem("isBusiness");
     
     if (token && storedIsLoggedIn === "true") {
       try {
         const decodedToken = jwtDecode(token);
         setUser(decodedToken);
         setIsLoggedIn(true);
-        setIsBusiness(decodedToken.isBusiness);
+        setIsBusiness(storedIsBusiness === "true");
       } catch (error) {
         console.error("Invalid token:", error);
         localStorage.removeItem("token");
         localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("isBusiness");
       }
     }
   }, []);
@@ -34,9 +36,10 @@ export const LoginProvider = ({ children }) => {
       const token = response.token;
       
       if (token) {
+        const decodedToken = jwtDecode(token);
         localStorage.setItem("token", token);
         localStorage.setItem("isLoggedIn", "true");
-        const decodedToken = jwtDecode(token);
+        localStorage.setItem("isBusiness", decodedToken.isBusiness ? "true" : "false");
         setUser(decodedToken);
         setIsLoggedIn(true);
         setIsBusiness(decodedToken.isBusiness);
@@ -56,6 +59,7 @@ export const LoginProvider = ({ children }) => {
     setIsBusiness(false);
     localStorage.removeItem("token");
     localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("isBusiness");
   };
 
   const register = async (userData) => {
@@ -63,9 +67,11 @@ export const LoginProvider = ({ children }) => {
       const response = await registerUser(userData);
       const token = response.token;
       if (token) {
+        const decodedToken = jwtDecode(token);
         localStorage.setItem("token", token);
         localStorage.setItem("isLoggedIn", "true");
-        const decodedToken = jwtDecode(token);
+        
+      
         setUser(decodedToken);
         setIsLoggedIn(true);
         setIsBusiness(decodedToken.isBusiness);

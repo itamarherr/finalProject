@@ -24,7 +24,7 @@ function AddCard() {
     country: "",
     city: "",
     street: "",
-    houseNumber: 3,
+    houseNumber: 0,
     zip: 0,
   });
 
@@ -33,6 +33,7 @@ function AddCard() {
   const [phoneError, setPhoneError] = useState("");
   const [webError, setWebError] = useState("");
   const [imageUrlError, setImageUrlError] = useState("");
+  
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
     if (savedToken) {
@@ -44,6 +45,7 @@ function AddCard() {
 
   const handleInputEnter = (e) => {
     const { name, value } = e.target;
+    console.log("Input Change:", name, value);
     setCard({
       ...card,
       [name]: value,
@@ -54,7 +56,7 @@ function AddCard() {
 
     const webAddressRegex = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]+\.){1,}[a-zA-Z]{2,}(\/\S*)?$/;
 
-    const imageUrlRegex = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i;
+   const imageUrlRegex = /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;;
 
 
 
@@ -100,6 +102,10 @@ function AddCard() {
     console.log("handleSave called");  // Log this
     console.log("Card Data:", card);   // Log card data
     console.log("Token:", token);      // Log token
+    if (Object.values(errors).some(error => error !== null)) {
+      alert("Please correct the errors before submitting.");
+      return;
+    }
     try {
       const response = await createNewCard(token, card);
       navigate("/CardListPage");
@@ -112,20 +118,28 @@ function AddCard() {
 
   return (
     <>
-      <div className="row">
-        <div className="col">
-          <label className="form-label">title:</label>
+      <div className="container mt-4">
+        <div className="row justify-content-center">
+          <div className="col-md-8">
+            <div className="card p-4">
+              <h3 className="text-center mb-4">Add New Card</h3>
+              <div className="row">
+                <div className="col-md-6 mb-3">
+          <label className="form-label">Title:* </label>
           <input
             type="text"
             className="form-control"
             value={card.title}
             onChange={handleInputEnter}
             name="title"
+            autoCapitalize="none"
+            autoComplete="off"
+            spellCheck="false"
           />
-
+        {errors.title && <div style={{ color: 'red' }}>{errors.title}</div>}  
         </div>
         <div className="col">
-          <label className="form-label">subtitle:</label>
+          <label className="form-label">Subtitle: *</label>
           <input
             type="text"
             className="form-control"
@@ -133,10 +147,10 @@ function AddCard() {
             onChange={handleInputEnter}
             name="subtitle"
           />
-
+         {errors.subtitle && <div style={{ color: 'red' }}>{errors.subtitle}</div>}
         </div>
         <div className="col">
-          <label className="form-label">description:</label>
+          <label className="form-label">Description: *</label>
           <input
             type="text"
             className="form-control"
@@ -144,11 +158,12 @@ function AddCard() {
             onChange={handleInputEnter}
             name="description"
           />
+           {errors.description && <div style={{ color: 'red' }}>{errors.description}</div>}
         </div>
       </div>
       <div className="row">
         <div className="col">
-          <label className="form-label">phone:</label>
+          <label className="form-label">Phone: *</label>
           <input
             type="text"
             className="form-control"
@@ -157,11 +172,12 @@ function AddCard() {
             name="phone"
           />
           {phoneError && <div style={{ color: 'red' }}>{phoneError}</div>}
+          <small className="form-text text-muted">Enter 10-15 digits.</small>
         </div>
       </div>
       <div className="row">
         <div className="col">
-          <label className="form-label">Email:</label>
+          <label className="form-label">Email: *</label>
           <input
             type="text"
             className="form-control"
@@ -170,12 +186,13 @@ function AddCard() {
             name="email"
           />
           {emailError && <div style={{ color: 'red' }}>{emailError}</div>}
+          <small className="form-text text-muted">A valid email is required.</small>
 
         </div>
       </div>
       <div className="row">
         <div className="col">
-          <label className="form-label">web:</label>
+          <label className="form-label">Web: *</label>
           <input
             type="text"
             className="form-control"
@@ -188,7 +205,7 @@ function AddCard() {
       </div>
       <div className="row">
         <div className="col">
-          <label className="form-label">url:</label>
+          <label className="form-label">Image URL*:</label>
           <input
             type="text"
             className="form-control"
@@ -196,10 +213,11 @@ function AddCard() {
             onChange={handleInputEnter}
             name="url"
           />
-          {imageUrlError && <div style={{ color: 'red' }}>{imageUrlError}</div>}
+          {imageUrlError && <div style={{ color: 'red' }}>{imageUrlError}</div>}    
+           <small className="form-text text-muted">Enter valide Image Url.</small>
         </div>
         <div className="col">
-          <label className="form-label">alt:</label>
+          <label className="form-label">Image Alt:</label>
           <input
             type="text"
             className="form-control"
@@ -207,11 +225,12 @@ function AddCard() {
             onChange={handleInputEnter}
             name="alt"
           />
+            {errors.alt && <div style={{ color: 'red' }}>{errors.alt}</div>}
         </div>
       </div>
       <div className="row">
         <div className="col">
-          <label className="form-label">state:</label>
+          <label className="form-label">State:</label>
           <input
             type="text"
             className="form-control"
@@ -221,7 +240,7 @@ function AddCard() {
           />
         </div>
         <div className="col">
-          <label className="form-label">country:</label>
+          <label className="form-label">Country:</label>
           <input
             type="text"
             className="form-control"
@@ -231,7 +250,7 @@ function AddCard() {
           />
         </div>
         <div className="col">
-          <label className="form-label">city:</label>
+          <label className="form-label">City:</label>
           <input
             type="text"
             className="form-control"
@@ -241,7 +260,7 @@ function AddCard() {
           />
         </div>
         <div className="col">
-          <label className="form-label">street:</label>
+          <label className="form-label">Street:</label>
           <input
             type="text"
             className="form-control"
@@ -251,7 +270,7 @@ function AddCard() {
           />
         </div>
         <div className="col">
-          <label className="form-label">houseNumber:</label>
+          <label className="form-label">HouseNumber:</label>
           <input
             type="number"
             className="form-control"
@@ -261,7 +280,7 @@ function AddCard() {
           />
         </div>
         <div className="col">
-          <label className="form-label">zip:</label>
+          <label className="form-label">Zip:</label>
           <input
             type="number"
             className="form-control"
@@ -282,6 +301,10 @@ function AddCard() {
         >
           cancel
         </button>
+      </div>
+      </div>
+      </div>
+      </div>
       </div>
     </>
   )

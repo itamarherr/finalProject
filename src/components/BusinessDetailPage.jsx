@@ -55,30 +55,45 @@ function BusinessDetailPage() {
   }
 
   return (
-    <div className="jumbotron jumbotron-fluid">
-      <div className="container">
-        <h1 className="display-4">{business.title}</h1>
-        <p className="lead">
-          {business.subtitle}
-        </p>
-        <div className="row">
-          <div className="col-sm-4 col-md-8">
+    <div className="container mt-3">
+      <div className="row">
+        <div className="col-md-6">
+          <div className="card mb-3 shadow-sm" style={{ height: '100%' }}>
             <img
               src={business.image.url}
-              alt="Books"
-              className="img-fluid rounded-2"
+              alt={business.title}
+              className="card-img-top"
+              style={{ height: '450px', objectFit: 'cover' }} // Resized image to 250px height
             />
+            <div className="card-body">
+              <h2 className="card-title">{business.title}</h2>
+              <h5 className="card-subtitle mb-2 text-muted">{business.subtitle}</h5>
+              <p className="card-text">{business.description}</p>
+            </div>
           </div>
-          <div className="col-sm-8 col-md-4">
-            <h1></h1>
-            <p>{business.description}</p>
-            <p>{business.phone}</p>
-            <p>{business.email}</p>
-            <div style={{ height: '400px', width: '100%' }}>
-            </div>
-            <div className="progress-stacked">
-            </div>
+        </div>
 
+        <div className="col-md-6">
+          <div className="card mb-3 shadow-sm">
+            <div className="card-body">
+              <h5 className="card-title">Business Information</h5>
+              {business.phone && <p><strong>Phone:</strong> {business.phone}</p>}
+              {business.email && <p><strong>Email:</strong> {business.email}</p>}
+              <p><strong>Address:</strong> 
+                {business.address ? (
+                  <>
+                    {business.address.street && `${business.address.street} `}
+                    {business.address.houseNumber && `${business.address.houseNumber}, `}
+                    {business.address.city && `${business.address.city}, `}
+                    {business.address.zip && `${business.address.zip}, `}
+                    {business.address.state && `${business.address.state}, `}
+                    {business.address.country && `${business.address.country}`}
+                  </>
+                ) : (
+                  "Address not available"
+                )}
+              </p>
+            </div>
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Card, Button, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../Context/ThemeContext";
-import { deleteCard, getAllMyCards } from "./service/apiCard";
+import {createNewCard, deleteCard, getAllMyCards } from "./service/apiCard";
 
 
 function MyCardsPage() {
@@ -60,6 +60,13 @@ function MyCardsPage() {
                 <h1>My Cards</h1>
             </div>
 
+            <button
+              className={`btn ${theme === 'dark' ? 'btn-dark' : 'btn-primary'} mb-3 mt-3 m-5`}
+              onClick={() => navigate("/AddCard", { createNewCard })}
+             >
+              Add Card
+            </button>
+
             <Row xs={1} md={2} lg={3} xl={4} className="row">
                 {cards.map((card, index) => (
                     <Col key={index} className="mb-4">
@@ -72,12 +79,20 @@ function MyCardsPage() {
                                 <div style={{ maxHeight: "150px", overflow: "hidden" }}></div>
                                 <Card.Title className={`${textColor}`} >{card.title}</Card.Title>
                                 <Card.Subtitle className={`${textColor}`}>{card.subtitle}</Card.Subtitle>
-                                <Card.Text>{card.phone}</Card.Text>
-                                <Card.Text>{card.email}</Card.Text>
+                                {/* <Card.Text>{card.phone}</Card.Text>
+                                <Card.Text>{card.email}</Card.Text> */}
                                 <Card.Img
                                     variant="top"
                                     src={card.image.url}
-                                    style={{ maxWidth: "100%", marginBottom: "10px", marginLeft: "10px" }}
+                                    style={{ 
+                                        width: "100%", 
+                                        height: "150px", 
+                                        objectFit: "cover", // ensures the image covers the area without distortion
+                                        marginBottom: "10px", 
+                                        marginTop: "20px", 
+                                        marginLeft: "10px", 
+                                        marginRight: "10px" 
+                                    }}
                                 />
                                 <Row>
                                     <Col>

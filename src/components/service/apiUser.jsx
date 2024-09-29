@@ -30,7 +30,8 @@ export const loginUser = async (email, password) => {
 };
 export const registerUser = async (userData) => {
   try {
-    const response = await api.post('users/register', userData);
+    console.log('Sending this user data:', userData); // Check what is being sent
+    const response = await api.post('users', userData);
     return response.data;
   } catch (error) {
     console.error('Register API error:', error);
