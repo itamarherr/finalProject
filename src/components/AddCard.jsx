@@ -108,7 +108,7 @@ function AddCard() {
     }
     try {
       const response = await createNewCard(token, card);
-      navigate("/CardListPage");
+      navigate("/MyCardsPage");
     } catch (error) {
       alert("An error occurred while saving the card. Please try again.");
       throw error;
@@ -172,7 +172,7 @@ function AddCard() {
             name="phone"
           />
           {phoneError && <div style={{ color: 'red' }}>{phoneError}</div>}
-          <small className="form-text text-muted">Enter 10-15 digits.</small>
+          <small className="form-text text-muted">Enter 10-15 only digits.</small>
         </div>
       </div>
       <div className="row">

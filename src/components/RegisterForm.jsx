@@ -89,7 +89,7 @@ function RegisterForm() {
       const response = await registerUser(user);
 
       if (response) {
-        navigate("/CardListPage");
+        navigate("/login");
       } else {
         setRegistrationError("Registration failed. Please try again.");
       }
@@ -193,7 +193,7 @@ function RegisterForm() {
                 
               />
                {errors.phone && <div className="invalid-feedback">{errors.phone}</div>}
-               <small className="form-text text-muted">Enter 10-15 digits.</small>
+               <small className="form-text text-muted">Enter 10-15 only digits.</small>
             </div>
           </div>
           <div className="row">
@@ -336,7 +336,7 @@ function RegisterForm() {
                   name="isBusiness"
                 />
                 <label htmlFor="onOff2" className="form-check-label">
-                  Singnup as business
+                  Signup as business
                 </label>
                 <small className="form-text text-muted">Check this if you're registering as a business.</small>
               </div>
@@ -350,7 +350,7 @@ function RegisterForm() {
             <button
               type="button"
               className="btn btn-danger m-2"
-              onClick={() => navigate("/RegisterForm")}
+              onClick={() => navigate("/")}
             >
               CANCEL
             </button>

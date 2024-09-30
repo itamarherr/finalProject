@@ -23,10 +23,11 @@ function MyCardsPage() {
             console.error("Error fetching user cards:", error);
         }
     };
-    const handleDeleteCard = async (cardId) => {
+    const handleDeleteCard = async (cardId, e) => {
+        e.stopPropagation();
         try {
             await deleteCard(cardId);
-            fetchUserCards();
+            await fetchUserCards();
         } catch (error) {
             console.error("Error deleting card:", error);
         }
@@ -45,10 +46,6 @@ function MyCardsPage() {
         navigate(`/business/${cardId}`);
     };
 
-    const handleDeleteButtonClick = (cardId, e) => {
-        e.stopPropagation();
-        deleteCard(cardId).then(fetchCards);
-      };
     
       const handleUpdateButtonClick = (cardId, e) => {
         e.stopPropagation();
@@ -104,7 +101,10 @@ function MyCardsPage() {
                                         </Button>
                                     </Col>
                                     <Col>
-                    <Button variant="danger" size="sm" onClick={(e) => deleteCard(card._id, e).then(fetchCards)}>
+                    <Button 
+                    variant="danger" 
+                    size="sm" 
+                    onClick={(e) => handleDeleteCard(card._id, e)}>
                       <i class="bi bi-trash-fill"></i>
                     </Button>
                   </Col>

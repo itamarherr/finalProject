@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Card, Button, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { createNewCard, updateCard, deleteCard } from "./service/apiCard";
+import { createNewCard} from "./service/apiCard";
 import { getCard } from "./service/apiCard";
 import { ThemeContext } from "../Context/ThemeContext";
 
@@ -41,15 +41,7 @@ function CardListPage() {
   const handleCardClick = (cardId) => {
     navigate(`/business/${cardId}`);
   };
-  const handleDeleteButtonClick = (cardId, e) => {
-    e.stopPropagation();
-    deleteCard(cardId).then(fetchCards);
-  };
 
-  const handleUpdateButtonClick = (cardId, e) => {
-    e.stopPropagation();
-    navigate(`/UpdateCard/${cardId}`);
-  };
 
 
 
@@ -79,15 +71,13 @@ function CardListPage() {
                 <div style={{ maxHeight: "150px", overflow: "hidden" }}></div>
                 <Card.Title className={`${textColor}`} >{card.title}</Card.Title>
                 <Card.Subtitle className={`${textColor}`}>{card.subtitle}</Card.Subtitle>
-                {/* <Card.Text>{card.phone}</Card.Text>
-                <Card.Text>{card.email}</Card.Text> */}
                 <Card.Img
                  variant="top"
                  src={card.image.url}
                  style={{ 
                  width: "100%", 
                  height: "150px", 
-                 objectFit: "cover", // ensures the image covers the area without distortion
+                 objectFit: "cover", 
                  marginBottom: "10px", 
                  marginTop: "20px", 
                  marginLeft: "10px", 
@@ -103,20 +93,7 @@ function CardListPage() {
                       {card.isFavorite ? <i class="bi bi-star-fill"></i> : <i class="bi bi-star"></i>}
                     </Button>
                   </Col>
-                  {/* <Col>
-                    <Button variant="danger" size="sm" onClick={(e) => deleteCard(card._id, e).then(fetchCards)}>
-                      <i class="bi bi-trash-fill"></i>
-                    </Button>
-                  </Col>
-                  <Col>
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      onClick={(e) => handleUpdateButtonClick(card._id, e)}
-                    >
-                      <i class="bi bi-pencil-fill"></i>
-                    </Button>
-                  </Col> */}
+                
                 </Row>
               </Card.Body>
             </Card>
