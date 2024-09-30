@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { createNewCard} from "./service/apiCard";
 import { getCard } from "./service/apiCard";
 import { ThemeContext } from "../Context/ThemeContext";
+import Loader from "./Loader";
 
 
 function CardListPage() {
@@ -12,18 +13,21 @@ function CardListPage() {
   const { theme } = useContext(ThemeContext);
   const textColor = theme === "dark" ? "text-light" : "text-dark";
   const titleTextColor = theme === "dark" ? "text-dark" : "text-light";
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     fetchCards();
   }, []);
 
   const fetchCards = async () => {
-
+    setLoading(true); 
     try {
       const response = await getCard();
       setCards(response);
     } catch (error) {
       console.error("Error fetching cards:", error);
+    } finally {
+      setLoading(false); 
     }
   };
 
@@ -43,14 +47,13 @@ function CardListPage() {
   };
 
 
-
-
-
+  if (loading) return <Loader />;
 
   return (
     <div className="container" style={{ backgroundColor: '#fff' }}>
       <div className="text-center">
         <h1>Cards Page</h1>
+        <h2 class="lead text-center text-muted mb-3">Click on the cards to view more detailed information</h2>
       </div>
 
       <button
@@ -63,12 +66,16 @@ function CardListPage() {
       <Row xs={1} md={2} lg={3} xl={4} className="row">
         {cards.map((card, index) => (
           <Col key={index} className="mb-4">
-            <Card border="primary" style={{ backgroundColor: theme === 'dark' ? '#121212' : '#fff', borderWidth: '3px', color: textColor, height: "100%", 
+            <Card border="primary" style={{ 
+              backgroundColor: theme === 'dark' ? '#121212' : '#fff', 
+              borderWidth: '3px', 
+              color: textColor, 
+              height: "100%", 
               cursor: "pointer" 
               }} onClick={() => handleCardClick(card._id)}>
               <Card.Header className={`${textColor}`}>Business card</Card.Header>
-              <Card.Body className={`${textColor}`} style={{ overflow: "auto" }}>
-                <div style={{ maxHeight: "150px", overflow: "hidden" }}></div>
+              <Card.Body className={`${textColor}`}>
+                <div style={{ maxHeight: "150px"}}></div>
                 <Card.Title className={`${textColor}`} >{card.title}</Card.Title>
                 <Card.Subtitle className={`${textColor}`}>{card.subtitle}</Card.Subtitle>
                 <Card.Img
@@ -100,6 +107,7 @@ function CardListPage() {
           </Col>
         ))}
       </Row>
+    
     </div>
   );
 }

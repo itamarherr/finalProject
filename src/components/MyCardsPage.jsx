@@ -51,19 +51,30 @@ function MyCardsPage() {
         e.stopPropagation();
         navigate(`/UpdateCard/${cardId}`);
       };
+
+
+      
     return (
         <div className="container" style={{ backgroundColor: '#fff' }}>
-            <div className="text-center">
-                <h1>My Cards</h1>
+        <div className="text-center">
+            <h1>My Cards</h1>
+        </div>
+   
+        <button
+          className={`btn ${theme === 'dark' ? 'btn-dark' : 'btn-primary'} mb-3 mt-3 m-5`}
+          onClick={() => navigate("/AddCard")}
+        >
+          Add Card
+        </button>
+        {cards.length === 0 ? (
+            <div style={{ height: '50vh', marginTop: '2rem' }} className="text-center text-muted">
+                <h3 style={{ marginBottom: '10px' }}>You don't have any cards yet!</h3>
+                <p style={{ marginBottom: '20px' }}>Click the 'Add Card' button above to create your first business card.</p>
+           
             </div>
-
-            <button
-              className={`btn ${theme === 'dark' ? 'btn-dark' : 'btn-primary'} mb-3 mt-3 m-5`}
-              onClick={() => navigate("/AddCard", { createNewCard })}
-             >
-              Add Card
-            </button>
-
+        ) : (
+             <>
+               
             <Row xs={1} md={2} lg={3} xl={4} className="row">
                 {cards.map((card, index) => (
                     <Col key={index} className="mb-4">
@@ -76,8 +87,6 @@ function MyCardsPage() {
                                 <div style={{ maxHeight: "150px", overflow: "hidden" }}></div>
                                 <Card.Title className={`${textColor}`} >{card.title}</Card.Title>
                                 <Card.Subtitle className={`${textColor}`}>{card.subtitle}</Card.Subtitle>
-                                {/* <Card.Text>{card.phone}</Card.Text>
-                                <Card.Text>{card.email}</Card.Text> */}
                                 <Card.Img
                                     variant="top"
                                     src={card.image.url}
@@ -123,6 +132,10 @@ function MyCardsPage() {
                     </Col>
                 ))}
             </Row>
+            <div className="text-center"> 
+               <h2 className="lead text-center text-muted mb-3">Click on the cards to view more detailed information</h2>
+                 </div>
+            </> )}
         </div>
     );
 }

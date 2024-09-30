@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../Context/AuthProvider";
 // import { Alert } from "react-bootstrap";
 import { loginUser } from "../components/service/apiUser";
+import Loader from "./Loader";
 
 
 function Login() {
@@ -11,6 +12,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const validateEmailFormat = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -20,12 +22,15 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setLoading(true);
     if (!email || !password) {
       setError("Email and Password are required");
+      setLoading(false);
       return;
     }
     if (!validateEmailFormat(email)) {
       setError("Invalid email format");
+      setLoading(false);
       return;
     }
     try {
@@ -34,6 +39,8 @@ function Login() {
     }catch (error) {
       console.error("Login error:", error);
       setError("Invalid email or password"); 
+    } finally {
+      setLoading(false); 
     }
   };
 
@@ -113,11 +120,10 @@ function Login() {
             </button>
           </div>
 
-          <button className="btn btn-primary w-100 mt-2" type="submit">
-            SUBMIT
+          <button className="btn btn-primary w-100 mt-2" type="submit"disabled={loading}>
+          {loading ? "Loading..." : "SUBMIT"}
           </button>
         </form>
-        {/* {error && <Alert variant="danger">{error}</Alert>} */}
         <div style={{ height: '50vh', marginTop: '2rem' }}>
           <p className="text-center text-muted">
             Welcome to our application. Please log in to access your account.

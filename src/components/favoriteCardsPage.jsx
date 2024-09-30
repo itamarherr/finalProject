@@ -42,6 +42,21 @@ function FavoriteCardsPage() {
   return (
     <div className="container" style={{ backgroundColor: '#fff' }}>
       <h1 className="text-center">Favorite Cards</h1>
+      {favoriteCards.length === 0 ? (
+            <div style={{ 
+              height: '80vh', 
+              display: 'flex', 
+              flexDirection: 'column', 
+              justifyContent: 'center',  // Center vertically
+              alignItems: 'center',      // Center horizontally
+              marginTop: 'auto' 
+              }} 
+              className="text-center text-muted">
+                <h3 style={{ marginBottom: '10px' }}>You don't have any cards yet!</h3>
+                
+            </div>
+        ) : (
+             <>
       <Row xs={1} md={2} lg={3} xl={4} className="row">
         {favoriteCards.map((card) => (
           <Col key={card._id} className="mb-4">
@@ -92,11 +107,11 @@ function FavoriteCardsPage() {
           </Col>
         ))}
       </Row>
-      <div style={{ height: '50vh', marginTop: '2rem' }}>
-          <p className="text-center text-muted">
-         
-          </p>
-        </div>
+      <div style={{ height: '50vh', marginTop: '2rem' }} className="text-center"> 
+               <h2 className="lead text-center text-muted mb-3">Click on the cards to view more detailed information</h2>
+                 </div>
+            </> )}
+      
     </div>
   );
 }
