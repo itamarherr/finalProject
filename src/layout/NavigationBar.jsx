@@ -15,8 +15,11 @@ function NavigationBar() {
   const nav = useNavigate();
   const { theme, toggleTheme } = useContext(ThemeContext);
   const textColor = theme === "dark" ? "text-light" : "text-dark";
-  const sideWindowBgColor = theme === "dark" ? "bg-dark" : "bg-light"; // Dynamically set background color based on theme
+  const sideWindowBgColor = theme === "dark" ? "bg-dark" : "bg-light"; 
   const [showMenu, setShowMenu] = useState(false);
+  //new addition to resolve the doplicity:
+  const [showOffcanvas, setShowOffcanvas] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   
 
 
@@ -35,9 +38,25 @@ function NavigationBar() {
     navigate("/Login");
   };
 
+  //new addition to resolve the doplicity:
+  const handleToggle = () => {
+    if (window.innerWidth <= 992) {
+      // Trigger Offcanvas for small screens
+      setShowOffcanvas(true);
+    } else {
+      // Expand/Collapse Navbar for larger screens
+      setExpanded(!expanded);
+    }
+  };
+
+
   return (
     <>
-      <Navbar expand="lg" className={`navbar navbar-${theme} bg-${theme}`} style={{ borderBottom: '1px solid black' }}>
+      <Navbar expand="lg" 
+      className={`navbar navbar-${theme} bg-${theme}`} 
+      style={{ borderBottom: '1px solid black' }}
+      expanded={expanded}
+      >
         <Container>
         <Navbar.Brand className="d-flex align-items-center">
   <img
@@ -50,7 +69,7 @@ function NavigationBar() {
   <strong style={{ fontFamily: 'Arial', fontSize: '1.5rem' }}>Ziv's app</strong>
 </Navbar.Brand>
           
-          <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={() => setShowMenu(true)} />
+          <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={handleToggle} />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Link to="/" className={`nav-link ${textColor}`}>
@@ -64,9 +83,7 @@ function NavigationBar() {
               <Link to="/Favorite" className={`nav-link ${textColor}`}>
                 Favorite
               </Link>
-              {/* <Link to="/nonBusinessPage" className={`nav-link ${textColor}`}>
-                Unbusiness Cards
-              </Link> */}
+              
               {isBusiness && (
                 <Link to="/MyCardsPage" className={`nav-link ${textColor}`}>
                 My Cards
@@ -138,58 +155,62 @@ function NavigationBar() {
       </Navbar>
 
 
-      <Offcanvas show={showMenu} onHide={() => setShowMenu(false)} placement="start" style={{ width: '250px' }}>
+
+      {/* Offcanvas only shows for smaller screens */}  
+
+
+
+
+      <Offcanvas show={showOffcanvas} onHide={() => setShowOffcanvas(false)} placement="start" style={{ width: '250px' }}>
 
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Menu</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body className={sideWindowBgColor}> {/* Dynamically apply background color class */}
           <Nav className="flex-column">
-            <Link to="/" className={`nav-link ${textColor}`} onClick={() => setShowMenu(false)}>
+          <Link to="/" className={`nav-link ${textColor}`} onClick={() => setShowOffcanvas(false)}>
               Home
             </Link>
             {isLoggedIn && (
               <>
-                <Link to="/CardListPage" className={`nav-link ${textColor}`} onClick={() => setShowMenu(false)}>
-              Cards
-            </Link>
-            <Link to="/Favorite" className={`nav-link ${textColor}`} onClick={() => setShowMenu(false)}>
-              Favorite
-            </Link>
-            <Link to="/nonBusinessPage" className={`nav-link ${textColor}`} onClick={() => setShowMenu(false)}>
-              Unbusiness cards
-            </Link>
-            <Link to="/MyCardListPage" className={`nav-link ${textColor}`} onClick={() => setShowMenu(false)}>
-              My Cards
-            </Link>
+                <Link to="/CardListPage" className={`nav-link ${textColor}`} onClick={() => setShowOffcanvas(false)}>
+                  Cards
+                </Link>
+                <Link to="/Favorite" className={`nav-link ${textColor}`} onClick={() => setShowOffcanvas(false)}>
+                  Favorite
+                </Link>
+                {isBusiness && (
+                  <Link to="/MyCardsPage" className={`nav-link ${textColor}`} onClick={() => setShowOffcanvas(false)}>
+                    My Cards
+                  </Link>
+                )}
               </>
             )}
           
-            <Form className="d-flex">
-              <FormControl
-                type="text"
-                placeholder="Search"
-                className="mr-2"
-                value={searchQuery}
-                onChange={handleSearchChange}
-                style={{ width: '150px' }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    handleSearch();
-                  }
-                }}
-              />
-              <Button variant="outline-secondary" onClick={handleSearch}>
-                <i className="bi bi-search"></i>
-              </Button>
-            </Form>
+          <Form className="d-flex">
+  <FormControl
+    type="text"
+    placeholder="Search"
+    value={searchQuery}
+    onChange={handleSearchChange}
+    style={{ width: "150px" }}
+    onKeyDown={(e) => {
+      if (e.key === 'Enter') {
+        handleSearch();
+      }
+    }}
+  />
+  <Button variant="outline-secondary" onClick={handleSearch}>
+    <i className="bi bi-search"></i>
+  </Button>
+</Form>
             {isLoggedIn ? (
               <Link to="/Login" className={`nav-link ${textColor}`} onClick={handleLogout}>
                 Logout
               </Link>
             ) : (
               <>
-                <Link to="/RegisterForm" className={`btn btn-light navbar-light ${textColor}`}>
+                <Link to="/RegisterForm" className={`nav-link ${textColor}`}>
                   Signup
                 </Link>
                 <Link to="/Login" className={`nav-link ${textColor}`}>
@@ -205,8 +226,7 @@ function NavigationBar() {
                 onChange={toggleTheme}
                 value={theme === "dark"}
               />
-              <label
-                className={`form-check-label ${textColor} text-capitalize ms-2`} htmlFor="cdToggleTheme">
+              <label className={`form-check-label ${textColor} text-capitalize ms-2`} htmlFor="cdToggleTheme">
                 {theme}
                 <i className={`bi bi-${theme === "dark" ? "moon-fill" : "brightness-high-fill"} ms-2`}></i>
               </label>
