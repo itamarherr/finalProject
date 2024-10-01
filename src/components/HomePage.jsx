@@ -44,40 +44,24 @@ function HomePage() {
             <div className="col-sm-8 col-md-4">
               <h3>Business Cards menegment</h3>
 
-              <p>
-                        Welcome to ZIV'S APP. A business card management application. 
+                    <p>
+                        Welcome to ZIV'S APP. A business cards management application. 
                     </p>
                     <p>
-                      
-                    </p>
-                        Here you can find countless business cards. In addition if you will register as users you will be able to create your own cards without limit, and of course have the option to edit and manege the cards.
-
-          
+                         If you register as a user, you'll be able to find countless business cards, like the sample below.
+                   </p>
                     <p>
-                        can see a sample of business cards. If they register as a users they will get access to all the business cards in the app. 
+                         In our app, registered users can create a list of favorite cards. Additionally, by clicking on the business cards, users will get more details about each business.
                     </p>
                     <p>
-                        Registered users can create a list of favorite cards. In eddition by clicking on the business cards and the users will get more details about that business.
+                         Users who register as business users can also create their own cards and, of course, have the option to edit and manage them.
                     </p>
                     <p>
-                         A user who registers as a business user can also create his own cards and of course have the option to edit them. 
+                         We invite you to create your own digital business card. It's quick and easy with ZIV'S APP. Within minutes, you can design a personalized card that reflects your brand identity and showcases your contact information.
                     </p>
                     <p>
-                         I invate you to Creat your own digital business card is quick and easy with ZIV'S APP. Within minutes, you can design a personalized card that reflects your brand identity and showcases your contact information.
+                         Ready to get started? Simply press the Signup button to access our platform.
                     </p>
-                    <p>
-                        Ready to get started? Simply press the Signup button to access our platform. 
-                    </p>
-                  
-              {/* <p>
-                Welcome to our business card management app, where networking meets simplicity.</p>
-              <p>Not only does our platform empower you to effortlessly organize your own business cards,
-                but it also opens doors to explore and connect with others in your professional sphere. </p>
-              <p>Create your unique digital business card within minutes.
-                Plus, with easy access to view and save cards from other businesses, networking has never been smoother.</p>
-              <p>Say hello to a world where exchanging contact information is as easy as a tap.
-                Join our community today and unlock endless networking possibilities at your fingertips.
-              </p> */}
 
             </div>
           </div>

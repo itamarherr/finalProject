@@ -1,78 +1,111 @@
-# Getting Started with Create React App
+# React Project with Vite
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a React project bootstrapped with Vite. The project uses Axios for API requests, Bootstrap and React-Bootstrap for styling, and JWT-decode for handling JSON Web Tokens.
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+- [Features](#features)
+- [Technologies](#technologies)
+- [Getting Started](#getting-started)
+- [Scripts](#scripts)
+- [Project Structure](#project-structure)
+- [License](#license)
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Fast development with Vite.
+- Axios for easy HTTP requests.
+- Bootstrap and React-Bootstrap for responsive design.
+- JWT-decode for token decoding and authentication handling.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Technologies
 
-### `npm test`
+- **React**: JavaScript library for building user interfaces.
+- **Vite**: Next-generation frontend tool for development and building.
+- **Axios**: Promise-based HTTP client for the browser.
+- **Bootstrap**: CSS framework for responsive design.
+- **React-Bootstrap**: Bootstrap components built with React.
+- **JWT-decode**: Library to decode JSON Web Tokens.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Getting Started
 
-### `npm run build`
+### Prerequisites
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Make sure you have the following installed:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Node.js (version >= 14)
+- npm or yarn
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Installation
 
-### `npm run eject`
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/itamarherr/finalProject.git
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  Navigate to the project directory:
+   cd your-project
+ 
+  Install dependencies:
+   npm install
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Running the Project
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+To start the development server:
 
-## Learn More
+npm run dev
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Building for Production
+To create an optimized build:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+npm run build
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+_______________________________________________________________________________________
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
+ZIV'S APP - Business Card Management Application
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Project Overview
+ZIV'S APP is a full-featured business card management application that allows users to register, browse, and manage business cards. The application was developed as part of the React module for my FullStack studies at HackerU.
 
-### Deployment
+Features
+Guest Access:
+Guests can browse a sample of business cards on the homepage.
+User Registration: Users can register by filling out a form, after which they can log in with their credentials.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Standard User:
+View all business cards on the platform.
+Click on any card to see detailed information about the business.
+Add cards to a personal list of favorites for easy access later.
 
-### `npm run build` fails to minify
+Business User:
+In addition to all the standard user features, business users can create, edit, and delete their own business cards.
+Access a dedicated page to view and manage only their own cards.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The app includes four key forms, each with field validation and error handling:
 
-An explanation of the project I created.
-As requested, I built a user management application. The user first reaches the initial page where there is an explanation of what the site is. If the user is interested, he can fill out a registration form and then log in with a name and password. Such a user can view all the business cards on the site. He can click on the card and view the information about the business card he is interested in and he can create himself a favorite page of the cards he wants to follow.
-If a user is registered as a business user, in addition to the privileges of each user, he can also create his own business card and of course edit it later or delete it. A business user also has the option to enter a page that only has his cards.
-In all four forms (adding a card, updateing a card, registering and logging in) there is a validation for filling in the fields, and of course also an indication of the extent to which he typed incorrectly and what he did incorrectly. Of course, when logging in, there is no indication of what he did, he registered incorrectly so as not to give hints to criminals. In the card update form where you enter several times when you enter the form the existing information is already present in the fields.
-the app as also about us page and a top navigation menu with the logo, brand main pages, a sign in and login button. It is also possible to change the theme of the site from dark to light and of course a search bar. If the user scrolls the page down, there is also a footer with similar navigation options are available.
+Registration Form: Ensures all required fields are completed correctly.
+Login Form: Validates username and password.
+Add Card Form: Users can create a new business card with input validation.
+Update Card Form: Business users can modify their existing cards, with similar validation to the add form.
+Each form provides clear feedback to the user, indicating any issues with their input and what needs to be corrected.
 
-And on a personal note, I want to say that I am aware that the project is not complete, and that there are elements that are missing or not built correctly. I tried to do my best and it was important for me to submit the project even if it has problems. I'm sure I'll improve as the course progresses.
+User Interface
+Navigation: The app includes a top navigation bar with the logo, main page links, signup/login buttons, and a theme toggle (dark/light mode).
+Search Functionality: A search bar allows users to easily find business cards by keywords.
+Footer: A footer is available at the bottom of the page with additional navigation options.
+
+Technologies Used
+React (Frontend)
+Bootstrap (UI Components)
+Axios (API Requests)
+Node.js (Backend API)
+
+Getting Started
+To get started with the app, simply press the Signup button, create an account, and explore the business cards available. Business users can quickly create their own cards to showcase their brand.
+
+

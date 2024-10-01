@@ -1,11 +1,9 @@
 import { useContext, useState } from "react";
-
 import { ThemeContext } from "../Context/ThemeContext";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar, Container, Nav, Form, FormControl, Button, Offcanvas } from "react-bootstrap";
 import React from 'react';
 import { LoginContext } from "../Context/AuthProvider";
-
 
 function NavigationBar() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -17,12 +15,9 @@ function NavigationBar() {
   const textColor = theme === "dark" ? "text-light" : "text-dark";
   const sideWindowBgColor = theme === "dark" ? "bg-dark" : "bg-light"; 
   const [showMenu, setShowMenu] = useState(false);
-
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const [expanded, setExpanded] = useState(false);
   
-
-
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
@@ -38,7 +33,6 @@ function NavigationBar() {
     navigate("/Login");
   };
 
-
   const handleToggle = () => {
     if (window.innerWidth <= 992) {
      
@@ -48,7 +42,6 @@ function NavigationBar() {
       setExpanded(!expanded);
     }
   };
-
 
   return (
     <>
