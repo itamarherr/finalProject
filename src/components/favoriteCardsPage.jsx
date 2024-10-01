@@ -47,8 +47,8 @@ function FavoriteCardsPage() {
               height: '80vh', 
               display: 'flex', 
               flexDirection: 'column', 
-              justifyContent: 'center',  // Center vertically
-              alignItems: 'center',      // Center horizontally
+              justifyContent: 'center', 
+              alignItems: 'center',      
               marginTop: 'auto' 
               }} 
               className="text-center text-muted">
@@ -70,16 +70,14 @@ function FavoriteCardsPage() {
                 <div style={{ maxHeight: "150px", overflow: "hidden" }}></div>
                 <Card.Title className={`${textColor}`}>{card.title}</Card.Title>
                 <Card.Subtitle className={`${textColor}`}>{card.subtitle}</Card.Subtitle>
-                {/* <Card.Text>{card.description}</Card.Text> */}
-                {/* <Card.Text>{card.phone}</Card.Text>
-                <Card.Text>{card.email}</Card.Text> */}
+               
                 <Card.Img 
                   variant="top"
                   src={card.image.url}
                   style={{ 
                       width: "100%", 
                       height: "150px", 
-                      objectFit: "cover", // ensures the image covers the area without distortion
+                      objectFit: "cover", 
                       marginBottom: "10px", 
                       marginTop: "20px", 
                       marginRight: "10px", 

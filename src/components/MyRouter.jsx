@@ -7,7 +7,6 @@ import UpdateCard from "./UpdateCard";
 import RegisterForm from "./RegisterForm";
 import React from "react";
 import ProtectedRoute from "./ProtectedRoute";
-import NonBusinessPage from './NonBusinessPage';
 import FavoriteCardsPage from "./favoriteCardsPage";
 import BusinessDetailPage from "./BusinessDetailPage";
 import SearchResultsPage from "./SearchResultPage";
@@ -21,7 +20,6 @@ function MyRouter() {
     <Routes>
       <Route path="/Login" element={<Login />} />
       <Route path="/favorite" element={<FavoriteCardsPage />} />
-      <Route path="/nonBusinessPage" element={<NonBusinessPage />} />
       <Route path="/business/:id" element={<BusinessDetailPage />} />
       <Route path="/" element={<HomePage />} />
       <Route path="/RegisterForm" element={<RegisterForm />} />

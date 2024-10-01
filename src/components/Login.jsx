@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../Context/AuthProvider";
-// import { Alert } from "react-bootstrap";
 import { loginUser } from "../components/service/apiUser";
 import Loader from "./Loader";
 

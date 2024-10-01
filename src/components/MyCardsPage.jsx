@@ -79,7 +79,10 @@ function MyCardsPage() {
                 {cards.map((card, index) => (
                     <Col key={index} className="mb-4">
                         <Card border="primary" style={{
-                            backgroundColor: theme === 'dark' ? '#121212' : '#fff', borderWidth: '3px', color: textColor, height: "100%",
+                            backgroundColor: theme === 'dark' ? '#121212' : '#fff', 
+                            borderWidth: '3px', 
+                            color: textColor, 
+                            height: "100%",
                             cursor: "pointer"
                         }} onClick={() => handleCardClick(card._id)}>
                             <Card.Header className={`${textColor}`}>Business card</Card.Header>
@@ -93,7 +96,7 @@ function MyCardsPage() {
                                     style={{ 
                                         width: "100%", 
                                         height: "150px", 
-                                        objectFit: "cover", // ensures the image covers the area without distortion
+                                        objectFit: "cover",
                                         marginBottom: "10px", 
                                         marginTop: "20px", 
                                         marginLeft: "10px", 

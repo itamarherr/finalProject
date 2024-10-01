@@ -1,15 +1,9 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
-import NavigationBar from "../layout/NavigationBar";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { createNewCard } from "./service/apiCard";
-import { Card } from "react-bootstrap";
-import React from 'react';
 
 function AddCard() {
   const navigate = useNavigate();
-  const { id } = useParams();
-  const location = useLocation();
-
   const [token, setToken] = useState("");
   const [card, setCard] = useState({
     title: "",
@@ -18,21 +12,21 @@ function AddCard() {
     phone: "",
     email: "",
     web: "",
-    url: "",
-    alt: "",
-    state: "",
-    country: "",
-    city: "",
-    street: "",
-    houseNumber: 0,
-    zip: 0,
+    image: {
+      url: "",
+      alt: "",
+    },
+    address: {
+      state: "",
+      country: "",
+      city: "",
+      street: "",
+      houseNumber: "",
+      zip: "",
+    },
   });
 
   const [errors, setErrors] = useState({});
-  const [emailError, setEmailError] = useState("");
-  const [phoneError, setPhoneError] = useState("");
-  const [webError, setWebError] = useState("");
-  const [imageUrlError, setImageUrlError] = useState("");
   
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
@@ -43,270 +37,177 @@ function AddCard() {
     }
   }, []);
 
-  const handleInputEnter = (e) => {
-    const { name, value } = e.target;
-    console.log("Input Change:", name, value);
-    setCard({
-      ...card,
-      [name]: value,
-    });
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-    const israeliPhoneRegex = /^(?:0(?:5[^7]|[2-4689]|7[0-9])[ -]?(?:(?:(?:[2-9]|[2-9][0-9])[ -]?\d{3}[ -]?\d{4})|(?:7(?:(?:[0-9]{2}[ -]?\d{3}[ -]?\d{2})|(?:[0-9][ -]?\d{3}[ -]?\d{3}))))|(?:(?:\+972|972)[ -]?(?:(?:(?:[2-9]|[2-9][0-9])[ -]?\d{3}[ -]?\d{4})|(?:7(?:(?:[0-9]{2}[ -]?\d{3}[ -]?\d{2})|(?:[0-9][ -]?\d{3}[ -]?\d{3}))))))$/;
-
-    const webAddressRegex = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]+\.){1,}[a-zA-Z]{2,}(\/\S*)?$/;
-
-   const imageUrlRegex = /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;;
-
-
-
-    if (name === "email" && !emailRegex.test(value)) {
-      setEmailError("Please enter a valid email address");
-    } else {
-      setEmailError("");
-    }
-
-    if (name === "phone" && !israeliPhoneRegex.test(value)) {
-      setPhoneError("Please enter a valid isreali phone number")
-    } else {
-      setPhoneError("");
-    }
-    israeliPhoneRegex
-    if (name === "web" && !webAddressRegex.test(value)) {
-      setWebError("Please enter a valid web address")
-    } else {
-      setWebError("");
-    }
-
-    if (name === "url" && !imageUrlRegex.test(value)) {
-      setWebError("Please enter a valid image url address")
-    } else {
-      setWebError("");
-    }
-
-    if (!value.trim()) {
-      setErrors(prevErrors => ({
-        ...prevErrors,
-        [name]: `${name} is required`,
-      }));
-    } else {
-      setErrors(prevErrors => ({
-        ...prevErrors,
-        [name]: null,
-      }));
-    }
-  }
-
-  const handleSave = async (e) => {
-    e.preventDefault();
-    console.log("handleSave called");  // Log this
-    console.log("Card Data:", card);   // Log card data
-    console.log("Token:", token);      // Log token
-    if (Object.values(errors).some(error => error !== null)) {
-      alert("Please correct the errors before submitting.");
-      return;
-    }
-    try {
-      const response = await createNewCard(token, card);
-      navigate("/MyCardsPage");
-    } catch (error) {
-      alert("An error occurred while saving the card. Please try again.");
-      throw error;
+  const validateField = (name, value) => {
+    switch (name) {
+      case "email":
+        return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value) 
+          ? "" : "Please enter a valid email address";
+      case "phone":
+        return /^((((\+972)|0)(([234689]\d{7})|([57]\d{8}))|(1[5789]\d{8}))|\*\d{3,6})$/.test(value)
+          ? "" : "Please enter a valid Israeli phone number";
+      case "web":
+        return /^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]+\.){1,}[a-zA-Z]{2,}(\/\S*)?$/.test(value)
+          ? "" : "Please enter a valid web address";
+      case "url":
+        return /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/.test(value)
+          ? "" : "Please enter a valid image URL address";
+      default:
+        return value.trim() ? "" : `${name} is required`;
     }
   };
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setCard(prevCard => {
+      if (name.includes('.')) {
+        const [objectKey, subKey] = name.split('.');
+        return {
+          ...prevCard,
+          [objectKey]: {
+            ...prevCard[objectKey],
+            [subKey]: value
+          }
+        };
+      }
+      return { ...prevCard, [name]: value };
+    });
+
+    // Validate the field as it's being changed
+    const error = validateField(name.includes('.') ? name.split('.')[1] : name, value);
+    setErrors(prevErrors => ({
+      ...prevErrors,
+      [name]: error
+    }));
+  };
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+
+    const newErrors = {};
+    let hasErrors = false;
+
+    // Validate all fields
+    Object.entries(card).forEach(([key, value]) => {
+      if (typeof value === 'object') {
+        Object.entries(value).forEach(([subKey, subValue]) => {
+          const fullKey = `${key}.${subKey}`;
+          const error = validateField(subKey, subValue);
+          if (error) {
+            newErrors[fullKey] = error;
+            hasErrors = true;
+          }
+        });
+      } else {
+        const error = validateField(key, value);
+        if (error) {
+          newErrors[key] = error;
+          hasErrors = true;
+        }
+      }
+    });
+    setErrors(newErrors);
+
+    if (hasErrors) {
+      return;
+    }
+
+    const formattedCard = {
+      ...card,
+      address: {
+        ...card.address,
+        houseNumber: Number(card.address.houseNumber),
+        zip: card.address.zip ? Number(card.address.zip) : undefined
+      }
+    };
+
+    try {
+      const response = await createNewCard(token, card);
+      console.log("Card created successfully:", response);
+      navigate("/MyCardsPage");
+    } catch (error) {
+      console.error("Error in handleSave:", error);
+      let errorMessage = "An unexpected error occurred. Please try again.";
+      
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error("Error response status:", error.response.status);
+        console.error("Error response data:", error.response.data);
+        errorMessage = error.response.data.message || `Server error: ${error.response.status}`;
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error("Error request:", error.request);
+        errorMessage = "No response received from server. Please check your internet connection.";
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error message:", error.message);
+        errorMessage = error.message;
+      }
+      
+      setErrors({ server: errorMessage });
+    }
+  };
+
+  const renderField = (name, label, required = false, type = "text") => (
+    <div className="col">
+      <label className="form-label">{label}{required && <span className="text-danger">*</span>}</label>
+      <input
+        type={type}
+        className="form-control"
+        name={name}
+        value={name.includes('.') ? card[name.split('.')[0]][name.split('.')[1]] : card[name]}
+        onChange={handleInputChange}
+      />
+      {errors[name] && <div className="text-danger">{errors[name]}</div>}
+    </div>
+  );
 
   return (
-    <>
-      <div className="container mt-4">
-        <div className="row justify-content-center">
-          <div className="col-md-8">
-            <div className="card p-4">
-              <h3 className="text-center mb-4">Add New Card</h3>
+    <div className="container mt-4">
+      <div className="row justify-content-center">
+        <div className="col-md-8">
+          <div className="card p-4">
+            <h3 className="text-center mb-4">Add New Card</h3>
+            {errors.server && <div className="alert alert-danger">{errors.server}</div>}
+            <form onSubmit={handleSave}>
+              <div className="row mb-3">
+                {renderField("title", "Title", true)}
+                {renderField("subtitle", "Subtitle", true)}
+                {renderField("description", "Description", true)}
+              </div>
+              <div className="row mb-3">
+                {renderField("phone", "Phone", true)}
+              </div>
+              <div className="row mb-3">
+                {renderField("email", "Email", true)}
+              </div><div className="row mb-3">
+                {renderField("web", "Web", true)}
+              </div>
+              <div className="row mb-3">
+                {renderField("image.url", "Image URL", true)}
+                {renderField("image.alt", "Image Alt")}
+              </div>
+              <div className="row mb-3">
+                {renderField("address.state", "State")}
+                {renderField("address.country", "Country", true)}
+                {renderField("address.city", "City", true)}
+                {renderField("address.street", "Street", true)}
+                {renderField("address.houseNumber", "House Number", true)}
+         
+                {renderField("address.zip", "Zip", false, "number")}
+              </div>
               <div className="row">
-                <div className="col-md-6 mb-3">
-          <label className="form-label">Title:* </label>
-          <input
-            type="text"
-            className="form-control"
-            value={card.title}
-            onChange={handleInputEnter}
-            name="title"
-            autoCapitalize="none"
-            autoComplete="off"
-            spellCheck="false"
-          />
-        {errors.title && <div style={{ color: 'red' }}>{errors.title}</div>}  
-        </div>
-        <div className="col">
-          <label className="form-label">Subtitle: *</label>
-          <input
-            type="text"
-            className="form-control"
-            value={card.subtitle}
-            onChange={handleInputEnter}
-            name="subtitle"
-          />
-         {errors.subtitle && <div style={{ color: 'red' }}>{errors.subtitle}</div>}
-        </div>
-        <div className="col">
-          <label className="form-label">Description: *</label>
-          <input
-            type="text"
-            className="form-control"
-            value={card.description}
-            onChange={handleInputEnter}
-            name="description"
-          />
-           {errors.description && <div style={{ color: 'red' }}>{errors.description}</div>}
+                <div className="col">
+                  <button type="submit" className="btn btn-primary me-2">Add</button>
+                  <button type="button" className="btn btn-danger" onClick={() => navigate("/CardListPage")}>Cancel</button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-      <div className="row">
-        <div className="col">
-          <label className="form-label">Phone: *</label>
-          <input
-            type="text"
-            className="form-control"
-            value={card.phone}
-            onChange={handleInputEnter}
-            name="phone"
-          />
-          {phoneError && <div style={{ color: 'red' }}>{phoneError}</div>}
-          <small className="form-text text-muted">Enter 10-15 only digits.</small>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col">
-          <label className="form-label">Email: *</label>
-          <input
-            type="text"
-            className="form-control"
-            value={card.email}
-            onChange={handleInputEnter}
-            name="email"
-          />
-          {emailError && <div style={{ color: 'red' }}>{emailError}</div>}
-          <small className="form-text text-muted">A valid email is required.</small>
-
-        </div>
-      </div>
-      <div className="row">
-        <div className="col">
-          <label className="form-label">Web: *</label>
-          <input
-            type="text"
-            className="form-control"
-            value={card.web}
-            onChange={handleInputEnter}
-            name="web"
-          />
-          {webError && <div style={{ color: 'red' }}>{webError}</div>}
-        </div>
-      </div>
-      <div className="row">
-        <div className="col">
-          <label className="form-label">Image URL*:</label>
-          <input
-            type="text"
-            className="form-control"
-            value={card.url}
-            onChange={handleInputEnter}
-            name="url"
-          />
-          {imageUrlError && <div style={{ color: 'red' }}>{imageUrlError}</div>}    
-           <small className="form-text text-muted">Enter valide Image Url.</small>
-        </div>
-        <div className="col">
-          <label className="form-label">Image Alt:</label>
-          <input
-            type="text"
-            className="form-control"
-            value={card.alt}
-            onChange={handleInputEnter}
-            name="alt"
-          />
-            {errors.alt && <div style={{ color: 'red' }}>{errors.alt}</div>}
-        </div>
-      </div>
-      <div className="row">
-        <div className="col">
-          <label className="form-label">State:</label>
-          <input
-            type="text"
-            className="form-control"
-            value={card.state}
-            onChange={handleInputEnter}
-            name="state"
-          />
-        </div>
-        <div className="col">
-          <label className="form-label">Country:</label>
-          <input
-            type="text"
-            className="form-control"
-            value={card.country}
-            onChange={handleInputEnter}
-            name="country"
-          />
-        </div>
-        <div className="col">
-          <label className="form-label">City:</label>
-          <input
-            type="text"
-            className="form-control"
-            value={card.city}
-            onChange={handleInputEnter}
-            name="city"
-          />
-        </div>
-        <div className="col">
-          <label className="form-label">Street:</label>
-          <input
-            type="text"
-            className="form-control"
-            value={card.street}
-            onChange={handleInputEnter}
-            name="street"
-          />
-        </div>
-        <div className="col">
-          <label className="form-label">HouseNumber:</label>
-          <input
-            type="number"
-            className="form-control"
-            value={card.houseNumber}
-            onChange={handleInputEnter}
-            name="houseNumber"
-          />
-        </div>
-        <div className="col">
-          <label className="form-label">Zip:</label>
-          <input
-            type="number"
-            className="form-control"
-            value={card.zip}
-            onChange={handleInputEnter}
-            name="zip"
-          />
-        </div>
-      </div>
-
-      <div>
-        <button className="btn btn-primary me-2 px-2" onClick={handleSave}>
-          add
-        </button>
-        <button
-          className="btn btn-danger px-2"
-          onClick={() => navigate("/CardListPage")}
-        >
-          cancel
-        </button>
-      </div>
-      </div>
-      </div>
-      </div>
-      </div>
-    </>
-  )
+    </div>
+  );
 }
+
 export default AddCard;

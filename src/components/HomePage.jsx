@@ -42,16 +42,42 @@ function HomePage() {
               />
             </div>
             <div className="col-sm-8 col-md-4">
-              <h3>Business menegment</h3>
+              <h3>Business Cards menegment</h3>
+
               <p>
-                Welcome to our innovative business card management app, where networking meets simplicity.</p>
+                        Welcome to ZIV'S APP. A business card management application. 
+                    </p>
+                    <p>
+                      
+                    </p>
+                        Here you can find countless business cards. In addition if you will register as users you will be able to create your own cards without limit, and of course have the option to edit and manege the cards.
+
+          
+                    <p>
+                        can see a sample of business cards. If they register as a users they will get access to all the business cards in the app. 
+                    </p>
+                    <p>
+                        Registered users can create a list of favorite cards. In eddition by clicking on the business cards and the users will get more details about that business.
+                    </p>
+                    <p>
+                         A user who registers as a business user can also create his own cards and of course have the option to edit them. 
+                    </p>
+                    <p>
+                         I invate you to Creat your own digital business card is quick and easy with ZIV'S APP. Within minutes, you can design a personalized card that reflects your brand identity and showcases your contact information.
+                    </p>
+                    <p>
+                        Ready to get started? Simply press the Signup button to access our platform. 
+                    </p>
+                  
+              {/* <p>
+                Welcome to our business card management app, where networking meets simplicity.</p>
               <p>Not only does our platform empower you to effortlessly organize your own business cards,
                 but it also opens doors to explore and connect with others in your professional sphere. </p>
               <p>Create your unique digital business card within minutes.
                 Plus, with easy access to view and save cards from other businesses, networking has never been smoother.</p>
               <p>Say hello to a world where exchanging contact information is as easy as a tap.
                 Join our community today and unlock endless networking possibilities at your fingertips.
-              </p>
+              </p> */}
 
             </div>
           </div>

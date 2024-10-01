@@ -41,8 +41,8 @@ export const getAllMyCards = async () => {
 
 
 export const updateCard = async (token, card, id) => {
-  console.log("Card Data:", card); // Log the entire card object
-  console.log("Address Data:", card.address); // Log the address part of the card
+  console.log("Card Data:", card); 
+  console.log("Address Data:", card.address);
   try {
 
     const response = await axios.put(
@@ -109,16 +109,16 @@ export const createNewCard = async (token, card) => {
         email: card.email,
         web: card.web,
         image: {
-          url: card.url,
-          alt: card.alt,
+          url: card.image.url,
+          alt: card.image.alt,
         },
         address: {
-          state: card.state,
-          country: card.country,
-          city: card.city,
-          street: card.street,
-          houseNumber: +card.houseNumber,
-          zip: +card.zip,
+          state: card.address.state,
+          country: card.address.country,
+          city: card.address.city,
+          street: card.address.street,
+          houseNumber: card.address.houseNumber,
+          zip: card.address.zip,
         },
       },
       {
@@ -127,9 +127,18 @@ export const createNewCard = async (token, card) => {
         },
       }
     );
+    console.log("API Response:", response);
     return response;
   } catch (error) {
     console.error("Error posting item:", error);
+    if (error.response) {
+      console.error("Error response status:", error.response.status);
+      console.error("Error response data:", error.response.data);
+    } else if (error.request) {
+      console.error("Error request:", error.request);
+    } else {
+      console.error("Error message:", error.message);
+    }
     throw error;
   }
 };

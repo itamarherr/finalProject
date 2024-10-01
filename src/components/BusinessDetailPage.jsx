@@ -63,7 +63,7 @@ function BusinessDetailPage() {
               src={business.image.url}
               alt={business.title}
               className="card-img-top"
-              style={{ height: '450px', objectFit: 'cover' }} // Resized image to 250px height
+              style={{ height: '450px', objectFit: 'cover' }}
             />
             <div className="card-body">
               <h2 className="card-title">{business.title}</h2>

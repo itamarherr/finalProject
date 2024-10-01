@@ -15,10 +15,10 @@ export const loginUser = async (email, password) => {
     const response = await api.post(`users/login`, {email, password});
     console.log('API Response:', response.data);
     if (response.data && typeof response.data === 'string') {
-      // If the response is the token itself
+  
       return { token: response.data };
     } else if (response.data && response.data.token) {
-      // If the response is an object containing the token
+   
       return response.data;
     } else {
       throw new Error("No token received from server");
@@ -30,7 +30,7 @@ export const loginUser = async (email, password) => {
 };
 export const registerUser = async (userData) => {
   try {
-    console.log('Sending this user data:', userData); // Check what is being sent
+    console.log('Sending this user data:', userData);
     const response = await api.post('users', userData);
     return response.data;
   } catch (error) {

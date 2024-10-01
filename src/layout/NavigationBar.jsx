@@ -17,7 +17,7 @@ function NavigationBar() {
   const textColor = theme === "dark" ? "text-light" : "text-dark";
   const sideWindowBgColor = theme === "dark" ? "bg-dark" : "bg-light"; 
   const [showMenu, setShowMenu] = useState(false);
-  //new addition to resolve the doplicity:
+
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const [expanded, setExpanded] = useState(false);
   
@@ -38,13 +38,13 @@ function NavigationBar() {
     navigate("/Login");
   };
 
-  //new addition to resolve the doplicity:
+
   const handleToggle = () => {
     if (window.innerWidth <= 992) {
-      // Trigger Offcanvas for small screens
+     
       setShowOffcanvas(true);
     } else {
-      // Expand/Collapse Navbar for larger screens
+    
       setExpanded(!expanded);
     }
   };
@@ -154,19 +154,12 @@ function NavigationBar() {
         </Container>
       </Navbar>
 
-
-
-      {/* Offcanvas only shows for smaller screens */}  
-
-
-
-
       <Offcanvas show={showOffcanvas} onHide={() => setShowOffcanvas(false)} placement="start" style={{ width: '250px' }}>
 
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Menu</Offcanvas.Title>
         </Offcanvas.Header>
-        <Offcanvas.Body className={sideWindowBgColor}> {/* Dynamically apply background color class */}
+        <Offcanvas.Body className={sideWindowBgColor}> 
           <Nav className="flex-column">
           <Link to="/" className={`nav-link ${textColor}`} onClick={() => setShowOffcanvas(false)}>
               Home
@@ -230,7 +223,7 @@ function NavigationBar() {
                 {theme}
                 <i className={`bi bi-${theme === "dark" ? "moon-fill" : "brightness-high-fill"} ms-2`}></i>
               </label>
-              {/* Add more links here if needed */}
+          
             </div>
           </Nav>
         </Offcanvas.Body>
