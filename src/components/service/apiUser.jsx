@@ -13,7 +13,6 @@ const getAuthHeader = () => {
 export const loginUser = async (email, password) => {
   try {
     const response = await api.post(`users/login`, { email, password });
-    console.log("API Response:", response.data);
     if (response.data && typeof response.data === "string") {
       return { token: response.data };
     } else if (response.data && response.data.token) {
@@ -28,11 +27,9 @@ export const loginUser = async (email, password) => {
 };
 export const registerUser = async (userData) => {
   try {
-    console.log("Sending this user data:", userData);
     const response = await api.post("users", userData);
     return response.data;
   } catch (error) {
-    console.error("Register API error:", error);
     throw error;
   }
 };

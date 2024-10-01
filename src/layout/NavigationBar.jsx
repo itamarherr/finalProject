@@ -22,7 +22,6 @@ function NavigationBar() {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const textColor = theme === "dark" ? "text-light" : "text-dark";
   const sideWindowBgColor = theme === "dark" ? "bg-dark" : "bg-light";
-  const [showMenu, setShowMenu] = useState(false);
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const [expanded, setExpanded] = useState(false);
 

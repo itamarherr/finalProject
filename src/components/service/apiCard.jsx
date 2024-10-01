@@ -131,13 +131,11 @@ export const createNewCard = async (token, card) => {
         },
       }
     );
-    console.log("API Response:", response);
+   
     return response;
   } catch (error) {
-    console.error("Error posting item:", error);
     if (error.response) {
       console.error("Error response status:", error.response.status);
-      console.error("Error response data:", error.response.data);
     } else if (error.request) {
       console.error("Error request:", error.request);
     } else {
