@@ -1,26 +1,16 @@
-import React, { useContext } from 'react';
-import { LoginContext } from '../Context/AuthProvider';
-import { Navigate } from 'react-router-dom';
-
+import React, { useContext } from "react";
+import { LoginContext } from "../Context/AuthProvider";
+import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
   const { isLoggedIn, isBusiness } = useContext(LoginContext);
   if (!isLoggedIn) {
     return <Navigate to="/login" />;
-  }
-  else if (!isBusiness) {
+  } else if (!isBusiness) {
     return <Navigate to="/CardListPage" />;
   }
 
   return <>{children}</>;
-
-
-
-
-
-
-
-}
-
+};
 
 export default ProtectedRoute;

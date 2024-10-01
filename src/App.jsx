@@ -7,7 +7,6 @@ import { ThemeProvider, ThemeContext } from './Context/ThemeContext';
 import { BrowserRouter as Router } from 'react-router-dom';
 import React from 'react';
 import { LoginProvider } from './Context/AuthProvider';
-// import './tailwind.css';
 
 function App() {
   return (

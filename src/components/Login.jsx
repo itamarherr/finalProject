@@ -4,7 +4,6 @@ import { LoginContext } from "../Context/AuthProvider";
 import { loginUser } from "../components/service/apiUser";
 import Loader from "./Loader";
 
-
 function Login() {
   const { login } = useContext(LoginContext);
   const navigate = useNavigate();
@@ -35,15 +34,13 @@ function Login() {
     try {
       await login(email, password);
       navigate("/CardListPage");
-    }catch (error) {
+    } catch (error) {
       console.error("Login error:", error);
-      setError("Invalid email or password"); 
+      setError("Invalid email or password");
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
-
-
 
   const handleClearFields = () => {
     setEmail("");
@@ -51,15 +48,12 @@ function Login() {
     setError(null);
   };
 
-
   return (
-    
     <div className="container">
       <div className="row justify-content-center">
         <div className="col-md-6"></div>
         <h2 className="text-center mb-5 mt-3">LOGIN</h2>
         <form className="center w-50" onSubmit={handleSubmit} noValidate>
-        
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
               Email address
@@ -74,7 +68,7 @@ function Login() {
                 setError(null);
               }}
               placeholder="Enter your email"
-              autoComplete="off" 
+              autoComplete="off"
             />
           </div>
           <div className="mb-3">
@@ -91,7 +85,7 @@ function Login() {
                 setError(null);
               }}
               placeholder="Enter your password"
-              autoComplete="new-password" 
+              autoComplete="new-password"
             />
           </div>
           {error && <div className="alert alert-danger">{error}</div>}
@@ -119,11 +113,15 @@ function Login() {
             </button>
           </div>
 
-          <button className="btn btn-primary w-100 mt-2" type="submit"disabled={loading}>
-          {loading ? "Loading..." : "SUBMIT"}
+          <button
+            className="btn btn-primary w-100 mt-2"
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? "Loading..." : "SUBMIT"}
           </button>
         </form>
-        <div style={{ height: '50vh', marginTop: '2rem' }}>
+        <div style={{ height: "50vh", marginTop: "2rem" }}>
           <p className="text-center text-muted">
             Welcome to our application. Please log in to access your account.
           </p>

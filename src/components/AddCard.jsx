@@ -27,7 +27,7 @@ function AddCard() {
   });
 
   const [errors, setErrors] = useState({});
-  
+
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
     if (savedToken) {
@@ -40,17 +40,27 @@ function AddCard() {
   const validateField = (name, value) => {
     switch (name) {
       case "email":
-        return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value) 
-          ? "" : "Please enter a valid email address";
+        return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value)
+          ? ""
+          : "Please enter a valid email address";
       case "phone":
-        return /^((((\+972)|0)(([234689]\d{7})|([57]\d{8}))|(1[5789]\d{8}))|\*\d{3,6})$/.test(value)
-          ? "" : "Please enter a valid Israeli phone number";
+        return /^((((\+972)|0)(([234689]\d{7})|([57]\d{8}))|(1[5789]\d{8}))|\*\d{3,6})$/.test(
+          value
+        )
+          ? ""
+          : "Please enter a valid Israeli phone number";
       case "web":
-        return /^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]+\.){1,}[a-zA-Z]{2,}(\/\S*)?$/.test(value)
-          ? "" : "Please enter a valid web address";
+        return /^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]+\.){1,}[a-zA-Z]{2,}(\/\S*)?$/.test(
+          value
+        )
+          ? ""
+          : "Please enter a valid web address";
       case "url":
-        return /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/.test(value)
-          ? "" : "Please enter a valid image URL address";
+        return /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/.test(
+          value
+        )
+          ? ""
+          : "Please enter a valid image URL address";
       default:
         return value.trim() ? "" : `${name} is required`;
     }
@@ -58,25 +68,28 @@ function AddCard() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setCard(prevCard => {
-      if (name.includes('.')) {
-        const [objectKey, subKey] = name.split('.');
+    setCard((prevCard) => {
+      if (name.includes(".")) {
+        const [objectKey, subKey] = name.split(".");
         return {
           ...prevCard,
           [objectKey]: {
             ...prevCard[objectKey],
-            [subKey]: value
-          }
+            [subKey]: value,
+          },
         };
       }
       return { ...prevCard, [name]: value };
     });
 
     // Validate the field as it's being changed
-    const error = validateField(name.includes('.') ? name.split('.')[1] : name, value);
-    setErrors(prevErrors => ({
+    const error = validateField(
+      name.includes(".") ? name.split(".")[1] : name,
+      value
+    );
+    setErrors((prevErrors) => ({
       ...prevErrors,
-      [name]: error
+      [name]: error,
     }));
   };
 
@@ -88,7 +101,7 @@ function AddCard() {
 
     // Validate all fields
     Object.entries(card).forEach(([key, value]) => {
-      if (typeof value === 'object') {
+      if (typeof value === "object") {
         Object.entries(value).forEach(([subKey, subValue]) => {
           const fullKey = `${key}.${subKey}`;
           const error = validateField(subKey, subValue);
@@ -116,8 +129,8 @@ function AddCard() {
       address: {
         ...card.address,
         houseNumber: Number(card.address.houseNumber),
-        zip: card.address.zip ? Number(card.address.zip) : undefined
-      }
+        zip: card.address.zip ? Number(card.address.zip) : undefined,
+      },
     };
 
     try {
@@ -127,34 +140,41 @@ function AddCard() {
     } catch (error) {
       console.error("Error in handleSave:", error);
       let errorMessage = "An unexpected error occurred. Please try again.";
-      
+
       if (error.response) {
-       
         console.error("Error response status:", error.response.status);
         console.error("Error response data:", error.response.data);
-        errorMessage = error.response.data.message || `Server error: ${error.response.status}`;
+        errorMessage =
+          error.response.data.message ||
+          `Server error: ${error.response.status}`;
       } else if (error.request) {
-     
         console.error("Error request:", error.request);
-        errorMessage = "No response received from server. Please check your internet connection.";
+        errorMessage =
+          "No response received from server. Please check your internet connection.";
       } else {
-    
         console.error("Error message:", error.message);
         errorMessage = error.message;
       }
-      
+
       setErrors({ server: errorMessage });
     }
   };
 
   const renderField = (name, label, required = false, type = "text") => (
     <div className="col">
-      <label className="form-label">{label}{required && <span className="text-danger">*</span>}</label>
+      <label className="form-label">
+        {label}
+        {required && <span className="text-danger">*</span>}
+      </label>
       <input
         type={type}
         className="form-control"
         name={name}
-        value={name.includes('.') ? card[name.split('.')[0]][name.split('.')[1]] : card[name]}
+        value={
+          name.includes(".")
+            ? card[name.split(".")[0]][name.split(".")[1]]
+            : card[name]
+        }
         onChange={handleInputChange}
       />
       {errors[name] && <div className="text-danger">{errors[name]}</div>}
@@ -167,7 +187,9 @@ function AddCard() {
         <div className="col-md-8">
           <div className="card p-4">
             <h3 className="text-center mb-4">Add New Card</h3>
-            {errors.server && <div className="alert alert-danger">{errors.server}</div>}
+            {errors.server && (
+              <div className="alert alert-danger">{errors.server}</div>
+            )}
             <form onSubmit={handleSave}>
               <div className="row mb-3">
                 {renderField("title", "Title", true)}
@@ -179,26 +201,33 @@ function AddCard() {
               </div>
               <div className="row mb-3">
                 {renderField("email", "Email", true)}
-              </div><div className="row mb-3">
-                {renderField("web", "Web", true)}
               </div>
+              <div className="row mb-3">{renderField("web", "Web", true)}</div>
               <div className="row mb-3">
                 {renderField("image.url", "Image URL", true)}
-                {renderField("image.alt", "Image Alt")}
+                {renderField("image.alt", "Image Alt", true)}
               </div>
               <div className="row mb-3">
-                {renderField("address.state", "State")}
+                {renderField("address.state", "State", true)}
                 {renderField("address.country", "Country", true)}
                 {renderField("address.city", "City", true)}
                 {renderField("address.street", "Street", true)}
                 {renderField("address.houseNumber", "House Number", true)}
-         
-                {renderField("address.zip", "Zip", false, "number")}
+
+                {renderField("address.zip", "Zip", true, "number")}
               </div>
               <div className="row">
                 <div className="col">
-                  <button type="submit" className="btn btn-primary me-2">Add</button>
-                  <button type="button" className="btn btn-danger" onClick={() => navigate("/CardListPage")}>Cancel</button>
+                  <button type="submit" className="btn btn-primary me-2">
+                    Add
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={() => navigate("/CardListPage")}
+                  >
+                    Cancel
+                  </button>
                 </div>
               </div>
             </form>

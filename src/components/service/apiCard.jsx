@@ -2,21 +2,23 @@ import axios from "axios";
 import { BaseAPI } from "../constants";
 
 const api = axios.create({
-  baseURL: BaseAPI
+  baseURL: BaseAPI,
 });
 
 const getAuthHeader = () => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
 export const getCard = async () => {
-
   try {
-    const response = await axios.get(`https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards/`, {
-      headers: {
-        "x-auth-token": localStorage.getItem("token")
-      },
-    });
+    const response = await axios.get(
+      `https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards/`,
+      {
+        headers: {
+          "x-auth-token": localStorage.getItem("token"),
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error posting item:", error);
@@ -25,13 +27,15 @@ export const getCard = async () => {
 };
 
 export const getAllMyCards = async () => {
-
   try {
-    const response = await axios.get(`https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards/my-cards`, {
-      headers: {
-        "x-auth-token": localStorage.getItem("token")
-      },
-    });
+    const response = await axios.get(
+      `https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards/my-cards`,
+      {
+        headers: {
+          "x-auth-token": localStorage.getItem("token"),
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error posting item:", error);
@@ -39,15 +43,13 @@ export const getAllMyCards = async () => {
   }
 };
 
-
 export const updateCard = async (token, card, id) => {
-  console.log("Card Data:", card); 
+  console.log("Card Data:", card);
   console.log("Address Data:", card.address);
   try {
-
     const response = await axios.put(
       `https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards/${id}`,
-     
+
       {
         title: card.title,
         subtitle: card.subtitle,
@@ -81,15 +83,16 @@ export const updateCard = async (token, card, id) => {
   }
 };
 
-
-
 export const deleteCard = async (cardId) => {
   try {
-    const response = await axios.delete(`https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards/${cardId}`, {
-      headers: {
-        "x-auth-token": localStorage.getItem("token"),
-      },
-    });
+    const response = await axios.delete(
+      `https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards/${cardId}`,
+      {
+        headers: {
+          "x-auth-token": localStorage.getItem("token"),
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error deleting item:", error);
@@ -100,7 +103,8 @@ export const deleteCard = async (cardId) => {
 export const createNewCard = async (token, card) => {
   try {
     console.log("Token:", token);
-    const response = await api.post(`https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards/`,
+    const response = await api.post(
+      `https://monkfish-app-z9uza.ondigitalocean.app/bcard2/cards/`,
       {
         title: card.title,
         subtitle: card.subtitle,

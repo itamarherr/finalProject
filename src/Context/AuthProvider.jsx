@@ -13,7 +13,7 @@ export const LoginProvider = ({ children }) => {
     const token = localStorage.getItem("token");
     const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
     const storedIsBusiness = localStorage.getItem("isBusiness");
-    
+
     if (token && storedIsLoggedIn === "true") {
       try {
         const decodedToken = jwtDecode(token);
@@ -32,14 +32,17 @@ export const LoginProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const response = await loginUser(email, password);
-      console.log('Login Response:', response);
+      console.log("Login Response:", response);
       const token = response.token;
-      
+
       if (token) {
         const decodedToken = jwtDecode(token);
         localStorage.setItem("token", token);
         localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("isBusiness", decodedToken.isBusiness ? "true" : "false");
+        localStorage.setItem(
+          "isBusiness",
+          decodedToken.isBusiness ? "true" : "false"
+        );
         setUser(decodedToken);
         setIsLoggedIn(true);
         setIsBusiness(decodedToken.isBusiness);
@@ -70,8 +73,7 @@ export const LoginProvider = ({ children }) => {
         const decodedToken = jwtDecode(token);
         localStorage.setItem("token", token);
         localStorage.setItem("isLoggedIn", "true");
-        
-      
+
         setUser(decodedToken);
         setIsLoggedIn(true);
         setIsBusiness(decodedToken.isBusiness);
@@ -86,7 +88,9 @@ export const LoginProvider = ({ children }) => {
   };
 
   return (
-    <LoginContext.Provider value={{ user, login, logout, register, isLoggedIn, isBusiness }}>
+    <LoginContext.Provider
+      value={{ user, login, logout, register, isLoggedIn, isBusiness }}
+    >
       {children}
     </LoginContext.Provider>
   );

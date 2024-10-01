@@ -100,7 +100,7 @@ function MyCardsPage() {
                   </Card.Header>
                   <Card.Body
                     className={`${textColor}`}
-                    style={{ overflow: "auto" }}
+                    // style={{ overflow: "auto" }}
                   >
                     <div
                       style={{ maxHeight: "150px", overflow: "hidden" }}
@@ -164,7 +164,8 @@ function MyCardsPage() {
               </Col>
             ))}
           </Row>
-          <div className="text-center">
+          <div style={{ height: "50vh", marginTop: "2rem" }} 
+          className="text-center">
             <h2 className="lead text-center text-muted mb-3">
               Click on the cards to view more detailed information
             </h2>

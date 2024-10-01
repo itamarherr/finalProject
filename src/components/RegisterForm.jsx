@@ -2,51 +2,47 @@ import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { registerUser } from "./service/apiUser";
 
-
-
-
 function RegisterForm() {
   const navigate = useNavigate();
   const [user, setUser] = useState({
-  name: {
-    first: "",
-    middle: "",
-    last: ""
-  },
-  phone: "",
-  email: "",
-  password: "",
-  image: {
-    url: "",
-    alt: ""
-  },
-  address: {
-    state: "",
-    country: "",
-    city: "",
-    street: "",
-    houseNumber: 0,
-    zip: 0
-  },
-  "isBusiness": true
+    name: {
+      first: "",
+      middle: "",
+      last: "",
+    },
+    phone: "",
+    email: "",
+    password: "",
+    image: {
+      url: "",
+      alt: "",
+    },
+    address: {
+      state: "",
+      country: "",
+      city: "",
+      street: "",
+      houseNumber: 0,
+      zip: 0,
+    },
+    isBusiness: true,
   });
   const [errors, setErrors] = useState({});
   const [passwordError, setPasswordError] = useState("");
   const [registrationError, setRegistrationError] = useState("");
   const resetForm = () => {
-
     setUser({
       name: {
         first: "",
         middle: "",
-        last: ""
+        last: "",
       },
       phone: "",
       email: "",
       password: "",
       image: {
         url: "",
-        alt: ""
+        alt: "",
       },
       address: {
         state: "",
@@ -54,36 +50,39 @@ function RegisterForm() {
         city: "",
         street: "",
         houseNumber: 0,
-        zip: 0
+        zip: 0,
       },
-      isBusiness: true
+      isBusiness: true,
     });
-  
+
     setErrors({});
     setPasswordError("");
     setRegistrationError("");
   };
-  
 
   const validateInput = () => {
     const newErrors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^[0-9]{10,15}$/;
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*\d.*\d.*\d)(?=.*[*&^%$#@!]).{8,}$/;
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*\d.*\d.*\d)(?=.*[*&^%$#@!]).{8,}$/;
 
     if (!user.name.first) newErrors.first = "First name is required.";
     if (!user.name.last) newErrors.last = "Last name is required.";
-    if (!emailRegex.test(user.email)) newErrors.email = "Invalid email address.";
-    if (!phoneRegex.test(user.phone)) newErrors.phone = "Phone must be 10-15 digits.";
+    if (!emailRegex.test(user.email))
+      newErrors.email = "Invalid email address.";
+    if (!phoneRegex.test(user.phone))
+      newErrors.phone = "Phone must be 10-15 digits.";
     if (!passwordRegex.test(user.password))
-      newErrors.password = "Password must contain one uppercase, one lowercase, four numbers, and one special character (*-&^%$#@!).";
+      newErrors.password =
+        "Password must contain one uppercase, one lowercase, four numbers, and one special character (*-&^%$#@!).";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
   const handleSave = async (e) => {
     e.preventDefault();
-    if (!validateInput()) return; 
+    if (!validateInput()) return;
 
     try {
       const response = await registerUser(user);
@@ -95,7 +94,9 @@ function RegisterForm() {
       }
     } catch (error) {
       setRegistrationError(
-        error.response ? error.response.data : "Registration failed. Please try again."
+        error.response
+          ? error.response.data
+          : "Registration failed. Please try again."
       );
     }
   };
@@ -105,8 +106,8 @@ function RegisterForm() {
 
     setErrors((prevErrors) => {
       const updatedErrors = prevErrors ? { ...prevErrors } : {};
-      if (name.includes('.')) {
-        const [objectKey, nestedKey] = name.split('.');
+      if (name.includes(".")) {
+        const [objectKey, nestedKey] = name.split(".");
         delete updatedErrors[`${objectKey}.${nestedKey}`];
       } else {
         delete updatedErrors[name];
@@ -114,14 +115,14 @@ function RegisterForm() {
       return updatedErrors;
     });
     setUser((prevUser) => {
-      if (name.includes('.')) {
-        const [objectKey, nestedKey] = name.split('.');
+      if (name.includes(".")) {
+        const [objectKey, nestedKey] = name.split(".");
         return {
           ...prevUser,
           [objectKey]: {
             ...prevUser[objectKey],
-            [nestedKey]: value
-          }
+            [nestedKey]: value,
+          },
         };
       }
       return { ...prevUser, [name]: value };
@@ -139,11 +140,11 @@ function RegisterForm() {
       <div className="container min-vh-100 d-flex justify-content-center align-items-center">
         <form className="center w-75" onSubmit={handleSave}>
           <h1 className="text-center">REGISTER</h1>
-         
+
           {registrationError && (
             <div className="alert alert-danger">{registrationError}</div>
           )}
-         
+
           <div className="row">
             <div className="col">
               <label className="form-label">First Name: *</label>
@@ -153,9 +154,10 @@ function RegisterForm() {
                 value={user.name.first}
                 onChange={handleInputChange}
                 name="name.first"
-               
               />
-               {errors.first && <div className="invalid-feedback">{errors.first}</div>}
+              {errors.first && (
+                <div className="invalid-feedback">{errors.first}</div>
+              )}
             </div>
             <div className="col">
               <label className="form-label">Middle Name:</label>
@@ -165,7 +167,6 @@ function RegisterForm() {
                 value={user.name.middle}
                 onChange={handleInputChange}
                 name="name.middle"
-               
               />
             </div>
             <div className="col">
@@ -176,9 +177,10 @@ function RegisterForm() {
                 value={user.name.last}
                 onChange={handleInputChange}
                 name="name.last"
-             
               />
-                {errors.last && <div className="invalid-feedback">{errors.last}</div>}
+              {errors.last && (
+                <div className="invalid-feedback">{errors.last}</div>
+              )}
             </div>
           </div>
           <div className="row">
@@ -190,10 +192,13 @@ function RegisterForm() {
                 value={user.phone}
                 onChange={handleInputChange}
                 name="phone"
-                
               />
-               {errors.phone && <div className="invalid-feedback">{errors.phone}</div>}
-               <small className="form-text text-muted">Enter 10-15 only digits.</small>
+              {errors.phone && (
+                <div className="invalid-feedback">{errors.phone}</div>
+              )}
+              <small className="form-text text-muted">
+                Enter 10-15 only digits.
+              </small>
             </div>
           </div>
           <div className="row">
@@ -205,11 +210,14 @@ function RegisterForm() {
                 value={user.email}
                 onChange={handleInputChange}
                 name="email"
-                autoComplete="off" 
-               
+                autoComplete="off"
               />
-               {errors.email && <div className="invalid-feedback">{errors.email}</div>}
-               <small className="form-text text-muted">A valid email is required.</small>
+              {errors.email && (
+                <div className="invalid-feedback">{errors.email}</div>
+              )}
+              <small className="form-text text-muted">
+                A valid email is required.
+              </small>
             </div>
           </div>
           <div className="row">
@@ -217,16 +225,20 @@ function RegisterForm() {
               <label className="form-label">Password: *</label>
               <input
                 type="password"
-                className={`form-control ${errors.password ? "is-invalid" : ""}`}
+                className={`form-control ${
+                  errors.password ? "is-invalid" : ""
+                }`}
                 value={user.password}
                 onChange={handleInputChange}
                 name="password"
-                autoComplete="new-password" 
-                
+                autoComplete="new-password"
               />
-                {errors.password && <div className="invalid-feedback">{errors.password}</div>}
-                <small className="form-text text-muted">
-                Must be at least 8 characters, with uppercase, lowercase, four numbers, and a special character (*-&^%$#@!).
+              {errors.password && (
+                <div className="invalid-feedback">{errors.password}</div>
+              )}
+              <small className="form-text text-muted">
+                Must be at least 8 characters, with uppercase, lowercase, four
+                numbers, and a special character (*-&^%$#@!).
               </small>
             </div>
           </div>
@@ -239,7 +251,7 @@ function RegisterForm() {
                 value={user.image.url}
                 onChange={handleInputChange}
                 name="image.url"
-                 placeholder="Enter an image URL (optional)"
+                placeholder="Enter an image URL (optional)"
               />
             </div>
             <div className="col">
@@ -263,7 +275,6 @@ function RegisterForm() {
                 value={user.address.state}
                 onChange={handleInputChange}
                 name="address.state"
-               
               />
             </div>
             <div className="col">
@@ -274,7 +285,6 @@ function RegisterForm() {
                 value={user.address.country}
                 onChange={handleInputChange}
                 name="address.country"
-               
               />
             </div>
             <div className="col">
@@ -285,7 +295,6 @@ function RegisterForm() {
                 value={user.address.city}
                 onChange={handleInputChange}
                 name="address.city"
-              
               />
             </div>
             <div className="col">
@@ -296,7 +305,6 @@ function RegisterForm() {
                 value={user.address.street}
                 onChange={handleInputChange}
                 name="address.street"
-             
               />
             </div>
             <div className="col">
@@ -307,7 +315,6 @@ function RegisterForm() {
                 value={user.address.houseNumber}
                 onChange={handleInputChange}
                 name="address.houseNumber"
-              
               />
             </div>
             <div className="col">
@@ -318,7 +325,6 @@ function RegisterForm() {
                 value={user.address.zip}
                 onChange={handleInputChange}
                 name="address.zip"
-                
               />
             </div>
           </div>
@@ -338,7 +344,9 @@ function RegisterForm() {
                 <label htmlFor="onOff2" className="form-check-label">
                   Signup as business
                 </label>
-                <small className="form-text text-muted">Check this if you're registering as a business.</small>
+                <small className="form-text text-muted">
+                  Check this if you're registering as a business.
+                </small>
               </div>
             </div>
           </div>
@@ -355,18 +363,18 @@ function RegisterForm() {
               CANCEL
             </button>
             <button
-  type="button"
-  className="btn btn-info m-2"
-  onClick={resetForm} 
->
-  <i className="bi bi-arrow-clockwise"></i>
-</button>
+              type="button"
+              className="btn btn-info m-2"
+              onClick={resetForm}
+            >
+              <i className="bi bi-arrow-clockwise"></i>
+            </button>
           </div>
 
-          <button 
-          className="btn btn-primary w-100 mt-2" 
-          type="submit"
-          disabled={Object.keys(errors).length > 0}
+          <button
+            className="btn btn-primary w-100 mt-2"
+            type="submit"
+            disabled={Object.keys(errors).length > 0}
           >
             SUBMIT
           </button>

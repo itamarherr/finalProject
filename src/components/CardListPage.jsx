@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Card, Button, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { createNewCard} from "./service/apiCard";
+import { createNewCard } from "./service/apiCard";
 import { getCard } from "./service/apiCard";
 import { ThemeContext } from "../Context/ThemeContext";
 import Loader from "./Loader";
-
 
 function CardListPage() {
   const [cards, setCards] = useState([]);
@@ -13,24 +12,23 @@ function CardListPage() {
   const { theme } = useContext(ThemeContext);
   const textColor = theme === "dark" ? "text-light" : "text-dark";
   const titleTextColor = theme === "dark" ? "text-dark" : "text-light";
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchCards();
   }, []);
 
   const fetchCards = async () => {
-    setLoading(true); 
+    setLoading(true);
     try {
       const response = await getCard();
       setCards(response);
     } catch (error) {
       console.error("Error fetching cards:", error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
-
 
   const toggleFavorite = (cardId, e) => {
     e.stopPropagation();
@@ -38,7 +36,9 @@ function CardListPage() {
       card._id === cardId ? { ...card, isFavorite: !card.isFavorite } : card
     );
     setCards(updatedCards);
-    const favoriteCardIds = updatedCards.filter((card) => card.isFavorite).map((card) => card._id);
+    const favoriteCardIds = updatedCards
+      .filter((card) => card.isFavorite)
+      .map((card) => card._id);
     localStorage.setItem("favoriteCardIds", JSON.stringify(favoriteCardIds));
   };
 
@@ -46,18 +46,21 @@ function CardListPage() {
     navigate(`/business/${cardId}`);
   };
 
-
   if (loading) return <Loader />;
 
   return (
-    <div className="container" style={{ backgroundColor: '#fff' }}>
+    <div className="container" style={{ backgroundColor: "#fff" }}>
       <div className="text-center">
         <h1>Cards Page</h1>
-        <h2 class="lead text-center text-muted mb-3">Click on the cards to view more detailed information</h2>
+        <h2 class="lead text-center text-muted mb-3">
+          Click on the cards to view more detailed information
+        </h2>
       </div>
 
       <button
-        className={`btn ${theme === 'dark' ? 'btn-dark' : 'btn-primary'} mb-3 mt-3 m-5`}
+        className={`btn ${
+          theme === "dark" ? "btn-dark" : "btn-primary"
+        } mb-3 mt-3 m-5`}
         onClick={() => navigate("/AddCard", { createNewCard })}
       >
         Add Card
@@ -66,48 +69,59 @@ function CardListPage() {
       <Row xs={1} md={2} lg={3} xl={4} className="row">
         {cards.map((card, index) => (
           <Col key={index} className="mb-4">
-            <Card border="primary" style={{ 
-              backgroundColor: theme === 'dark' ? '#121212' : '#fff', 
-              borderWidth: '3px', 
-              color: textColor, 
-              height: "100%", 
-              cursor: "pointer" 
-              }} onClick={() => handleCardClick(card._id)}>
-              <Card.Header className={`${textColor}`}>Business card</Card.Header>
+            <Card
+              border="primary"
+              style={{
+                backgroundColor: theme === "dark" ? "#121212" : "#fff",
+                borderWidth: "3px",
+                color: textColor,
+                height: "100%",
+                cursor: "pointer",
+              }}
+              onClick={() => handleCardClick(card._id)}
+            >
+              <Card.Header className={`${textColor}`}>
+                Business card
+              </Card.Header>
               <Card.Body className={`${textColor}`}>
-                <div style={{ maxHeight: "150px"}}></div>
-                <Card.Title className={`${textColor}`} >{card.title}</Card.Title>
-                <Card.Subtitle className={`${textColor}`}>{card.subtitle}</Card.Subtitle>
+                <div style={{ maxHeight: "150px" }}></div>
+                <Card.Title className={`${textColor}`}>{card.title}</Card.Title>
+                <Card.Subtitle className={`${textColor}`}>
+                  {card.subtitle}
+                </Card.Subtitle>
                 <Card.Img
-                 variant="top"
-                 src={card.image.url}
-                 style={{ 
-                 width: "100%", 
-                 height: "150px", 
-                 objectFit: "cover", 
-                 marginBottom: "10px", 
-                 marginTop: "20px", 
-                 marginLeft: "10px", 
-                 marginRight: "10px" 
-                 }}
-                 />
+                  variant="top"
+                  src={card.image.url}
+                  style={{
+                    width: "100%",
+                    height: "150px",
+                    objectFit: "cover",
+                    marginBottom: "10px",
+                    marginTop: "20px",
+                    marginLeft: "10px",
+                    marginRight: "10px",
+                  }}
+                />
                 <Row>
                   <Col>
                     <Button
                       variant={card.isFavorite ? "warning" : "outline-warning"}
                       size="sm"
-                      onClick={(e) => toggleFavorite(card._id, e)}>
-                      {card.isFavorite ? <i class="bi bi-star-fill"></i> : <i class="bi bi-star"></i>}
+                      onClick={(e) => toggleFavorite(card._id, e)}
+                    >
+                      {card.isFavorite ? (
+                        <i class="bi bi-star-fill"></i>
+                      ) : (
+                        <i class="bi bi-star"></i>
+                      )}
                     </Button>
                   </Col>
-                
                 </Row>
               </Card.Body>
             </Card>
           </Col>
         ))}
       </Row>
-    
     </div>
   );
 }

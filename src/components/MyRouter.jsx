@@ -13,8 +13,6 @@ import SearchResultsPage from "./SearchResultPage";
 import MyCardsPage from "./MyCardsPage";
 import AboutPage from "./AboutPage";
 
-
-
 function MyRouter() {
   return (
     <Routes>
@@ -24,13 +22,15 @@ function MyRouter() {
       <Route path="/" element={<HomePage />} />
       <Route path="/RegisterForm" element={<RegisterForm />} />
       <Route path="/AboutPage" element={<AboutPage />} />
-      <Route path="/MyCardsPage" element={
-        <ProtectedRoute>
-        <MyCardsPage />
-        </ProtectedRoute>} />
-      <Route path="/CardListPage" element={
-          <CardListPage />
-      }/>
+      <Route
+        path="/MyCardsPage"
+        element={
+          <ProtectedRoute>
+            <MyCardsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="/CardListPage" element={<CardListPage />} />
       <Route path="/search" element={<SearchResultsPage />} />
       <Route path="/UpdateCard/:id" element={<UpdateCard />} />
       <Route path="/AddCard" element={<AddCard />} />

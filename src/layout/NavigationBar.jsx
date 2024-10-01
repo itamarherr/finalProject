@@ -1,8 +1,16 @@
 import { useContext, useState } from "react";
 import { ThemeContext } from "../Context/ThemeContext";
 import { Link, useNavigate } from "react-router-dom";
-import { Navbar, Container, Nav, Form, FormControl, Button, Offcanvas } from "react-bootstrap";
-import React from 'react';
+import {
+  Navbar,
+  Container,
+  Nav,
+  Form,
+  FormControl,
+  Button,
+  Offcanvas,
+} from "react-bootstrap";
+import React from "react";
 import { LoginContext } from "../Context/AuthProvider";
 
 function NavigationBar() {
@@ -13,11 +21,11 @@ function NavigationBar() {
   const nav = useNavigate();
   const { theme, toggleTheme } = useContext(ThemeContext);
   const textColor = theme === "dark" ? "text-light" : "text-dark";
-  const sideWindowBgColor = theme === "dark" ? "bg-dark" : "bg-light"; 
+  const sideWindowBgColor = theme === "dark" ? "bg-dark" : "bg-light";
   const [showMenu, setShowMenu] = useState(false);
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  
+
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
@@ -29,40 +37,44 @@ function NavigationBar() {
   };
 
   const handleLogout = () => {
-    logout(); 
+    logout();
     navigate("/Login");
   };
 
   const handleToggle = () => {
     if (window.innerWidth <= 992) {
-     
       setShowOffcanvas(true);
     } else {
-    
       setExpanded(!expanded);
     }
   };
 
   return (
     <>
-      <Navbar expand="lg" 
-      className={`navbar navbar-${theme} bg-${theme}`} 
-      style={{ borderBottom: '1px solid black' }}
-      expanded={expanded}
+      <Navbar
+        expand="lg"
+        className={`navbar navbar-${theme} bg-${theme}`}
+        style={{ borderBottom: "1px solid black" }}
+        expanded={expanded}
       >
         <Container>
-        <Navbar.Brand className="d-flex align-items-center">
-  <img
-    src="https://png.pngtree.com/png-clipart/20200720/original/pngtree-floral-golden-ornamental-letter-z-png-image_4773367.jpg"
-    className="me-3 img-fluid"
-    style={{ height: '40px', width: 'auto' }}
-    alt="Site logo"
-    loading="lazy"
-  />
-  <strong style={{ fontFamily: 'Arial', fontSize: '1.5rem' }}>Ziv's app</strong>
-</Navbar.Brand>
-          
-          <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={handleToggle} />
+          <Navbar.Brand className="d-flex align-items-center">
+            <img
+              src="https://png.pngtree.com/png-clipart/20200720/original/pngtree-floral-golden-ornamental-letter-z-png-image_4773367.jpg"
+              className="me-3 img-fluid"
+              style={{ height: "40px", width: "auto" }}
+              alt="Site logo"
+              loading="lazy"
+            />
+            <strong style={{ fontFamily: "Arial", fontSize: "1.5rem" }}>
+              Ziv's app
+            </strong>
+          </Navbar.Brand>
+
+          <Navbar.Toggle
+            aria-controls="basic-navbar-nav"
+            onClick={handleToggle}
+          />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Link to="/" className={`nav-link ${textColor}`}>
@@ -70,52 +82,55 @@ function NavigationBar() {
               </Link>
               {isLoggedIn && (
                 <>
-                <Link to="/CardListPage" className={`nav-link ${textColor}`}>
-                Cards
-              </Link>
-              <Link to="/Favorite" className={`nav-link ${textColor}`}>
-                Favorite
-              </Link>
-              
-              {isBusiness && (
-                <Link to="/MyCardsPage" className={`nav-link ${textColor}`}>
-                My Cards
-              </Link>
-              )}
-              
+                  <Link to="/CardListPage" className={`nav-link ${textColor}`}>
+                    Cards
+                  </Link>
+                  <Link to="/Favorite" className={`nav-link ${textColor}`}>
+                    Favorite
+                  </Link>
+
+                  {isBusiness && (
+                    <Link to="/MyCardsPage" className={`nav-link ${textColor}`}>
+                      My Cards
+                    </Link>
+                  )}
                 </>
               )}
-              
+
               <Link to="/AboutPage" className={`nav-link ${textColor}`}>
                 About
               </Link>
             </Nav>
-            {isLoggedIn &&(
+            {isLoggedIn && (
               <>
-                  <Form className="d-flex">
-              <FormControl
-                type="text"
-                placeholder="Search"
-                className="mr-2"
-                value={searchQuery}
-                onChange={handleSearchChange}
-                style={{ width: '150px' }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    handleSearch();
-                  }
-                }}
-              />
-              <Button variant="outline-secondary" onClick={handleSearch}>
-                <i className="bi bi-search"></i>
-              </Button>
-            </Form>
+                <Form className="d-flex">
+                  <FormControl
+                    type="text"
+                    placeholder="Search"
+                    className="mr-2"
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                    style={{ width: "150px" }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        handleSearch();
+                      }
+                    }}
+                  />
+                  <Button variant="outline-secondary" onClick={handleSearch}>
+                    <i className="bi bi-search"></i>
+                  </Button>
+                </Form>
               </>
             )}
-           
+
             <Nav className="ms-auto">
               {isLoggedIn ? (
-                <Link to="/Login" className={`nav-link ${textColor}`} onClick={handleLogout}>
+                <Link
+                  to="/Login"
+                  className={`nav-link ${textColor}`}
+                  onClick={handleLogout}
+                >
                   Logout
                 </Link>
               ) : (
@@ -137,9 +152,15 @@ function NavigationBar() {
                   value={theme === "dark"}
                 />
                 <label
-                  className={`form-check-label ${textColor} text-capitalize ms-2`} htmlFor="cdToggleTheme">
+                  className={`form-check-label ${textColor} text-capitalize ms-2`}
+                  htmlFor="cdToggleTheme"
+                >
                   {theme}
-                  <i className={`bi bi-${theme === "dark" ? "moon-fill" : "brightness-high-fill"} ms-2`}></i>
+                  <i
+                    className={`bi bi-${
+                      theme === "dark" ? "moon-fill" : "brightness-high-fill"
+                    } ms-2`}
+                  ></i>
                 </label>
               </div>
             </Nav>
@@ -147,51 +168,75 @@ function NavigationBar() {
         </Container>
       </Navbar>
 
-      <Offcanvas show={showOffcanvas} onHide={() => setShowOffcanvas(false)} placement="start" style={{ width: '250px' }}>
-
+      <Offcanvas
+        show={showOffcanvas}
+        onHide={() => setShowOffcanvas(false)}
+        placement="start"
+        style={{ width: "250px" }}
+      >
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Menu</Offcanvas.Title>
         </Offcanvas.Header>
-        <Offcanvas.Body className={sideWindowBgColor}> 
+        <Offcanvas.Body className={sideWindowBgColor}>
           <Nav className="flex-column">
-          <Link to="/" className={`nav-link ${textColor}`} onClick={() => setShowOffcanvas(false)}>
+            <Link
+              to="/"
+              className={`nav-link ${textColor}`}
+              onClick={() => setShowOffcanvas(false)}
+            >
               Home
             </Link>
             {isLoggedIn && (
               <>
-                <Link to="/CardListPage" className={`nav-link ${textColor}`} onClick={() => setShowOffcanvas(false)}>
+                <Link
+                  to="/CardListPage"
+                  className={`nav-link ${textColor}`}
+                  onClick={() => setShowOffcanvas(false)}
+                >
                   Cards
                 </Link>
-                <Link to="/Favorite" className={`nav-link ${textColor}`} onClick={() => setShowOffcanvas(false)}>
+                <Link
+                  to="/Favorite"
+                  className={`nav-link ${textColor}`}
+                  onClick={() => setShowOffcanvas(false)}
+                >
                   Favorite
                 </Link>
                 {isBusiness && (
-                  <Link to="/MyCardsPage" className={`nav-link ${textColor}`} onClick={() => setShowOffcanvas(false)}>
+                  <Link
+                    to="/MyCardsPage"
+                    className={`nav-link ${textColor}`}
+                    onClick={() => setShowOffcanvas(false)}
+                  >
                     My Cards
                   </Link>
                 )}
               </>
             )}
-          
-          <Form className="d-flex">
-  <FormControl
-    type="text"
-    placeholder="Search"
-    value={searchQuery}
-    onChange={handleSearchChange}
-    style={{ width: "150px" }}
-    onKeyDown={(e) => {
-      if (e.key === 'Enter') {
-        handleSearch();
-      }
-    }}
-  />
-  <Button variant="outline-secondary" onClick={handleSearch}>
-    <i className="bi bi-search"></i>
-  </Button>
-</Form>
+
+            <Form className="d-flex">
+              <FormControl
+                type="text"
+                placeholder="Search"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                style={{ width: "150px" }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSearch();
+                  }
+                }}
+              />
+              <Button variant="outline-secondary" onClick={handleSearch}>
+                <i className="bi bi-search"></i>
+              </Button>
+            </Form>
             {isLoggedIn ? (
-              <Link to="/Login" className={`nav-link ${textColor}`} onClick={handleLogout}>
+              <Link
+                to="/Login"
+                className={`nav-link ${textColor}`}
+                onClick={handleLogout}
+              >
                 Logout
               </Link>
             ) : (
@@ -212,11 +257,17 @@ function NavigationBar() {
                 onChange={toggleTheme}
                 value={theme === "dark"}
               />
-              <label className={`form-check-label ${textColor} text-capitalize ms-2`} htmlFor="cdToggleTheme">
+              <label
+                className={`form-check-label ${textColor} text-capitalize ms-2`}
+                htmlFor="cdToggleTheme"
+              >
                 {theme}
-                <i className={`bi bi-${theme === "dark" ? "moon-fill" : "brightness-high-fill"} ms-2`}></i>
+                <i
+                  className={`bi bi-${
+                    theme === "dark" ? "moon-fill" : "brightness-high-fill"
+                  } ms-2`}
+                ></i>
               </label>
-          
             </div>
           </Nav>
         </Offcanvas.Body>

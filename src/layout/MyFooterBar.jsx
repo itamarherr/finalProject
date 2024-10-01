@@ -1,7 +1,7 @@
 import { ThemeContext } from "../Context/ThemeContext";
 import { useContext } from "react";
 import NavigationBar from "./NavigationBar";
-import React from 'react';
+import React from "react";
 
 function MyFooterBar() {
   const { theme } = useContext(ThemeContext);

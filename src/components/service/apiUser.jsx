@@ -6,35 +6,33 @@ const api = axios.create({
 });
 
 const getAuthHeader = () => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
 export const loginUser = async (email, password) => {
   try {
-    const response = await api.post(`users/login`, {email, password});
-    console.log('API Response:', response.data);
-    if (response.data && typeof response.data === 'string') {
-  
+    const response = await api.post(`users/login`, { email, password });
+    console.log("API Response:", response.data);
+    if (response.data && typeof response.data === "string") {
       return { token: response.data };
     } else if (response.data && response.data.token) {
-   
       return response.data;
     } else {
       throw new Error("No token received from server");
     }
   } catch (error) {
-    console.error('Login API error:', error);
+    console.error("Login API error:", error);
     throw error;
   }
 };
 export const registerUser = async (userData) => {
   try {
-    console.log('Sending this user data:', userData);
-    const response = await api.post('users', userData);
+    console.log("Sending this user data:", userData);
+    const response = await api.post("users", userData);
     return response.data;
   } catch (error) {
-    console.error('Register API error:', error);
+    console.error("Register API error:", error);
     throw error;
   }
 };
